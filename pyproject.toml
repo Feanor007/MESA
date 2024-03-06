@@ -18,7 +18,7 @@ classifiers = [
     "Operating System :: OS Independent",
 ]
 dependencies = [
-    "anndata"
+    "anndata",
     "numpy",
     "pandas",
     "scipy",
@@ -30,8 +30,8 @@ dependencies = [
 
 [project.optional-dependencies]
 docs = [
-    "sphinx>=5.3"
-    "sphinx_rtd_theme",
+    "sphinx>=5.3",
+    "sphinx_rtd_theme"
 ]
 
 [project.urls]
