@@ -28,6 +28,12 @@ dependencies = [
     "networkx"
 ]
 
+[project.optional-dependencies]
+docs = [
+    "sphinx>=5.3"
+    "sphinx_rtd_theme",
+]
+
 [project.urls]
 Homepage = "https://github.com/feanor007/mesa"
 Issues = "https://github.com/feanor007/mesa/issues"
