@@ -12,7 +12,7 @@ authors = [
 ]
 description = "Multiomics and Ecological Spatial Analysis for Quantitative Decoding of Cellular Neighborhoods and Tissue Compartments"
 readme = "README.md"
-requires-python = ">=3.8"
+requires-python = ">=3.10"
 classifiers = [
     "Programming Language :: Python :: 3",
     "Operating System :: OS Independent",
@@ -25,13 +25,13 @@ dependencies = [
     "pysal",
     "seaborn",
     "matplotlib",
-    "networkx"
+    "networkx",
 ]
 
 [project.optional-dependencies]
 docs = [
     "sphinx>=5.3",
-    "sphinx_rtd_theme"
+    "sphinx_rtd_theme",
 ]
 
 [project.urls]
