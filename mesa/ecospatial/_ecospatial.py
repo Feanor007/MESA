@@ -70,16 +70,19 @@ def contains_points(patch, spatial_values, min_points):
 
 def calculate_shannon_entropy(counts:np.ndarray):
     """
-    This function calculates the Shannon entropy of a set of counts.
-    
-    Parameters:
-    counts: numpy.ndarray
+    Calculate the Shannon entropy of a set of counts.
+
+    Parameters
+    ----------
+    counts : numpy.ndarray
         An array of counts.
-        
-    Returns:
+
+    Returns
+    -------
     float
         The Shannon entropy of the counts.
     """
+    
     N = np.sum(counts)
     if N > 0:
         probabilities = counts / N
@@ -188,18 +191,25 @@ def map_spots_back_to_grid(spots, original_grid, masked_grid, fill_value=-1):
     
 def global_moran(grid:np.ndarray, tissue_only=False, plot_weights=False):
     """
-    Perform global Moran's I test for spatial autocorrelation
+    Perform global Moran's I test for spatial autocorrelation.
     
-    Parameters:
-    grid: numpy array
+    Parameters
+    ----------
+    grid : numpy.ndarray
         The 2D grid of diversity indices to be analyzed.
-        
-    Returns:
-    I: float
+    tissue_only : bool, optional
+        If True, the analysis is restricted to tissue regions. Defaults to False.
+    plot_weights : bool, optional
+        If True, visualize the spatial weights matrix. Defaults to False.
+    
+    Returns
+    -------
+    I : float
         The Moran's I statistic.
-    p: float
+    p : float
         The p-value for the test.
     """
+
     # Get dimensions
     n, m = grid.shape
 
@@ -227,25 +237,35 @@ def global_moran(grid:np.ndarray, tissue_only=False, plot_weights=False):
     return mi.I, mi.p_sim
 
 
-def local_moran(grid:np.ndarray, tissue_only=False, p_value=0.01, seed=42, plot_weights=False):
+def local_moran(grid: np.ndarray, tissue_only=False, p_value=0.01, seed=42, plot_weights=False):
     """
-    Perform local Moran's I test (LISA) for local spatial autocorrelation,
-    and return significant hotspots and coldspots.
-    
-    Parameters:
-    grid: numpy array
+    Perform local Moran's I test (LISA) for local spatial autocorrelation
+
+    Parameters
+    ----------
+    grid : numpy.ndarray
         The 2D grid of diversity indices to be analyzed.
-        
-    Returns:
-    hotspots: numpy array
+    tissue_only : bool, optional
+        If True, the analysis is restricted to tissue regions. Defaults to False.
+    p_value : float, optional
+        The p-value threshold for significance. Defaults to 0.01.
+    seed : int, optional
+        The random seed for reproducibility. Defaults to 42.
+    plot_weights : bool, optional
+        If True, visualize the spatial weights matrix. Defaults to False.
+
+    Returns
+    -------
+    hotspots : numpy.ndarray
         Boolean array indicating hotspots (high value surrounded by high values).
-    coldspots: numpy array
+    coldspots : numpy.ndarray
         Boolean array indicating coldspots (low value surrounded by low values).
-    doughnuts: numpy array
+    doughnuts : numpy.ndarray
         Boolean array indicating doughnuts (high value surrounded by low values).
-    diamonds: numpy array
+    diamonds : numpy.ndarray
         Boolean array indicating diamonds (low value surrounded by high values).
     """
+
     # Get dimensions
     n, m = grid.shape
     
@@ -290,23 +310,29 @@ def local_moran(grid:np.ndarray, tissue_only=False, p_value=0.01, seed=42, plot_
     
     return hotspots, coldspots, doughnuts, diamonds
 
-def generate_patches(spatial_data:Union[ad.AnnData,pd.DataFrame], 
-                     library_key:str, 
-                     library_id:str, 
-                     scaling_factor:Union[int,float], 
-                     spatial_key:Union[str,List[str]]):
+def generate_patches(spatial_data: Union[ad.AnnData, pd.DataFrame], 
+                     library_key: str, 
+                     library_id: str, 
+                     scaling_factor: Union[int, float], 
+                     spatial_key: Union[str, List[str]]):
     """
-    This function generates a list of patches from a spatial data object.
+    Generate a list of patches from a spatial data object.
     
-    Parameters:
-    spatial_data: anndata.AnnData or pandas.DataFrame
+    Parameters
+    ----------
+    spatial_data : Union[ad.AnnData, pd.DataFrame]
         The spatial data from which to generate patches.
-    scaling_factor: int or float
+    library_key : str
+        The key identifying the library within the spatial data.
+    library_id : str
+        The identifier for the library within the spatial data.
+    scaling_factor : Union[int, float]
         The scaling factor to determine the size of the patches.
-    spatial_key: str or list
+    spatial_key : Union[str, List[str]]
         The key or list of keys to access the spatial data.
-        
-    Returns:
+
+    Returns
+    -------
     list
         A list of patches.
     """
@@ -487,37 +513,43 @@ def display_patches(spatial_data: Union[ad.AnnData, pd.DataFrame],
     plt.show()
     
 
-def calculate_diversity_index(spatial_data:Union[ad.AnnData,pd.DataFrame], 
-                              library_key:str,
-                              library_id:str, 
-                              spatial_key:Union[str, List[str]],
-                              patches:list,
-                              cluster_key:str,
-                              metric:str,
-                              return_comp = False):
+def calculate_diversity_index(spatial_data: Union[ad.AnnData, pd.DataFrame], 
+                              library_key: str,
+                              library_id: str, 
+                              spatial_key: Union[str, List[str]],
+                              patches: list,
+                              cluster_key: str,
+                              metric: str,
+                              return_comp=False):
     """
-    This function calculates the heterogeneity index for a set of patches.
-    
-    Parameters:
-    spatial_data: anndata.AnnData or pandas.DataFrame
+    Calculate the heterogeneity index for a set of patches.
+
+    Parameters
+    ----------
+    spatial_data : Union[ad.AnnData, pd.DataFrame]
         The spatial data to be used.
-    library_key: str
+    library_key : str
         The key to access the library data.
-    library_id: str
+    library_id : str
         The identifier of the library.
-    spatial_key: str or list
+    spatial_key : Union[str, List[str]]
         The key or list of keys to access the spatial data.
-    patches: list
+    patches : list
         The list of patches to be analyzed.
-    cluster_key: str
+    cluster_key : str
         The key to access the cluster data.
-    metric: str
+    metric : str
         The metric to be used for the heterogeneity index calculation.
-        
-    Returns:
+    return_comp : bool, optional
+        If True, return a comprehensive object with additional details
+        beyond the heterogeneity indices. Defaults to False.
+
+    Returns
+    -------
     pandas.Series
-        A series of heterogeneity indices.
-    """    
+        A series of heterogeneity indices, or if `return_comp` is True,
+        a more comprehensive object with additional details.
+    """
 
     METRIC_FUNCTIONS = {
         'Shannon Diversity': calculate_shannon_entropy,
@@ -587,12 +619,12 @@ def calculate_diversity_index(spatial_data:Union[ad.AnnData,pd.DataFrame],
     return pd.Series(patch_indices)
         
 
-def multiscale_diversity(spatial_data:Union[ad.AnnData,pd.DataFrame], 
-                         scales:Union[tuple,list], 
-                         library_key:str,
-                         library_ids:Union[tuple, list], 
-                         spatial_key:Union[str,List[str]],
-                         cluster_key:str,
+def multiscale_diversity(spatial_data: Union[ad.AnnData, pd.DataFrame], 
+                         scales: Union[tuple, list], 
+                         library_key: str,
+                         library_ids: Union[tuple, list], 
+                         spatial_key: Union[str, List[str]],
+                         cluster_key: str,
                          mode='D',
                          random_patch=False,
                          plotfigs=False, 
@@ -600,35 +632,39 @@ def multiscale_diversity(spatial_data:Union[ad.AnnData,pd.DataFrame],
                          patch_kwargs={},  
                          other_kwargs={}):
     """
-    This function calculates the multiscale neighbourhood heterogeneity.
-    
-    Parameters:
-    spatial_data: anndata.AnnData or pandas.DataFrame
+    Calculate the multiscale neighbourhood heterogeneity.
+
+    Parameters
+    ----------
+    spatial_data : Union[ad.AnnData, pd.DataFrame]
         The spatial data to be used.
-    scales: tuple or list
+    scales : Union[tuple, list]
         The scales to be used for the analysis.
-    library_key: str
+    library_key : str
         The key to access the library data.
-    library_ids: tuple or list
+    library_ids : Union[tuple, list]
         The identifiers of the libraries.
-    spatial_key: str or list
+    spatial_key : Union[str, List[str]]
         The key or list of keys to access the spatial data.
-    cluster_key: str
+    cluster_key : str
         The key to access the cluster data.
-    random_patch: bool, default=True
-        Whether to generate patches in a random manner.
-    plotfigs: bool, default=False
-        Whether to plot the figures.
-    savefigs: bool, default=False
-        Whether to save the figures.
-    patch_kwargs: dict, default={}
-        Additional keyword arguments for the patch generation.
-    other_kwargs: dict, default={}
-        Other keyword arguments.
-        
-    Returns:
+    mode : str, optional
+        The mode of operation, default is 'D'.
+    random_patch : bool, optional
+        Whether to generate patches in a random manner. Defaults to False.
+    plotfigs : bool, optional
+        Whether to plot the figures. Defaults to False.
+    savefigs : bool, optional
+        Whether to save the figures. Defaults to False.
+    patch_kwargs : dict, optional
+        Additional keyword arguments for the patch generation. Defaults to an empty dict.
+    other_kwargs : dict, optional
+        Other keyword arguments. Defaults to an empty dict.
+
+    Returns
+    -------
     pandas.DataFrame, pandas.DataFrame
-        A dataframe of results and a dataframe of slopes.
+        A dataframe of results and a dataframe of slopes, respectively.
     """
     
     # Prepare a dictionary to store the results
@@ -814,10 +850,10 @@ def combination_freq(series:list, n=2, top=10, cell_type_combinations=None):
         
 #     return pd.Series(top_n_comb)
 
-def diversity_heatmap(spatial_data:Union[ad.AnnData,pd.DataFrame], 
-                      library_key:str,
-                      library_id:str,
-                      spatial_key:Union[str,List[str]], 
+def diversity_heatmap(spatial_data: Union[ad.AnnData, pd.DataFrame], 
+                      library_key: str,
+                      library_id: str,
+                      spatial_key: Union[str, List[str]], 
                       patches,
                       heterogeneity_indices, 
                       tissue_only=False,
@@ -825,15 +861,39 @@ def diversity_heatmap(spatial_data:Union[ad.AnnData,pd.DataFrame],
                       return_fig=False):
     """
     This function visualizes the heterogeneity indices as a heatmap on the original spatial data.
-    
-    Parameters:
-    spatial_data: anndata.AnnData or pandas.DataFrame
-        The spatial data to be used.
-    patches: list
-        The list of patches to be analyzed.
-    heterogeneity_indices: pandas.Series
-        The heterogeneity indices to be visualized.
-    """    
+
+    Parameters
+    ----------
+    spatial_data : Union[ad.AnnData, pd.DataFrame]
+        The spatial data to be used for visualization.
+    library_key : str
+        The key associated with the library in the `spatial_data`.
+    library_id : str
+        The identifier for the library to be used in the analysis.
+    spatial_key : Union[str, List[str]]
+        The key(s) identifying the spatial information within `spatial_data`.
+    patches : list
+        The list of patches to be analyzed. Each patch should correspond to a specific region in the spatial data.
+    heterogeneity_indices : pandas.Series
+        The heterogeneity indices to be visualized. Each value in this series corresponds to a patch, indicating its heterogeneity level.
+    tissue_only : bool, optional
+        If True, only tissue regions are considered in the analysis. Defaults to False.
+    plot : bool, optional
+        If True, a heatmap is plotted. Defaults to True.
+    return_fig : bool, optional
+        If True, the matplotlib figure is returned. This is useful for further customization of the plot. Defaults to False.
+
+    Returns
+    -------
+    numpy.ndarray
+        A grid where each cell represents the heterogeneity index for a corresponding patch.
+    matplotlib.figure.Figure, optional
+        The matplotlib figure object if `return_fig` is True and `plot` is True; otherwise, this is not returned.
+
+    Notes
+    -----
+    This function requires that the spatial data is properly formatted and that the heterogeneity indices have been previously calculated. 
+    """  
 
     if isinstance(spatial_data, ad.AnnData):
         spatial_data_filtered = spatial_data[spatial_data.obs[library_key] == library_id]

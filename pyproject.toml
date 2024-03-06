@@ -10,7 +10,7 @@ authors = [
   { name="Zeyu Tang", email="feanortang@gmail.com" },
   { name="Bokai Zhu", email="bkzhu@stanford.edu" },
 ]
-description = "Cross-modality matching of single cells via iterative fuzzy smoothed embedding"
+description = "Multiomics and Ecological Spatial Analysis for Quantitative Decoding of Cellular Neighborhoods and Tissue Compartments"
 readme = "README.md"
 requires-python = ">=3.8"
 classifiers = [

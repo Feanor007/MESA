@@ -5,8 +5,8 @@
 
 import os
 import sys
-basedir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', 'mesa/'))
-sys.path.insert(0, basedir)
+sys.path.insert(0, os.path.abspath('..'))  
+print(os.path.abspath('..'))
 
 # -- Project information -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
@@ -30,7 +30,7 @@ extensions = [
 
 templates_path = ['_templates']
 exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store', '.ipynb_checkpoints']
-
+autosummary_generate = True
 
 
 # -- Options for HTML output -------------------------------------------------
