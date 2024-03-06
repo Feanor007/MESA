@@ -1,0 +1,33 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "mesa"
+version = "0.0.1"
+authors = [
+  { name="Daisy Yi Ding", email="dingd@stanford.edu " },
+  { name="Zeyu Tang", email="feanortang@gmail.com" },
+  { name="Bokai Zhu", email="bkzhu@stanford.edu" },
+]
+description = "Multiomics and Ecological Spatial Analysis for Quantitative Decoding of Cellular Neighborhoods and Tissue Compartments"
+readme = "README.md"
+requires-python = ">=3.8"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+]
+dependencies = [
+    "anndata"
+    "numpy",
+    "pandas",
+    "scipy",
+    "pysal",
+    "seaborn",
+    "matplotlib",
+    "networkx"
+]
+
+[project.urls]
+Homepage = "https://github.com/feanor007/mesa"
+Issues = "https://github.com/feanor007/mesa/issues"
