@@ -1,4 +1,4 @@
-# MESA:Multiomics and Ecological Spatial Analysis for Quantitative Decoding of Cellular Neighborhoods and Tissue Compartments
+# MESA: Multiomics and Ecological Spatial Analysis for Quantitative Decoding of Cellular Neighborhoods and Tissue Compartments
 
 <p align="center">
   <img src="docs/_static/images/figure1.png" width="75%" height="75%">

@@ -2,11 +2,11 @@ MESA - Multiomics and Ecological Spatial Analysis in Python
 ===========================================================
 
 **MESA** is a tool for decoding cellular neighborhoods in spatial omics data.
-It employs a multi-scale diversity index, along with global and local diversity indices, to systematically quantify cellular diversity and identify diversity hotspots. It also incorporates a multiomics strategy by integrating single-cell modalities with spatial omics data in silico, thus layering on additional dimensions of information, to facilitate a deeper understanding of cellular neighborhoods and their spatial interactions within tissue microenvironments.
+MESA is a tool for decoding cellular neighborhoods in spatial omics data. It incorporates a multiomics strategy by integrating single-cell modalities with spatial omics data in silico, thus layering on additional dimensions of information, to facilitate a deeper understanding of cellular neighborhoods and their spatial interactions within tissue microenvironments. It also employs a multi-scale diversity index, along with global and local diversity indices, to systematically quantify cellular diversity and identify diversity hotspots.
 
 .. image:: https://github.com/Feanor007/MESA/blob/main/docs/_static/images/figure1.png?raw=true
     :alt: MESA figure1
-    :width: 512px
+    :width: 720px
     :align: center
 
 .. note::
@@ -23,6 +23,7 @@ Getting started with MESA
 
 License
 ----------------------------
+MESA is under the `Academic Software License Agreement <https://github.com/Feanor007/MESA/blob/main/LICENSE>`__, please use accordingly.
 
 .. toctree::
     :caption: General
