@@ -19,3 +19,4 @@ Visit our [documentation](https://mesa-py.readthedocs.io/en/latest/) to see exam
 Please see our manuscript `Ding, Tang & Zhu et al. (2024)` in [*biorxiv*]() to learn more.
 
 ## License
+```MESA``` is under the [Academic Software License Agreement](https://github.com/Feanor007/MESA/blob/main/LICENSE), please use accordingly.
