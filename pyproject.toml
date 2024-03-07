@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "mesa-py"
-version = "0.0.1"
+version = "0.0.3"
 authors = [
   { name="Daisy Yi Ding", email="dingd@stanford.edu " },
   { name="Zeyu Tang", email="feanortang@gmail.com" },
@@ -37,3 +37,6 @@ docs = [
 [project.urls]
 Homepage = "https://github.com/feanor007/mesa"
 Issues = "https://github.com/feanor007/mesa/issues"
+
+[tool.hatch.build.targets.wheel]
+packages = ["mesa"] 

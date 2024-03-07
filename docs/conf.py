@@ -12,8 +12,8 @@ sys.path.insert(0, os.path.abspath('..'))
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
 project = 'MESA'
-version = '0.0.1'
-release = '0.0.1'
+version = '0.0.3'
+release = '0.0.3'
 copyright = '2024, Daisy Yi Ding, Zeyu Tang, Bokai Zhu'
 author = 'Daisy Yi Ding, Zeyu Tang, Bokai Zhu'
 
