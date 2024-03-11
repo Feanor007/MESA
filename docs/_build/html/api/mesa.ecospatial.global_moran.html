@@ -7,6 +7,7 @@
   <title>mesa.ecospatial.global_moran &mdash; MESA 0.0.3 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
 
   
   <!--[if lt IE 9]>
@@ -18,6 +19,8 @@
         <script src="../_static/documentation_options.js?v=47de8214"></script>
         <script src="../_static/doctools.js?v=888ff710"></script>
         <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="../_static/copybutton.js?v=f281be69"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
@@ -64,6 +67,7 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="mesa.ecospatial.local_moran.html">mesa.ecospatial.local_moran</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mesa.ecospatial.island_proximity.html">mesa.ecospatial.island_proximity</a></li>
 </ul>
 </li>
 </ul>
@@ -100,7 +104,7 @@
 <h1>mesa.ecospatial.global_moran<a class="headerlink" href="#mesa-ecospatial-global-moran" title="Link to this heading"></a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="mesa.ecospatial.global_moran">
-<span class="sig-prename descclassname"><span class="pre">mesa.ecospatial.</span></span><span class="sig-name descname"><span class="pre">global_moran</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">grid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tissue_only</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot_weights</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mesa.ecospatial.global_moran" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">mesa.ecospatial.</span></span><span class="sig-name descname"><span class="pre">global_moran</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">grid</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tissue_only</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot_weights</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mesa.ecospatial.global_moran" title="Link to this definition"></a></dt>
 <dd><p>Perform global Moran’s I test for spatial autocorrelation.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>

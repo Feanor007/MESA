@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>mesa.ecospatial.calculate_shannon_entropy &mdash; MESA 0.0.3 documentation</title>
+  <title>mesa.ecospatial.island_proximity &mdash; MESA 0.0.3 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
@@ -25,8 +25,8 @@
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="mesa.ecospatial.calculate_diversity_index" href="mesa.ecospatial.calculate_diversity_index.html" />
-    <link rel="prev" title="mesa.ecospatial.generate_patches" href="mesa.ecospatial.generate_patches.html" /> 
+    <link rel="next" title="Tutorials" href="../tutorials.html" />
+    <link rel="prev" title="mesa.ecospatial.local_moran" href="mesa.ecospatial.local_moran.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -58,16 +58,16 @@
 <li class="toctree-l2"><a class="reference internal" href="../api.html#module-mesa.multiomics">Multiomics</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="../api.html#module-mesa.ecospatial">Ecospatial</a><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="mesa.ecospatial.generate_patches.html">mesa.ecospatial.generate_patches</a></li>
-<li class="toctree-l3 current"><a class="current reference internal" href="#">mesa.ecospatial.calculate_shannon_entropy</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#mesa.ecospatial.calculate_shannon_entropy"><code class="docutils literal notranslate"><span class="pre">calculate_shannon_entropy()</span></code></a></li>
-</ul>
-</li>
+<li class="toctree-l3"><a class="reference internal" href="mesa.ecospatial.calculate_shannon_entropy.html">mesa.ecospatial.calculate_shannon_entropy</a></li>
 <li class="toctree-l3"><a class="reference internal" href="mesa.ecospatial.calculate_diversity_index.html">mesa.ecospatial.calculate_diversity_index</a></li>
 <li class="toctree-l3"><a class="reference internal" href="mesa.ecospatial.multiscale_diversity.html">mesa.ecospatial.multiscale_diversity</a></li>
 <li class="toctree-l3"><a class="reference internal" href="mesa.ecospatial.diversity_heatmap.html">mesa.ecospatial.diversity_heatmap</a></li>
 <li class="toctree-l3"><a class="reference internal" href="mesa.ecospatial.global_moran.html">mesa.ecospatial.global_moran</a></li>
 <li class="toctree-l3"><a class="reference internal" href="mesa.ecospatial.local_moran.html">mesa.ecospatial.local_moran</a></li>
-<li class="toctree-l3"><a class="reference internal" href="mesa.ecospatial.island_proximity.html">mesa.ecospatial.island_proximity</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">mesa.ecospatial.island_proximity</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#mesa.ecospatial.island_proximity"><code class="docutils literal notranslate"><span class="pre">island_proximity()</span></code></a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -90,9 +90,9 @@
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="../api.html">API</a></li>
-      <li class="breadcrumb-item active">mesa.ecospatial.calculate_shannon_entropy</li>
+      <li class="breadcrumb-item active">mesa.ecospatial.island_proximity</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="../_sources/api/mesa.ecospatial.calculate_shannon_entropy.rst.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/api/mesa.ecospatial.island_proximity.rst.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -100,24 +100,12 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="mesa-ecospatial-calculate-shannon-entropy">
-<h1>mesa.ecospatial.calculate_shannon_entropy<a class="headerlink" href="#mesa-ecospatial-calculate-shannon-entropy" title="Link to this heading"></a></h1>
+  <section id="mesa-ecospatial-island-proximity">
+<h1>mesa.ecospatial.island_proximity<a class="headerlink" href="#mesa-ecospatial-island-proximity" title="Link to this heading"></a></h1>
 <dl class="py function">
-<dt class="sig sig-object py" id="mesa.ecospatial.calculate_shannon_entropy">
-<span class="sig-prename descclassname"><span class="pre">mesa.ecospatial.</span></span><span class="sig-name descname"><span class="pre">calculate_shannon_entropy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">counts</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mesa.ecospatial.calculate_shannon_entropy" title="Link to this definition"></a></dt>
-<dd><p>Calculate the Shannon entropy of a set of counts.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>counts</strong> (<em>numpy.ndarray</em>) – An array of counts.</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>The Shannon entropy of the counts.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>float</p>
-</dd>
-</dl>
-</dd></dl>
+<dt class="sig sig-object py" id="mesa.ecospatial.island_proximity">
+<span class="sig-prename descclassname"><span class="pre">mesa.ecospatial.</span></span><span class="sig-name descname"><span class="pre">island_proximity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">spatial_data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scale</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">library_key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">library_ids</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spatial_key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cluster_key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hotspot</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">p_value</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.01</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mesa.ecospatial.island_proximity" title="Link to this definition"></a></dt>
+<dd></dd></dl>
 
 </section>
 
@@ -125,8 +113,8 @@
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="mesa.ecospatial.generate_patches.html" class="btn btn-neutral float-left" title="mesa.ecospatial.generate_patches" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="mesa.ecospatial.calculate_diversity_index.html" class="btn btn-neutral float-right" title="mesa.ecospatial.calculate_diversity_index" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="mesa.ecospatial.local_moran.html" class="btn btn-neutral float-left" title="mesa.ecospatial.local_moran" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../tutorials.html" class="btn btn-neutral float-right" title="Tutorials" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

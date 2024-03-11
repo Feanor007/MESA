@@ -29,3 +29,4 @@ Ecospatial
     ecospatial.diversity_heatmap
     ecospatial.global_moran
     ecospatial.local_moran
+    ecospatial.island_proximity
