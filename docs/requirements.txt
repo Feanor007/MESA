@@ -4,3 +4,4 @@ sphinx_rtd_theme
 nbsphinx
 sphinx_autodoc_typehints
 sphinx_copybutton
+ipython
