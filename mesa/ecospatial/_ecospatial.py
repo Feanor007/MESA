@@ -222,7 +222,7 @@ def global_moran(grid:np.ndarray, tissue_only=False, plot_weights=False):
         masked_grid = masked_grid_nan[~np.isnan(masked_grid_nan)]
         w = create_masked_lat2W(grid)
         print(f"Global Moran restricted to tissue region with w of shape{w.full()[0].shape}")
-        mi = esda.Moran(masked_grid.flatten(), w, transformation = 'o')
+        mi = esda.Moran(masked_grid.flatten(), w, transformation = 'r')
         
     if plot_weights:
     # Visualize the weights matrix
@@ -1091,7 +1091,7 @@ def compute_proximity_index(arr, rook=True):
     return proximity_index
 
 
-def sample_proximity(spatial_data:Union[ad.AnnData,pd.DataFrame], 
+def island_proximity(spatial_data:Union[ad.AnnData,pd.DataFrame], 
                      scale:float, 
                      library_key:str,
                      library_ids:Union[tuple, list], 
