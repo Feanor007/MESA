@@ -105,7 +105,31 @@
 <dl class="py function">
 <dt class="sig sig-object py" id="mesa.ecospatial.island_proximity">
 <span class="sig-prename descclassname"><span class="pre">mesa.ecospatial.</span></span><span class="sig-name descname"><span class="pre">island_proximity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">spatial_data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scale</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">library_key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">library_ids</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spatial_key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cluster_key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hotspot</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">p_value</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.01</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mesa.ecospatial.island_proximity" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Calculate the proximity index for spatial data regions, identifying hotspots or coldspots
+based on diversity indices.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>spatial_data</strong> (<em>Union</em><em>[</em><em>ad.AnnData</em><em>, </em><em>pd.DataFrame</em><em>]</em>) – The spatial data to be analyzed. Can be an AnnData object or a pandas DataFrame.</p></li>
+<li><p><strong>scale</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)"><em>float</em></a>) – The scale factor used for generating patches within the spatial regions.</p></li>
+<li><p><strong>library_key</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a>) – The key in <cite>spatial_data</cite> that corresponds to the library identifiers.</p></li>
+<li><p><strong>library_ids</strong> (<em>Union</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.12)"><em>tuple</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.12)"><em>list</em></a><em>]</em>) – A tuple or list of library identifiers to be processed.</p></li>
+<li><p><strong>spatial_key</strong> (<em>Union</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a><em>, </em><em>List</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a><em>]</em><em>]</em>) – The key(s) in <cite>spatial_data</cite> used to determine spatial coordinates.</p></li>
+<li><p><strong>cluster_key</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a>) – The key in <cite>spatial_data</cite> used to identify different clusters or types.</p></li>
+<li><p><strong>hotspot</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><em>bool</em></a><em>, </em><em>optional</em>) – If True, identifies diversity hotspots; if False, identifies coldspots. Defaults to True.</p></li>
+<li><p><strong>p_value</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)"><em>float</em></a><em>, </em><em>optional</em>) – The significance level used for identifying hotspots or coldspots. Defaults to 0.01.</p></li>
+<li><p><strong>**kwargs</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.12)"><em>dict</em></a>) – Additional keyword arguments to pass to diversity calculation functions.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A dictionary where each key is a library_id and the value is a list containing
+the proximity index for that region.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.12)">dict</a></p>
+</dd>
+</dl>
+</dd></dl>
 
 </section>
 
@@ -123,9 +147,6 @@
     <p>&#169; Copyright 2024, Daisy Yi Ding, Zeyu Tang, Bokai Zhu.</p>
   </div>
 
-  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
-    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
-    provided by <a href="https://readthedocs.org">Read the Docs</a>.
    
 
 </footer>

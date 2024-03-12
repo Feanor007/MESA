@@ -1100,6 +1100,37 @@ def island_proximity(spatial_data:Union[ad.AnnData,pd.DataFrame],
                      hotspot=True,
                      p_value=0.01,
                      **kwargs):
+    """
+    Calculate the proximity index for spatial data regions, identifying hotspots or coldspots 
+    based on diversity indices.
+
+    Parameters
+    ----------
+    spatial_data : Union[ad.AnnData, pd.DataFrame]
+        The spatial data to be analyzed. Can be an AnnData object or a pandas DataFrame.
+    scale : float
+        The scale factor used for generating patches within the spatial regions.
+    library_key : str
+        The key in `spatial_data` that corresponds to the library identifiers.
+    library_ids : Union[tuple, list]
+        A tuple or list of library identifiers to be processed.
+    spatial_key : Union[str, List[str]]
+        The key(s) in `spatial_data` used to determine spatial coordinates.
+    cluster_key : str
+        The key in `spatial_data` used to identify different clusters or types.
+    hotspot : bool, optional
+        If True, identifies diversity hotspots; if False, identifies coldspots. Defaults to True.
+    p_value : float, optional
+        The significance level used for identifying hotspots or coldspots. Defaults to 0.01.
+    **kwargs : dict
+        Additional keyword arguments to pass to diversity calculation functions.
+
+    Returns
+    -------
+    dict
+        A dictionary where each key is a library_id and the value is a list containing 
+        the proximity index for that region.
+    """
     
     PX = {library_id: [] for library_id in library_ids}
     

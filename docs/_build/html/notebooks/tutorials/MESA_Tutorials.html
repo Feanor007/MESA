@@ -58,9 +58,11 @@
 <li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../api.html">API</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../../tutorials.html">Tutorials</a><ul class="current">
-<li class="toctree-l2 current"><a class="current reference internal" href="#">MESA Ecospatial Tutorials</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#Read-Data">Read Data</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#Perform-Ecospatial-Analysis-on-one-sample">Perform Ecospatial Analysis on one sample</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">MESA Ecospatial Tutorials</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Read-Data">Read Data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Perform-Ecospatial-Analysis-on-one-sample">Perform Ecospatial Analysis on one sample</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -125,9 +127,8 @@ OMP: Info #270: omp_set_nested routine deprecated, please use omp_set_max_active
 </pre></div>
 </div>
 </div>
-</section>
 <section id="Read-Data">
-<h1>Read Data<a class="headerlink" href="#Read-Data" title="Link to this heading"></a></h1>
+<h2>Read Data<a class="headerlink" href="#Read-Data" title="Link to this heading"></a></h2>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
@@ -139,7 +140,7 @@ OMP: Info #270: omp_set_nested routine deprecated, please use omp_set_max_active
 </div>
 </section>
 <section id="Perform-Ecospatial-Analysis-on-one-sample">
-<h1>Perform Ecospatial Analysis on one sample<a class="headerlink" href="#Perform-Ecospatial-Analysis-on-one-sample" title="Link to this heading"></a></h1>
+<h2>Perform Ecospatial Analysis on one sample<a class="headerlink" href="#Perform-Ecospatial-Analysis-on-one-sample" title="Link to this heading"></a></h2>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
@@ -158,6 +159,79 @@ OMP: Info #270: omp_set_nested routine deprecated, please use omp_set_max_active
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Calculate MDI</span>
+<span class="c1">## Define the sequence of scales</span>
+<span class="n">scales</span> <span class="o">=</span> <span class="p">[</span><span class="mf">1.</span><span class="p">,</span> <span class="mf">2.</span><span class="p">,</span> <span class="mf">4.</span><span class="p">,</span> <span class="mf">8.</span><span class="p">,</span> <span class="mf">16.</span><span class="p">,</span> <span class="mf">32.</span><span class="p">,</span> <span class="mf">64.</span><span class="p">]</span>
+
+<span class="n">df_entropy</span><span class="p">,</span> <span class="n">df_slopes</span> <span class="o">=</span> <span class="n">eco</span><span class="o">.</span><span class="n">multiscale_diversity</span><span class="p">(</span><span class="n">spatial_data</span><span class="o">=</span><span class="n">adata</span><span class="p">,</span>
+                                                 <span class="n">scales</span><span class="o">=</span><span class="n">scales</span><span class="p">,</span>
+                                                 <span class="n">library_key</span><span class="o">=</span><span class="s1">&#39;sample&#39;</span><span class="p">,</span>
+                                                 <span class="n">library_ids</span><span class="o">=</span><span class="p">[</span><span class="n">sample_id</span><span class="p">],</span>
+                                                 <span class="n">spatial_key</span><span class="o">=</span><span class="s1">&#39;spatial&#39;</span><span class="p">,</span>
+                                                 <span class="n">cluster_key</span><span class="o">=</span><span class="s1">&#39;cell_type&#39;</span><span class="p">,</span>
+                                                 <span class="n">random_patch</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                                                 <span class="n">plotfigs</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                                                 <span class="n">savefigs</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                                                 <span class="n">patch_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;random_seed&#39;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s1">&#39;min_points&#39;</span><span class="p">:</span><span class="mi">2</span><span class="p">},</span>
+                                                 <span class="n">other_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;metric&#39;</span><span class="p">:</span> <span class="s1">&#39;Shannon Diversity&#39;</span><span class="p">})</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Processing region: MRL-8 at scale 1.0
+0.000 per cent patches are empty
+MRL-8 at scale 1.0 has 0 patches with zero diveristy
+MRL-8 at scale 1.0 diversity is 3.4656779602794114
+Processing region: MRL-8 at scale 2.0
+0.000 per cent patches are empty
+MRL-8 at scale 2.0 has 0 patches with zero diveristy
+MRL-8 at scale 2.0 diversity is 3.292377010141359
+Processing region: MRL-8 at scale 4.0
+0.000 per cent patches are empty
+MRL-8 at scale 4.0 has 0 patches with zero diveristy
+MRL-8 at scale 4.0 diversity is 3.0901648127096593
+Processing region: MRL-8 at scale 8.0
+0.000 per cent patches are empty
+MRL-8 at scale 8.0 has 0 patches with zero diveristy
+MRL-8 at scale 8.0 diversity is 2.8661607204492103
+Processing region: MRL-8 at scale 16.0
+0.000 per cent patches are empty
+MRL-8 at scale 16.0 has 0 patches with zero diveristy
+MRL-8 at scale 16.0 diversity is 2.631288636532884
+Processing region: MRL-8 at scale 32.0
+0.000 per cent patches are empty
+MRL-8 at scale 32.0 has 0 patches with zero diveristy
+MRL-8 at scale 32.0 diversity is 2.332991483128386
+Processing region: MRL-8 at scale 64.0
+0.098 per cent patches are empty
+MRL-8 at scale 64.0 has 27 patches with zero diveristy
+MRL-8 at scale 64.0 diversity is 1.8713334691757577
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;MDI: </span><span class="si">{</span><span class="n">df_slopes</span><span class="p">[</span><span class="n">sample_id</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+MDI: 0.256
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Caculate Shannon Diversity Index for each quadrat</span>
@@ -195,16 +269,16 @@ OMP: Info #270: omp_set_nested routine deprecated, please use omp_set_max_active
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../../_images/notebooks_tutorials_MESA_Tutorials_7_1.png" src="../../_images/notebooks_tutorials_MESA_Tutorials_7_1.png" />
+<img alt="../../_images/notebooks_tutorials_MESA_Tutorials_9_1.png" src="../../_images/notebooks_tutorials_MESA_Tutorials_9_1.png" />
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Calculate GDI by applying global moran&#39;s I on the Diversity Heatmap</span>
 <span class="n">GDI</span><span class="p">,</span> <span class="n">p_sim</span> <span class="o">=</span> <span class="n">eco</span><span class="o">.</span><span class="n">global_moran</span><span class="p">(</span><span class="n">grid</span><span class="p">,</span> <span class="n">tissue_only</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">plot_weights</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">GDI</span><span class="p">,</span> <span class="n">p_sim</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;GDI: </span><span class="si">{</span><span class="n">GDI</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">, p-value: </span><span class="si">{</span><span class="n">p_sim</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -213,11 +287,11 @@ OMP: Info #270: omp_set_nested routine deprecated, please use omp_set_max_active
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-0.3794937224532291 0.001
+GDI: 0.379, p-value: 0.001
 </pre></div></div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Calculate LDI and find hot/coldspots by applying local moran&#39;s I on the Diversity Heatmap</span>
@@ -226,7 +300,7 @@ OMP: Info #270: omp_set_nested routine deprecated, please use omp_set_max_active
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Visualise hot/coldspot</span>
@@ -268,23 +342,23 @@ width: 1768.140, height: 1704.784
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-&lt;matplotlib.image.AxesImage at 0x12dfe23b0&gt;
+&lt;matplotlib.image.AxesImage at 0x127598fd0&gt;
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../../_images/notebooks_tutorials_MESA_Tutorials_10_2.png" src="../../_images/notebooks_tutorials_MESA_Tutorials_10_2.png" />
+<img alt="../../_images/notebooks_tutorials_MESA_Tutorials_12_2.png" src="../../_images/notebooks_tutorials_MESA_Tutorials_12_2.png" />
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Calculate DPI for hotspots</span>
@@ -307,20 +381,9 @@ width: 1768.140, height: 1704.784
 <div class="output_area docutils container">
 <div class="highlight"><pre>
 Processing region: MRL-8 at scale 64.0
-0.098 per cent patches are empty
-Region MRL-8 contains 331 diversity hotspots
-61 islands identified
-DPI: 183.256
 </pre></div></div>
 </div>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
-</pre></div>
-</div>
-</div>
+</section>
 </section>
 
 
@@ -336,9 +399,6 @@ DPI: 183.256
     <p>&#169; Copyright 2024, Daisy Yi Ding, Zeyu Tang, Bokai Zhu.</p>
   </div>
 
-  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
-    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
-    provided by <a href="https://readthedocs.org">Read the Docs</a>.
    
 
 </footer>

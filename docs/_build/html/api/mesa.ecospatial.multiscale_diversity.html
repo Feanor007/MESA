@@ -110,24 +110,24 @@
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>spatial_data</strong> (<em>Union</em><em>[</em><em>ad.AnnData</em><em>, </em><em>pd.DataFrame</em><em>]</em>) – The spatial data to be used.</p></li>
-<li><p><strong>scales</strong> (<em>Union</em><em>[</em><em>tuple</em><em>, </em><em>list</em><em>]</em>) – The scales to be used for the analysis.</p></li>
-<li><p><strong>library_key</strong> (<em>str</em>) – The key to access the library data.</p></li>
-<li><p><strong>library_ids</strong> (<em>Union</em><em>[</em><em>tuple</em><em>, </em><em>list</em><em>]</em>) – The identifiers of the libraries.</p></li>
-<li><p><strong>spatial_key</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><em>List</em><em>[</em><em>str</em><em>]</em><em>]</em>) – The key or list of keys to access the spatial data.</p></li>
-<li><p><strong>cluster_key</strong> (<em>str</em>) – The key to access the cluster data.</p></li>
-<li><p><strong>mode</strong> (<em>str</em><em>, </em><em>optional</em>) – The mode of operation, default is ‘D’.</p></li>
-<li><p><strong>random_patch</strong> (<em>bool</em><em>, </em><em>optional</em>) – Whether to generate patches in a random manner. Defaults to False.</p></li>
-<li><p><strong>plotfigs</strong> (<em>bool</em><em>, </em><em>optional</em>) – Whether to plot the figures. Defaults to False.</p></li>
-<li><p><strong>savefigs</strong> (<em>bool</em><em>, </em><em>optional</em>) – Whether to save the figures. Defaults to False.</p></li>
-<li><p><strong>patch_kwargs</strong> (<em>dict</em><em>, </em><em>optional</em>) – Additional keyword arguments for the patch generation. Defaults to an empty dict.</p></li>
-<li><p><strong>other_kwargs</strong> (<em>dict</em><em>, </em><em>optional</em>) – Other keyword arguments. Defaults to an empty dict.</p></li>
+<li><p><strong>scales</strong> (<em>Union</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.12)"><em>tuple</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.12)"><em>list</em></a><em>]</em>) – The scales to be used for the analysis.</p></li>
+<li><p><strong>library_key</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a>) – The key to access the library data.</p></li>
+<li><p><strong>library_ids</strong> (<em>Union</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.12)"><em>tuple</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.12)"><em>list</em></a><em>]</em>) – The identifiers of the libraries.</p></li>
+<li><p><strong>spatial_key</strong> (<em>Union</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a><em>, </em><em>List</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a><em>]</em><em>]</em>) – The key or list of keys to access the spatial data.</p></li>
+<li><p><strong>cluster_key</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a>) – The key to access the cluster data.</p></li>
+<li><p><strong>mode</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a><em>, </em><em>optional</em>) – The mode of operation, default is ‘D’.</p></li>
+<li><p><strong>random_patch</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><em>bool</em></a><em>, </em><em>optional</em>) – Whether to generate patches in a random manner. Defaults to False.</p></li>
+<li><p><strong>plotfigs</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><em>bool</em></a><em>, </em><em>optional</em>) – Whether to plot the figures. Defaults to False.</p></li>
+<li><p><strong>savefigs</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><em>bool</em></a><em>, </em><em>optional</em>) – Whether to save the figures. Defaults to False.</p></li>
+<li><p><strong>patch_kwargs</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.12)"><em>dict</em></a><em>, </em><em>optional</em>) – Additional keyword arguments for the patch generation. Defaults to an empty dict.</p></li>
+<li><p><strong>other_kwargs</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.12)"><em>dict</em></a><em>, </em><em>optional</em>) – Other keyword arguments. Defaults to an empty dict.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>A dataframe of results and a dataframe of slopes, respectively.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>pandas.DataFrame, pandas.DataFrame</p>
+<dd class="field-odd"><p><a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v2.2.1)">pandas.DataFrame</a>, <a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v2.2.1)">pandas.DataFrame</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -148,9 +148,6 @@
     <p>&#169; Copyright 2024, Daisy Yi Ding, Zeyu Tang, Bokai Zhu.</p>
   </div>
 
-  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
-    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
-    provided by <a href="https://readthedocs.org">Read the Docs</a>.
    
 
 </footer>
