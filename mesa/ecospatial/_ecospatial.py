@@ -1019,7 +1019,7 @@ def diversity_clustering(spatial_data:Union[ad.AnnData,pd.DataFrame],
         else:
             print(f"Region {library_id} has no diversity hot/cold spot since length of filterd_patch_comp is either {len(filtered_patches_comp)} or hot/cold spots contain no cells")
 
-    # Return the dictionary containing all merged_series, and Moran's I, and a New Metric
+    # Return the dictionary containing all merged_series, Moran's I, and co-occurrence freq
     return merged_series_dict, global_moranI, comb_freq_dict
 
 def find_coordinates(array, value):
