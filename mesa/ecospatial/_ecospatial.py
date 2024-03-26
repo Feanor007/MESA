@@ -667,7 +667,7 @@ def multiscale_diversity(spatial_data: Union[ad.AnnData, pd.DataFrame],
         A dataframe of results and a dataframe of slopes, respectively.
     """
     
-    # Prepare a dictionary to store the results
+    # Prepare to store the results
     results = pd.DataFrame(index = scales, columns = library_ids)
     slopes = {library_id: [] for library_id in library_ids}
     
@@ -773,7 +773,10 @@ def multiscale_diversity(spatial_data: Union[ad.AnnData, pd.DataFrame],
             #counts = np.log2(counts)
             slope, intercept, r_value, p_value, std_err = stats.linregress(scales, counts)
             slopes[library_id].append(slope)
-    return results, pd.DataFrame(slopes)
+            
+    df_results = pd.concat([results.transpose(), pd.DataFrame(slopes).transpose()], axis=1)
+    df_results = df_results.rename(columns={0.0: 'Slope'})
+    return df_results
 
 def combination_freq(series:list, n=2, top=10, cell_type_combinations=None):
     transactions = [set(serie[serie != 0].index) for serie in series if serie is not None]
@@ -956,6 +959,7 @@ def diversity_clustering(spatial_data:Union[ad.AnnData,pd.DataFrame],
                          top=15,
                          selected_comb=None,
                          restricted=False,
+                         copy: bool=True,
                          **kwargs):
     merged_series_dict = {}
     global_moranI = {library_id: [] for library_id in library_ids}
@@ -1019,8 +1023,12 @@ def diversity_clustering(spatial_data:Union[ad.AnnData,pd.DataFrame],
         else:
             print(f"Region {library_id} has no diversity hot/cold spot since length of filterd_patch_comp is either {len(filtered_patches_comp)} or hot/cold spots contain no cells")
 
-    # Return the dictionary containing all merged_series, Moran's I, and co-occurrence freq
-    return merged_series_dict, global_moranI, comb_freq_dict
+    if copy or isinstance(spatial_data, pd.DataFrame):
+        return pd.DataFrame(merged_series_dict), global_moranI, comb_freq_dict
+    else:
+        spatial_data.uns['merged_series_dict'] = merged_series_dict
+        spatial_data.uns['global_moranI'] = global_moranI
+        spatial_data.uns['comb_freq_dict'] = comb_freq_dict
 
 def find_coordinates(array, value):
     return np.argwhere(array == value)
