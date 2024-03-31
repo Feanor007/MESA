@@ -1,1 +1,1 @@
-from ._ecospatial import generate_patches, calculate_shannon_entropy, calculate_diversity_index, multiscale_diversity, diversity_heatmap, global_moran, local_moran, island_proximity, diversity_clustering
+from ._ecospatial import generate_patches, calculate_shannon_entropy, calculate_diversity_index, calculate_MDI, calculate_GDI, calculate_DPI, diversity_heatmap, global_moran, local_moran, spot_cellfreq

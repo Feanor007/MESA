@@ -1,3 +1,9 @@
+import math
+import time
+from typing import Union, List
+from itertools import combinations
+from collections import defaultdict
+
 import numpy as np
 import pandas as pd
 import anndata as ad
@@ -11,12 +17,10 @@ import networkx as nx
 import matplotlib.pyplot as plt
 import matplotlib.patches as matpatches
 from matplotlib.figure import figaspect
-from itertools import combinations
-from collections import defaultdict
 
-from typing import Union, List
-import math
-import time
+from mesa.ecospatial._utils import (
+    _append_series_to_df
+)
 
 def overlap_check(new_patch, existing_patches, max_overlap_ratio):
     """
@@ -619,18 +623,17 @@ def calculate_diversity_index(spatial_data: Union[ad.AnnData, pd.DataFrame],
     return pd.Series(patch_indices)
         
 
-def multiscale_diversity(spatial_data: Union[ad.AnnData, pd.DataFrame], 
-                         scales: Union[tuple, list], 
-                         library_key: str,
-                         library_ids: Union[tuple, list], 
-                         spatial_key: Union[str, List[str]],
-                         cluster_key: str,
-                         mode='D',
-                         random_patch=False,
-                         plotfigs=False, 
-                         savefigs=False,
-                         patch_kwargs={},  
-                         other_kwargs={}):
+def calculate_MDI(spatial_data: Union[ad.AnnData, pd.DataFrame], 
+                  scales: Union[tuple, list], 
+                  library_key: str,
+                  library_ids: Union[tuple, list], 
+                  spatial_key: Union[str, List[str]],
+                  cluster_key: str,
+                  random_patch=False,
+                  plotfigs=False, 
+                  savefigs=False,
+                  patch_kwargs={},  
+                  other_kwargs={}):
     """
     Calculate the multiscale neighbourhood heterogeneity.
 
@@ -717,24 +720,8 @@ def multiscale_diversity(spatial_data: Union[ad.AnnData, pd.DataFrame],
             print(f"{library_id} at scale {scale} has {indices.eq(0.0).sum()} patches with zero diveristy", flush=True)
             print(f"{library_id} at scale {scale} diversity is {count}", flush=True)
             
-            
             # Store the result
-            if mode == 'D':
-                results.loc[scale,library_id] = count
-            elif mode == 'M':
-                # Calculate Moran's I
-                grid = diversity_heatmap(spatial_data=spatial_data,
-                                         library_key=library_key,
-                                         library_id=library_id,
-                                         spatial_key=spatial_key,
-                                         patches=patches, 
-                                         heterogeneity_indices=indices,
-                                         plot=False)
-                moranI, moranI_p = global_moran(grid)
-                results.loc[scale,library_id] = moranI
-            else:
-                print(f"{mode} currently not supported", flush=True)
-            
+            results.loc[scale,library_id] = count
             
     scales = np.log2(np.reciprocal(scales))
     if plotfigs:
@@ -777,6 +764,53 @@ def multiscale_diversity(spatial_data: Union[ad.AnnData, pd.DataFrame],
     df_results = pd.concat([results.transpose(), pd.DataFrame(slopes).transpose()], axis=1)
     df_results = df_results.rename(columns={0.0: 'Slope'})
     return df_results
+
+def calculate_GDI(spatial_data:Union[ad.AnnData,pd.DataFrame], 
+                  scale:float, 
+                  library_key:str,
+                  library_ids:Union[tuple, list], 
+                  spatial_key:Union[str,List[str]],
+                  cluster_key:str,
+                  hotspot=True,
+                  whole_tissue=False,
+                  p_value=0.01,
+                  restricted=False,
+                  **kwargs):
+    global_moranI = {library_id: [] for library_id in library_ids}
+    
+    for library_id in library_ids:
+        print(f"Processing region: {library_id} at scale {scale}", flush=True)
+
+        # Generate the patch coordinates 
+        patches = generate_patches(spatial_data, 
+                                   library_key,
+                                   library_id,
+                                   scale,
+                                   spatial_key)
+
+        # Calculate the heterogeneity index
+        indices, patches_comp = calculate_diversity_index(spatial_data=spatial_data, 
+                                                          library_key=library_key, 
+                                                          library_id=library_id, 
+                                                          spatial_key=spatial_key,
+                                                          patches=patches,
+                                                          cluster_key=cluster_key,
+                                                          return_comp=True,
+                                                          **kwargs)
+        
+        grid = diversity_heatmap(spatial_data=spatial_data,
+                                 library_key=library_key,
+                                 library_id=library_id,
+                                 spatial_key=spatial_key,
+                                 patches=patches, 
+                                 heterogeneity_indices=indices,
+                                 tissue_only=restricted,
+                                 plot=False)
+        
+        moranI, moranI_p = global_moran(grid, tissue_only=restricted)
+        global_moranI[library_id].append(moranI)
+        
+    return pd.DataFrame(global_moranI, index=['GDI'])
 
 def combination_freq(series:list, n=2, top=10, cell_type_combinations=None):
     transactions = [set(serie[serie != 0].index) for serie in series if serie is not None]
@@ -946,24 +980,23 @@ def diversity_heatmap(spatial_data: Union[ad.AnnData, pd.DataFrame],
         return grid, fig
     return grid
 
-def diversity_clustering(spatial_data:Union[ad.AnnData,pd.DataFrame], 
-                         scale:float, 
-                         library_key:str,
-                         library_ids:Union[tuple, list], 
-                         spatial_key:Union[str,List[str]],
-                         cluster_key:str,
-                         hotspot=True,
-                         whole_tissue=False,
-                         p_value=0.01,
-                         combination=2,
-                         top=15,
-                         selected_comb=None,
-                         restricted=False,
-                         copy: bool=True,
-                         **kwargs):
-    merged_series_dict = {}
-    global_moranI = {library_id: [] for library_id in library_ids}
-    comb_freq_dict = {}
+def spot_cellfreq(spatial_data:Union[ad.AnnData,pd.DataFrame], 
+                  scale:float, 
+                  library_key:str,
+                  library_ids:Union[tuple, list], 
+                  spatial_key:Union[str,List[str]],
+                  cluster_key:str,
+                  hotspot=True,
+                  whole_tissue=False,
+                  p_value=0.01,
+                  combination=2,
+                  top=15,
+                  selected_comb=None,
+                  restricted=False,
+                  **kwargs):
+    
+    cellfreq_df = pd.DataFrame()
+    co_occurrence_df = pd.DataFrame()
     
     for library_id in library_ids:
         print(f"Processing region: {library_id} at scale {scale}", flush=True)
@@ -994,9 +1027,6 @@ def diversity_clustering(spatial_data:Union[ad.AnnData,pd.DataFrame],
                                  tissue_only=restricted,
                                  plot=False)
         
-        moranI, moranI_p = global_moran(grid, tissue_only=restricted)
-        global_moranI[library_id].append(moranI)
-        
         hotspots, coldspots, doughnuts, diamonds = local_moran(grid, tissue_only=restricted, p_value = p_value)
         
         if hotspot:
@@ -1015,20 +1045,18 @@ def diversity_clustering(spatial_data:Union[ad.AnnData,pd.DataFrame],
                 print('Considering whole tissue')
                 comb_freq = combination_freq(patches_comp, n=combination, top=top, cell_type_combinations=selected_comb)
                 
-            comb_freq_dict[library_id] = comb_freq
+            # comb_freq_dict[library_id] = comb_freq
             merged_series = pd.concat(filtered_patches_comp, axis=1).sum(axis=1)
 
             # Store the merged_series in the dictionary with the corresponding library_id
-            merged_series_dict[library_id] = merged_series
+            # merged_series_dict[library_id] = merged_series
+
+            cellfreq_df = _append_series_to_df(cellfreq_df, (merged_series/merged_series.sum(axis=0)), library_id)
+            co_occurrence_df = _append_series_to_df(co_occurrence_df, comb_freq, library_id)
         else:
             print(f"Region {library_id} has no diversity hot/cold spot since length of filterd_patch_comp is either {len(filtered_patches_comp)} or hot/cold spots contain no cells")
 
-    if copy or isinstance(spatial_data, pd.DataFrame):
-        return pd.DataFrame(merged_series_dict), global_moranI, comb_freq_dict
-    else:
-        spatial_data.uns['merged_series_dict'] = merged_series_dict
-        spatial_data.uns['global_moranI'] = global_moranI
-        spatial_data.uns['comb_freq_dict'] = comb_freq_dict
+    return cellfreq_df, co_occurrence_df
 
 def find_coordinates(array, value):
     return np.argwhere(array == value)
@@ -1099,15 +1127,16 @@ def compute_proximity_index(arr, rook=True):
     return proximity_index
 
 
-def island_proximity(spatial_data:Union[ad.AnnData,pd.DataFrame], 
-                     scale:float, 
-                     library_key:str,
-                     library_ids:Union[tuple, list], 
-                     spatial_key:Union[str,List[str]],
-                     cluster_key:str,
-                     hotspot=True,
-                     p_value=0.01,
-                     **kwargs):
+def calculate_DPI(spatial_data:Union[ad.AnnData,pd.DataFrame], 
+                  scale:float, 
+                  library_key:str,
+                  library_ids:Union[tuple, list], 
+                  spatial_key:Union[str,List[str]],
+                  cluster_key:str,
+                  hotspot=True,
+                  p_value=0.01,
+                  restricted=False,
+                  **kwargs):
     """
     Calculate the proximity index for spatial data regions, identifying hotspots or coldspots 
     based on diversity indices.
@@ -1130,12 +1159,14 @@ def island_proximity(spatial_data:Union[ad.AnnData,pd.DataFrame],
         If True, identifies diversity hotspots; if False, identifies coldspots. Defaults to True.
     p_value : float, optional
         The significance level used for identifying hotspots or coldspots. Defaults to 0.01.
+    restricted : bool, optional
+        If True, only tissue regions are considered in the analysis. Defaults to False.
     **kwargs : dict
         Additional keyword arguments to pass to diversity calculation functions.
 
     Returns
     -------
-    dict
+    pd.DataFrame
         A dictionary where each key is a library_id and the value is a list containing 
         the proximity index for that region.
     """
@@ -1170,7 +1201,7 @@ def island_proximity(spatial_data:Union[ad.AnnData,pd.DataFrame],
                                  heterogeneity_indices=indices,
                                  plot=False)
         
-        hotspots, coldspots, _, _ = local_moran(grid, p_value=p_value)
+        hotspots, coldspots, _, _ = local_moran(grid, tissue_only=restricted, p_value=p_value)
         
         if hotspot:
             print(f"Region {library_id} contains {sum(hotspots.flatten())} diversity hotspots", flush=True)
@@ -1182,7 +1213,7 @@ def island_proximity(spatial_data:Union[ad.AnnData,pd.DataFrame],
         PX[library_id].append(px)
         
     # Return the dictionary containing Proximity Index
-    return PX
+    return pd.DataFrame(PX, index=['DPI'])
     
 def plot_cells_patches(spatial_data, 
                        library_key, 
