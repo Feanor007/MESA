@@ -314,6 +314,74 @@ def local_moran(grid: np.ndarray, tissue_only=False, p_value=0.01, seed=42, plot
     
     return hotspots, coldspots, doughnuts, diamonds
 
+def find_coordinates(array, value):
+    return np.argwhere(array == value)
+
+def calculate_distance(coord1, coord2):
+    return np.sqrt((coord1[0] - coord2[0])**2 + (coord1[1] - coord2[1])**2)
+
+def label_islands(arr, rook=True):
+    """
+    Label the islands of True values in the array.
+    """
+    if not rook:
+        s = [[1,1,1],
+             [1,1,1],
+             [1,1,1]]
+    else:
+        s = [[0,1,0],
+             [1,1,1],
+             [0,1,0]]
+    labeled, num_features = ndimage.label(arr, structure=s)
+    return labeled, num_features
+
+def compute_areas(labeled):
+    """
+    Compute the area of each labeled island.
+    """
+    return ndimage.sum(labeled > 0, labeled, range(1, labeled.max() + 1))
+
+def distance_transform_edt(labeled):
+    """
+    Compute the Euclidean distance transform.
+    """
+    return ndimage.distance_transform_edt(~labeled.astype(bool))
+
+def nearest_neighbour_distance(labeled, num_features):
+    """
+    Compute the nearest neighbour distance for each island.
+    """
+    
+    island_coords = {}
+    for i in range(1, num_features+1):
+        island_coords[i] = find_coordinates(labeled, i)
+    distances = []
+    
+    for i in range(1, num_features+1):
+        min_distance = float('inf')
+        tree = spatial.cKDTree(island_coords[i])
+        for j in range(1, num_features+1):
+            if i != j:
+                dist, _ = tree.query(island_coords[j], k=1)
+                min_distance = min(min_distance, np.min(dist))
+        distances.append(min_distance)
+                
+    return distances
+
+def compute_proximity_index(arr, rook=True):
+    """
+    Compute the Proximity Index for the sample.
+    """
+    labelled, num_islands = label_islands(arr, rook=rook)
+    print(f"{num_islands} islands identified", flush=True)
+    areas = compute_areas(labelled)
+    distances = nearest_neighbour_distance(labelled, num_islands)
+    
+    # Calculate the proximity index using the given formula
+    proximity_index = sum([areas[i] / distances[i] for i in range(num_islands)])
+    
+    return proximity_index
+
 def generate_patches(spatial_data: Union[ad.AnnData, pd.DataFrame], 
                      library_key: str, 
                      library_id: str, 
@@ -810,7 +878,95 @@ def calculate_GDI(spatial_data:Union[ad.AnnData,pd.DataFrame],
         moranI, moranI_p = global_moran(grid, tissue_only=restricted)
         global_moranI[library_id].append(moranI)
         
-    return pd.DataFrame(global_moranI, index=['GDI'])
+    return pd.DataFrame(global_moranI, index=['GDI']).T
+
+def calculate_DPI(spatial_data:Union[ad.AnnData,pd.DataFrame], 
+                  scale:float, 
+                  library_key:str,
+                  library_ids:Union[tuple, list], 
+                  spatial_key:Union[str,List[str]],
+                  cluster_key:str,
+                  hotspot=True,
+                  p_value=0.01,
+                  restricted=False,
+                  **kwargs):
+    """
+    Calculate the proximity index for spatial data regions, identifying hotspots or coldspots 
+    based on diversity indices.
+
+    Parameters
+    ----------
+    spatial_data : Union[ad.AnnData, pd.DataFrame]
+        The spatial data to be analyzed. Can be an AnnData object or a pandas DataFrame.
+    scale : float
+        The scale factor used for generating patches within the spatial regions.
+    library_key : str
+        The key in `spatial_data` that corresponds to the library identifiers.
+    library_ids : Union[tuple, list]
+        A tuple or list of library identifiers to be processed.
+    spatial_key : Union[str, List[str]]
+        The key(s) in `spatial_data` used to determine spatial coordinates.
+    cluster_key : str
+        The key in `spatial_data` used to identify different clusters or types.
+    hotspot : bool, optional
+        If True, identifies diversity hotspots; if False, identifies coldspots. Defaults to True.
+    p_value : float, optional
+        The significance level used for identifying hotspots or coldspots. Defaults to 0.01.
+    restricted : bool, optional
+        If True, only tissue regions are considered in the analysis. Defaults to False.
+    **kwargs : dict
+        Additional keyword arguments to pass to diversity calculation functions.
+
+    Returns
+    -------
+    pd.DataFrame
+        A dictionary where each key is a library_id and the value is a list containing 
+        the proximity index for that region.
+    """
+    
+    PX = {library_id: [] for library_id in library_ids}
+    
+    for library_id in library_ids:
+        print(f"Processing region: {library_id} at scale {scale}", flush=True)
+
+        # Generate the patch coordinates 
+        patches = generate_patches(spatial_data, 
+                                   library_key,
+                                   library_id,
+                                   scale,
+                                   spatial_key)
+
+        # Calculate the heterogeneity index
+        indices, patches_comp = calculate_diversity_index(spatial_data=spatial_data, 
+                                                          library_key=library_key, 
+                                                          library_id=library_id, 
+                                                          spatial_key=spatial_key,
+                                                          patches=patches,
+                                                          cluster_key=cluster_key,
+                                                          return_comp = True,
+                                                          **kwargs)
+        
+        grid = diversity_heatmap(spatial_data=spatial_data,
+                                 library_key=library_key,
+                                 library_id=library_id,
+                                 spatial_key=spatial_key,
+                                 patches=patches, 
+                                 heterogeneity_indices=indices,
+                                 plot=False)
+        
+        hotspots, coldspots, _, _ = local_moran(grid, tissue_only=restricted, p_value=p_value)
+        
+        if hotspot:
+            print(f"Region {library_id} contains {sum(hotspots.flatten())} diversity hotspots", flush=True)
+            px = compute_proximity_index(hotspots)
+        else:
+            print(f"Region {library_id} contains {sum(coldspots.flatten())} diversity coldspots", flush=True)
+            px = compute_proximity_index(coldspots)
+            
+        PX[library_id].append(px)
+        
+    # Return the dictionary containing Proximity Index
+    return pd.DataFrame(PX, index=['DPI']).T
 
 def combination_freq(series:list, n=2, top=10, cell_type_combinations=None):
     transactions = [set(serie[serie != 0].index) for serie in series if serie is not None]
@@ -1044,176 +1200,14 @@ def spot_cellfreq(spatial_data:Union[ad.AnnData,pd.DataFrame],
             else:
                 print('Considering whole tissue')
                 comb_freq = combination_freq(patches_comp, n=combination, top=top, cell_type_combinations=selected_comb)
-                
-            # comb_freq_dict[library_id] = comb_freq
+
             merged_series = pd.concat(filtered_patches_comp, axis=1).sum(axis=1)
-
-            # Store the merged_series in the dictionary with the corresponding library_id
-            # merged_series_dict[library_id] = merged_series
-
             cellfreq_df = _append_series_to_df(cellfreq_df, (merged_series/merged_series.sum(axis=0)), library_id)
             co_occurrence_df = _append_series_to_df(co_occurrence_df, comb_freq, library_id)
         else:
             print(f"Region {library_id} has no diversity hot/cold spot since length of filterd_patch_comp is either {len(filtered_patches_comp)} or hot/cold spots contain no cells")
 
     return cellfreq_df, co_occurrence_df
-
-def find_coordinates(array, value):
-    return np.argwhere(array == value)
-
-def calculate_distance(coord1, coord2):
-    return np.sqrt((coord1[0] - coord2[0])**2 + (coord1[1] - coord2[1])**2)
-
-def label_islands(arr, rook=True):
-    """
-    Label the islands of True values in the array.
-    """
-    if not rook:
-        s = [[1,1,1],
-             [1,1,1],
-             [1,1,1]]
-    else:
-        s = [[0,1,0],
-             [1,1,1],
-             [0,1,0]]
-    labeled, num_features = ndimage.label(arr, structure=s)
-    return labeled, num_features
-
-def compute_areas(labeled):
-    """
-    Compute the area of each labeled island.
-    """
-    return ndimage.sum(labeled > 0, labeled, range(1, labeled.max() + 1))
-
-def distance_transform_edt(labeled):
-    """
-    Compute the Euclidean distance transform.
-    """
-    return ndimage.distance_transform_edt(~labeled.astype(bool))
-
-def nearest_neighbour_distance(labeled, num_features):
-    """
-    Compute the nearest neighbour distance for each island.
-    """
-    
-    island_coords = {}
-    for i in range(1, num_features+1):
-        island_coords[i] = find_coordinates(labeled, i)
-    distances = []
-    
-    for i in range(1, num_features+1):
-        min_distance = float('inf')
-        tree = spatial.cKDTree(island_coords[i])
-        for j in range(1, num_features+1):
-            if i != j:
-                dist, _ = tree.query(island_coords[j], k=1)
-                min_distance = min(min_distance, np.min(dist))
-        distances.append(min_distance)
-                
-    return distances
-
-def compute_proximity_index(arr, rook=True):
-    """
-    Compute the Proximity Index for the sample.
-    """
-    labelled, num_islands = label_islands(arr, rook=rook)
-    print(f"{num_islands} islands identified", flush=True)
-    areas = compute_areas(labelled)
-    distances = nearest_neighbour_distance(labelled, num_islands)
-    
-    # Calculate the proximity index using the given formula
-    proximity_index = sum([areas[i] / distances[i] for i in range(num_islands)])
-    
-    return proximity_index
-
-
-def calculate_DPI(spatial_data:Union[ad.AnnData,pd.DataFrame], 
-                  scale:float, 
-                  library_key:str,
-                  library_ids:Union[tuple, list], 
-                  spatial_key:Union[str,List[str]],
-                  cluster_key:str,
-                  hotspot=True,
-                  p_value=0.01,
-                  restricted=False,
-                  **kwargs):
-    """
-    Calculate the proximity index for spatial data regions, identifying hotspots or coldspots 
-    based on diversity indices.
-
-    Parameters
-    ----------
-    spatial_data : Union[ad.AnnData, pd.DataFrame]
-        The spatial data to be analyzed. Can be an AnnData object or a pandas DataFrame.
-    scale : float
-        The scale factor used for generating patches within the spatial regions.
-    library_key : str
-        The key in `spatial_data` that corresponds to the library identifiers.
-    library_ids : Union[tuple, list]
-        A tuple or list of library identifiers to be processed.
-    spatial_key : Union[str, List[str]]
-        The key(s) in `spatial_data` used to determine spatial coordinates.
-    cluster_key : str
-        The key in `spatial_data` used to identify different clusters or types.
-    hotspot : bool, optional
-        If True, identifies diversity hotspots; if False, identifies coldspots. Defaults to True.
-    p_value : float, optional
-        The significance level used for identifying hotspots or coldspots. Defaults to 0.01.
-    restricted : bool, optional
-        If True, only tissue regions are considered in the analysis. Defaults to False.
-    **kwargs : dict
-        Additional keyword arguments to pass to diversity calculation functions.
-
-    Returns
-    -------
-    pd.DataFrame
-        A dictionary where each key is a library_id and the value is a list containing 
-        the proximity index for that region.
-    """
-    
-    PX = {library_id: [] for library_id in library_ids}
-    
-    for library_id in library_ids:
-        print(f"Processing region: {library_id} at scale {scale}", flush=True)
-
-        # Generate the patch coordinates 
-        patches = generate_patches(spatial_data, 
-                                   library_key,
-                                   library_id,
-                                   scale,
-                                   spatial_key)
-
-        # Calculate the heterogeneity index
-        indices, patches_comp = calculate_diversity_index(spatial_data=spatial_data, 
-                                                          library_key=library_key, 
-                                                          library_id=library_id, 
-                                                          spatial_key=spatial_key,
-                                                          patches=patches,
-                                                          cluster_key=cluster_key,
-                                                          return_comp = True,
-                                                          **kwargs)
-        
-        grid = diversity_heatmap(spatial_data=spatial_data,
-                                 library_key=library_key,
-                                 library_id=library_id,
-                                 spatial_key=spatial_key,
-                                 patches=patches, 
-                                 heterogeneity_indices=indices,
-                                 plot=False)
-        
-        hotspots, coldspots, _, _ = local_moran(grid, tissue_only=restricted, p_value=p_value)
-        
-        if hotspot:
-            print(f"Region {library_id} contains {sum(hotspots.flatten())} diversity hotspots", flush=True)
-            px = compute_proximity_index(hotspots)
-        else:
-            print(f"Region {library_id} contains {sum(coldspots.flatten())} diversity coldspots", flush=True)
-            px = compute_proximity_index(coldspots)
-            
-        PX[library_id].append(px)
-        
-    # Return the dictionary containing Proximity Index
-    return pd.DataFrame(PX, index=['DPI'])
     
 def plot_cells_patches(spatial_data, 
                        library_key, 

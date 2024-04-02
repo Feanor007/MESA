@@ -25,8 +25,9 @@ Ecospatial
     ecospatial.generate_patches
     ecospatial.calculate_shannon_entropy
     ecospatial.calculate_diversity_index
-    ecospatial.multiscale_diversity
     ecospatial.diversity_heatmap
     ecospatial.global_moran
     ecospatial.local_moran
-    ecospatial.island_proximity
+    ecospatial.calculate_MDI
+    ecospatial.calculate_GDI
+    ecospatial.calculate_DPI
