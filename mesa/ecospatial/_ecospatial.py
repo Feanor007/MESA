@@ -844,6 +844,7 @@ def calculate_GDI(spatial_data:Union[ad.AnnData,pd.DataFrame],
                   p_value=0.01,
                   restricted=False,
                   **kwargs):
+    
     global_moranI = {library_id: [] for library_id in library_ids}
     
     for library_id in library_ids:
@@ -1150,7 +1151,13 @@ def spot_cellfreq(spatial_data:Union[ad.AnnData,pd.DataFrame],
                   restricted=False,
                   **kwargs):
     
-    cellfreq_df = pd.DataFrame()
+    if mode == 'global':
+        spatial_df = spatial_data.obs[[library_key, cluster_key]]
+        global_cell_count = spatial_df.groupby([library_key, cluster_key], observed=False).size().unstack(fill_value=0)
+        cellfreq_df = global_cell_count.div(global_cell_count.sum(axis=1), axis=0)
+    else:
+        cellfreq_df = pd.DataFrame() 
+        
     co_occurrence_df = pd.DataFrame()
     
     for library_id in library_ids:
@@ -1192,17 +1199,19 @@ def spot_cellfreq(spatial_data:Union[ad.AnnData,pd.DataFrame],
             filtered_patches_comp = [patch for patch, is_coldspot in zip(patches_comp, coldspots.flatten()) if is_coldspot]
         elif mode == 'global':
             print('Considering whole tissue')
-            filtered_patches_comp = patches_comp # This calculation counts cells sitting on the boundary twice, but the overall influence is negligible; You can also calculate global cell frequency by directly manipulating the original dataframe
+            filtered_patches_comp = patches_comp 
         else:
             print(f'Your chosen {mode} is not supported; Please choose one from hot, cold and global')
         
         if filtered_patches_comp and not all(item is None for item in filtered_patches_comp):
             merged_series = pd.concat(filtered_patches_comp, axis=1).sum(axis=1)
-            cellfreq_df = _append_series_to_df(cellfreq_df, (merged_series/merged_series.sum(axis=0)), library_id)
+            if mode != 'global':
+                cellfreq_df = _append_series_to_df(cellfreq_df, (merged_series/merged_series.sum(axis=0)), library_id)
+                
             comb_freq = combination_freq(filtered_patches_comp, n=combination, top=top, cell_type_combinations=selected_comb)
             co_occurrence_df = _append_series_to_df(co_occurrence_df, comb_freq, library_id)
         else:
             print(f"Region {library_id} has no diversity hot/cold spot since length of filterd_patch_comp is either {len(filtered_patches_comp)} or hot/cold spots contain no cells")
-
+    
     return cellfreq_df, co_occurrence_df
     
