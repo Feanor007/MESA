@@ -1213,5 +1213,5 @@ def spot_cellfreq(spatial_data:Union[ad.AnnData,pd.DataFrame],
         else:
             print(f"Region {library_id} has no diversity hot/cold spot since length of filterd_patch_comp is either {len(filtered_patches_comp)} or hot/cold spots contain no cells")
     
-    return cellfreq_df, co_occurrence_df
+    return cellfreq_df, co_occurrence_df.T # sample id as columns (row index)
     
