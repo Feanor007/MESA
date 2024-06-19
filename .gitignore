@@ -3,3 +3,9 @@ __pycache__/
 dist/
 .DS_Store
 
+*.csv
+mesa/multiomics/multiomics_spatial/.Rhistory
+mesa/multiomics/multiomics_spatial/avg_exp_df.npy
+*.png
+*.svg
+*.npy
