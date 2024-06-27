@@ -1,7 +1,7 @@
 # MESA: Multiomics and Ecological Spatial Analysis for Quantitative Decoding of Cellular Neighborhoods and Tissue Compartments
 
 <p align="center">
-  <img src="docs/_static/images/figure1.png" width="75%" height="75%">
+  <img src="docs/_static/images/figure1_new.png" width="75%" height="75%">
 </p>
 
 MESA is a tool for decoding cellular neighbourhoods in spatial omics data. It incorporates a multiomics strategy by integrating single-cell modalities with spatial omics data in silico, thus layering on additional dimensions of information, to facilitate a deeper understanding of cellular neighbourhoods and their spatial interactions within tissue microenvironments. It also employs a multi-scale diversity index (MDI), along with global/local diversity index (GDI & LDI) and Diversity Proximity Index (DPI), to systematically quantify cellular diversity and identify diversity hot/coldspots.
