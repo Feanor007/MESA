@@ -31,3 +31,4 @@ Ecospatial
     ecospatial.calculate_MDI
     ecospatial.calculate_GDI
     ecospatial.calculate_DPI
+    ecospatial.spot_cellfreq
