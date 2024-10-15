@@ -8,7 +8,7 @@
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
-      <link rel="stylesheet" type="text/css" href="../../_static/nbsphinx-code-cells.css?v=2aa19091" />
+      <link rel="stylesheet" type="text/css" href="../../_static/nbsphinx-code-cells.css" />
 
   
   <!--[if lt IE 9]>
@@ -128,18 +128,10 @@
 </div>
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
-/opt/miniconda3/envs/mesa/lib/python3.11/site-packages/libpysal/cg/alpha_shapes.py:38: NumbaDeprecationWarning: <span class="ansi-bold">The &#39;nopython&#39; keyword argument was not supplied to the &#39;numba.jit&#39; decorator. The implicit default value for this argument is currently False, but it will be changed to True in Numba 0.59.0. See https://numba.readthedocs.io/en/stable/reference/deprecation.html#deprecation-of-object-mode-fall-back-behaviour-when-using-jit for details.</span>
-  @jit
-/opt/miniconda3/envs/mesa/lib/python3.11/site-packages/libpysal/cg/alpha_shapes.py:164: NumbaDeprecationWarning: <span class="ansi-bold">The &#39;nopython&#39; keyword argument was not supplied to the &#39;numba.jit&#39; decorator. The implicit default value for this argument is currently False, but it will be changed to True in Numba 0.59.0. See https://numba.readthedocs.io/en/stable/reference/deprecation.html#deprecation-of-object-mode-fall-back-behaviour-when-using-jit for details.</span>
-  @jit
-/opt/miniconda3/envs/mesa/lib/python3.11/site-packages/libpysal/cg/alpha_shapes.py:198: NumbaDeprecationWarning: <span class="ansi-bold">The &#39;nopython&#39; keyword argument was not supplied to the &#39;numba.jit&#39; decorator. The implicit default value for this argument is currently False, but it will be changed to True in Numba 0.59.0. See https://numba.readthedocs.io/en/stable/reference/deprecation.html#deprecation-of-object-mode-fall-back-behaviour-when-using-jit for details.</span>
-  @jit
-/opt/miniconda3/envs/mesa/lib/python3.11/site-packages/libpysal/cg/alpha_shapes.py:260: NumbaDeprecationWarning: <span class="ansi-bold">The &#39;nopython&#39; keyword argument was not supplied to the &#39;numba.jit&#39; decorator. The implicit default value for this argument is currently False, but it will be changed to True in Numba 0.59.0. See https://numba.readthedocs.io/en/stable/reference/deprecation.html#deprecation-of-object-mode-fall-back-behaviour-when-using-jit for details.</span>
-  @jit
-/opt/miniconda3/envs/mesa/lib/python3.11/site-packages/geopandas/_compat.py:124: UserWarning: The Shapely GEOS version (3.11.1-CAPI-1.17.1) is incompatible with the GEOS version PyGEOS was compiled with (3.10.4-CAPI-1.16.2). Conversions between both will be slow.
+/opt/miniconda3/envs/mesa/lib/python3.11/site-packages/geopandas/_compat.py:106: UserWarning: The Shapely GEOS version (3.8.0-CAPI-1.13.1) is incompatible with the GEOS version PyGEOS was compiled with (3.10.4-CAPI-1.16.2). Conversions between both will be slow.
   warnings.warn(
 OMP: Info #276: omp_set_nested routine deprecated, please use omp_set_max_active_levels instead.
-/opt/miniconda3/envs/mesa/lib/python3.11/site-packages/spaghetti/network.py:40: FutureWarning: The next major release of pysal/spaghetti (2.0.0) will drop support for all ``libpysal.cg`` geometries. This change is a first step in refactoring ``spaghetti`` that is expected to result in dramatically reduced runtimes for network instantiation and operations. Users currently requiring network and point pattern input as ``libpysal.cg`` geometries should prepare for this simply by converting to ``shapely`` geometries.
+/opt/miniconda3/envs/mesa/lib/python3.11/site-packages/spaghetti/network.py:41: FutureWarning: The next major release of pysal/spaghetti (2.0.0) will drop support for all ``libpysal.cg`` geometries. This change is a first step in refactoring ``spaghetti`` that is expected to result in dramatically reduced runtimes for network instantiation and operations. Users currently requiring network and point pattern input as ``libpysal.cg`` geometries should prepare for this simply by converting to ``shapely`` geometries.
   warnings.warn(dep_msg, FutureWarning, stacklevel=1)
 </pre></div></div>
 </div>
@@ -302,7 +294,7 @@ MDI: 0.256
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Calculate GDI by applying global moran&#39;s I on the Diversity Heatmap</span>
-<span class="n">GDI</span><span class="p">,</span> <span class="n">p_sim</span> <span class="o">=</span> <span class="n">eco</span><span class="o">.</span><span class="n">global_moran</span><span class="p">(</span><span class="n">grid</span><span class="p">,</span> <span class="n">tissue_only</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">plot_weights</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">GDI</span><span class="p">,</span> <span class="n">p_sim</span> <span class="o">=</span> <span class="n">eco</span><span class="o">.</span><span class="n">global_spatial_stats</span><span class="p">(</span><span class="n">grid</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;MoranI&#39;</span><span class="p">,</span> <span class="n">tissue_only</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">plot_weights</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;GDI: </span><span class="si">{</span><span class="n">GDI</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">, p-value: </span><span class="si">{</span><span class="n">p_sim</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -320,7 +312,7 @@ GDI: 0.379, p-value: 0.001
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Calculate LDI and find hot/coldspots by applying local moran&#39;s I on the Diversity Heatmap</span>
-<span class="n">hotspots</span><span class="p">,</span> <span class="n">coldspots</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">eco</span><span class="o">.</span><span class="n">local_moran</span><span class="p">(</span><span class="n">grid</span><span class="p">,</span> <span class="n">p_value</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span> <span class="n">tissue_only</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">hotspots</span><span class="p">,</span> <span class="n">coldspots</span> <span class="o">=</span> <span class="n">eco</span><span class="o">.</span><span class="n">local_spatial_sats</span><span class="p">(</span><span class="n">grid</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;MoranI&#39;</span><span class="p">,</span> <span class="n">p_value</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span> <span class="n">tissue_only</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -388,14 +380,16 @@ width: 1768.140, height: 1704.784
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Calculate DPI for hotspots</span>
 <span class="n">Hot</span> <span class="o">=</span> <span class="kc">True</span>
-<span class="n">proximity_I</span> <span class="o">=</span> <span class="n">eco</span><span class="o">.</span><span class="n">island_proximity</span><span class="p">(</span><span class="n">spatial_data</span><span class="o">=</span><span class="n">adata</span><span class="p">,</span>
-                                   <span class="n">scale</span><span class="o">=</span><span class="mf">64.0</span><span class="p">,</span>
-                                   <span class="n">library_key</span><span class="o">=</span><span class="s1">&#39;sample&#39;</span><span class="p">,</span>
-                                   <span class="n">library_ids</span><span class="o">=</span><span class="p">[</span><span class="n">sample_id</span><span class="p">],</span>
-                                   <span class="n">spatial_key</span><span class="o">=</span><span class="s1">&#39;spatial&#39;</span><span class="p">,</span>
-                                   <span class="n">cluster_key</span><span class="o">=</span><span class="s1">&#39;cell_type&#39;</span><span class="p">,</span>
-                                   <span class="n">hotspot</span><span class="o">=</span><span class="n">Hot</span><span class="p">,</span>
-                                   <span class="n">metric</span><span class="o">=</span><span class="s1">&#39;Shannon Diversity&#39;</span><span class="p">)</span>
+<span class="n">proximity_I</span> <span class="o">=</span> <span class="n">eco</span><span class="o">.</span><span class="n">calculate_DPI</span><span class="p">(</span><span class="n">spatial_data</span><span class="o">=</span><span class="n">adata</span><span class="p">,</span>
+                                <span class="n">scale</span><span class="o">=</span><span class="mf">64.0</span><span class="p">,</span>
+                                <span class="n">library_key</span><span class="o">=</span><span class="s1">&#39;sample&#39;</span><span class="p">,</span>
+                                <span class="n">library_ids</span><span class="o">=</span><span class="p">[</span><span class="n">sample_id</span><span class="p">],</span>
+                                <span class="n">spatial_key</span><span class="o">=</span><span class="s1">&#39;spatial&#39;</span><span class="p">,</span>
+                                <span class="n">cluster_key</span><span class="o">=</span><span class="s1">&#39;cell_type&#39;</span><span class="p">,</span>
+                                <span class="n">hotspot</span><span class="o">=</span><span class="n">Hot</span><span class="p">,</span>
+                                <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;MoranI&#39;</span><span class="p">,</span>
+                                <span class="n">p_value</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span>
+                                <span class="n">metric</span><span class="o">=</span><span class="s1">&#39;Shannon Diversity&#39;</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;DPI: </span><span class="si">{</span><span class="n">proximity_I</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">sample_id</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
