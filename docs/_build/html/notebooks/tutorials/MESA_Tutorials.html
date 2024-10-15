@@ -60,6 +60,7 @@
 <li class="toctree-l1 current"><a class="reference internal" href="../../tutorials.html">Tutorials</a><ul class="current">
 <li class="toctree-l2 current"><a class="current reference internal" href="#">MESA Ecospatial Tutorials</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#Read-Data">Read Data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Customise-color-palette">Customise color palette</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#Perform-Ecospatial-Analysis-on-one-sample">Perform Ecospatial Analysis on one sample</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#Perform-Ecospatial-Analysis-on-all-samples">Perform Ecospatial Analysis on all samples</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#Calculate-MDI">Calculate MDI</a></li>
@@ -156,10 +157,83 @@ OMP: Info #276: omp_set_nested routine deprecated, please use omp_set_max_active
 </div>
 </div>
 </section>
+<section id="Customise-color-palette">
+<h2>Customise color palette<a class="headerlink" href="#Customise-color-palette" title="Link to this heading"></a></h2>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">colors</span> <span class="k">as</span> <span class="n">mcolors</span>
+<span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">colormaps</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cell_names</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">adata</span><span class="o">.</span><span class="n">obs</span><span class="p">[</span><span class="s1">&#39;cell_type&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">()</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tab10</span> <span class="o">=</span> <span class="n">colormaps</span><span class="p">[</span><span class="s1">&#39;tab10&#39;</span><span class="p">]</span>
+<span class="n">tab20b</span> <span class="o">=</span> <span class="n">colormaps</span><span class="p">[</span><span class="s1">&#39;tab20b&#39;</span><span class="p">]</span>
+<span class="n">tab20c</span> <span class="o">=</span> <span class="n">colormaps</span><span class="p">[</span><span class="s1">&#39;tab20c&#39;</span><span class="p">]</span>
+
+<span class="c1"># Extract specific colors by indexing into the colormap (values from 0 to 1)</span>
+<span class="c1"># From tab20b: indices 8 to 19</span>
+<span class="n">colors_from_tab20b</span> <span class="o">=</span> <span class="p">[</span><span class="n">tab20b</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">20</span><span class="p">)]</span> <span class="o">+</span> <span class="p">[</span><span class="n">tab20b</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span><span class="n">tab20b</span><span class="p">(</span><span class="mi">4</span><span class="p">),</span><span class="n">tab20b</span><span class="p">(</span><span class="mi">3</span><span class="p">)]</span>
+<span class="c1"># From tab20c: indices 0-3, 8-11, and 16-19</span>
+<span class="n">colors_from_tab20c</span> <span class="o">=</span> <span class="p">[</span><span class="n">tab20c</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">)]</span> <span class="o">+</span> <span class="p">[</span><span class="n">tab20c</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">12</span><span class="p">)]</span> <span class="o">+</span> <span class="p">[</span><span class="n">tab20c</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="mi">20</span><span class="p">)]</span>
+
+
+<span class="c1"># Combine the colors into a custom palette</span>
+<span class="n">custom_palette</span> <span class="o">=</span> <span class="n">colors_from_tab20c</span> <span class="o">+</span> <span class="n">colors_from_tab20b</span>
+
+<span class="n">colors_hex</span> <span class="o">=</span> <span class="p">[</span><span class="n">mcolors</span><span class="o">.</span><span class="n">rgb2hex</span><span class="p">(</span><span class="n">color</span><span class="p">)</span> <span class="k">for</span> <span class="n">color</span> <span class="ow">in</span> <span class="n">custom_palette</span><span class="p">]</span>
+<span class="n">color_dict</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">cell_names</span><span class="p">,</span> <span class="n">colors_hex</span><span class="p">))</span>
+<span class="n">color_dict</span><span class="p">[</span><span class="s1">&#39;CD4(+) T cells&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">mcolors</span><span class="o">.</span><span class="n">rgb2hex</span><span class="p">(</span><span class="n">tab10</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
+<span class="n">color_dict</span><span class="p">[</span><span class="s1">&#39;CD8(+) T cells&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;#31a354&#39;</span>
+<span class="n">color_dict</span><span class="p">[</span><span class="s1">&#39;CD106(+)CD16/32(-)Ly6C(+)CD31(+)&#39;</span><span class="p">]</span><span class="o">=</span> <span class="s1">&#39;#e7cb94&#39;</span>
+<span class="n">color_dict</span><span class="p">[</span><span class="s1">&#39;F4/80(+) mphs&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">mcolors</span><span class="o">.</span><span class="n">rgb2hex</span><span class="p">(</span><span class="n">tab20c</span><span class="p">(</span><span class="mi">12</span><span class="p">))</span>
+<span class="n">color_dict</span><span class="p">[</span><span class="s1">&#39;FDCs&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">mcolors</span><span class="o">.</span><span class="n">rgb2hex</span><span class="p">(</span><span class="n">tab10</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>
+<span class="n">color_dict</span><span class="p">[</span><span class="s1">&#39;CD4(+)MHCII(+)&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;#637939&#39;</span>
+<span class="n">color_dict</span><span class="p">[</span><span class="s1">&#39;CD106(-)CD16/32(-)Ly6C(+)CD31(+) stroma&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">mcolors</span><span class="o">.</span><span class="n">rgb2hex</span><span class="p">(</span><span class="n">tab10</span><span class="p">(</span><span class="mi">9</span><span class="p">))</span>
+<span class="n">color_dict</span><span class="p">[</span><span class="s1">&#39;noid&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;#8c6d31&#39;</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+
+<span class="k">for</span> <span class="n">label</span><span class="p">,</span> <span class="n">color</span> <span class="ow">in</span> <span class="n">color_dict</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">([],</span> <span class="p">[],</span> <span class="n">c</span><span class="o">=</span><span class="n">color</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">label</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;o&#39;</span><span class="p">,</span><span class="n">edgecolors</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">,</span> <span class="n">linewidths</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s1">&#39;center&#39;</span><span class="p">,</span> <span class="n">ncol</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="s1">&#39;x-small&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">&#39;off&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/notebooks_tutorials_MESA_Tutorials_9_0.png" src="../../_images/notebooks_tutorials_MESA_Tutorials_9_0.png" />
+</div>
+</div>
+</section>
 <section id="Perform-Ecospatial-Analysis-on-one-sample">
 <h2>Perform Ecospatial Analysis on one sample<a class="headerlink" href="#Perform-Ecospatial-Analysis-on-one-sample" title="Link to this heading"></a></h2>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Define sample</span>
@@ -248,7 +322,7 @@ MDI: 0.256
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Caculate Shannon Diversity Index for each quadrat</span>
@@ -286,11 +360,11 @@ MDI: 0.256
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../../_images/notebooks_tutorials_MESA_Tutorials_9_1.png" src="../../_images/notebooks_tutorials_MESA_Tutorials_9_1.png" />
+<img alt="../../_images/notebooks_tutorials_MESA_Tutorials_14_1.png" src="../../_images/notebooks_tutorials_MESA_Tutorials_14_1.png" />
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Calculate GDI by applying global moran&#39;s I on the Diversity Heatmap</span>
@@ -307,17 +381,25 @@ MDI: 0.256
 GDI: 0.379, p-value: 0.001
 </pre></div></div>
 </div>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Calculate LDI and find hot/coldspots by applying local moran&#39;s I on the Diversity Heatmap</span>
-<span class="n">hotspots</span><span class="p">,</span> <span class="n">coldspots</span> <span class="o">=</span> <span class="n">eco</span><span class="o">.</span><span class="n">local_spatial_sats</span><span class="p">(</span><span class="n">grid</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;MoranI&#39;</span><span class="p">,</span> <span class="n">p_value</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span> <span class="n">tissue_only</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">hotspots</span><span class="p">,</span> <span class="n">coldspots</span> <span class="o">=</span> <span class="n">eco</span><span class="o">.</span><span class="n">local_spatial_stats</span><span class="p">(</span><span class="n">grid</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;MoranI&#39;</span><span class="p">,</span> <span class="n">p_value</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span> <span class="n">tissue_only</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Using MoranI
+</pre></div></div>
+</div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Visualise hot/coldspot</span>
@@ -359,23 +441,23 @@ width: 1768.140, height: 1704.784
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-&lt;matplotlib.image.AxesImage at 0x1343dac80&gt;
+&lt;matplotlib.image.AxesImage at 0x151128e50&gt;
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../../_images/notebooks_tutorials_MESA_Tutorials_12_2.png" src="../../_images/notebooks_tutorials_MESA_Tutorials_12_2.png" />
+<img alt="../../_images/notebooks_tutorials_MESA_Tutorials_17_2.png" src="../../_images/notebooks_tutorials_MESA_Tutorials_17_2.png" />
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Calculate DPI for hotspots</span>
@@ -383,14 +465,14 @@ width: 1768.140, height: 1704.784
 <span class="n">proximity_I</span> <span class="o">=</span> <span class="n">eco</span><span class="o">.</span><span class="n">calculate_DPI</span><span class="p">(</span><span class="n">spatial_data</span><span class="o">=</span><span class="n">adata</span><span class="p">,</span>
                                 <span class="n">scale</span><span class="o">=</span><span class="mf">64.0</span><span class="p">,</span>
                                 <span class="n">library_key</span><span class="o">=</span><span class="s1">&#39;sample&#39;</span><span class="p">,</span>
-                                <span class="n">library_ids</span><span class="o">=</span><span class="p">[</span><span class="n">sample_id</span><span class="p">],</span>
+                                <span class="n">library_id</span><span class="o">=</span><span class="p">[</span><span class="n">sample_id</span><span class="p">],</span>
                                 <span class="n">spatial_key</span><span class="o">=</span><span class="s1">&#39;spatial&#39;</span><span class="p">,</span>
                                 <span class="n">cluster_key</span><span class="o">=</span><span class="s1">&#39;cell_type&#39;</span><span class="p">,</span>
                                 <span class="n">hotspot</span><span class="o">=</span><span class="n">Hot</span><span class="p">,</span>
                                 <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;MoranI&#39;</span><span class="p">,</span>
                                 <span class="n">p_value</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span>
                                 <span class="n">metric</span><span class="o">=</span><span class="s1">&#39;Shannon Diversity&#39;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;DPI: </span><span class="si">{</span><span class="n">proximity_I</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">sample_id</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;DPI: </span><span class="si">{</span><span class="n">proximity_I</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">sample_id</span><span class="p">,</span><span class="s1">&#39;DPI&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -401,10 +483,254 @@ width: 1768.140, height: 1704.784
 <div class="highlight"><pre>
 Processing region: MRL-8 at scale 64.0
 0.098 per cent patches are empty
+Using MoranI
 Region MRL-8 contains 331 diversity hotspots
 61 islands identified
 DPI: 183.256
 </pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Visualise Islands composition and similarity</span>
+<span class="kn">from</span> <span class="nn">scipy.spatial.distance</span> <span class="kn">import</span> <span class="n">pdist</span><span class="p">,</span> <span class="n">squareform</span>
+<span class="n">labelled_hot</span><span class="p">,</span> <span class="n">num_hot_islands</span> <span class="o">=</span> <span class="n">eco</span><span class="o">.</span><span class="n">_utils</span><span class="o">.</span><span class="n">_label_islands</span><span class="p">(</span><span class="n">hotspots</span><span class="p">,</span> <span class="n">rook</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">labelled_cold</span><span class="p">,</span> <span class="n">num_cold_islands</span> <span class="o">=</span> <span class="n">eco</span><span class="o">.</span><span class="n">_utils</span><span class="o">.</span><span class="n">_label_islands</span><span class="p">(</span><span class="n">coldspots</span><span class="p">,</span> <span class="n">rook</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">if</span> <span class="n">Hot</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Aggregating hot islands composition&quot;</span><span class="p">)</span>
+    <span class="n">filtered_patches_coordinates</span> <span class="o">=</span> <span class="p">[</span><span class="n">patch</span> <span class="k">for</span> <span class="n">patch</span><span class="p">,</span> <span class="n">is_hotspot</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">patches_coordinates</span><span class="p">,</span> <span class="n">hotspots</span><span class="o">.</span><span class="n">flatten</span><span class="p">())</span> <span class="k">if</span> <span class="n">is_hotspot</span><span class="p">]</span>
+    <span class="n">filtered_patches_comp</span> <span class="o">=</span> <span class="p">[</span><span class="n">patch</span> <span class="k">for</span> <span class="n">patch</span><span class="p">,</span> <span class="n">is_hotspot</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">patches_comp</span><span class="p">,</span> <span class="n">hotspots</span><span class="o">.</span><span class="n">flatten</span><span class="p">())</span> <span class="k">if</span> <span class="n">is_hotspot</span><span class="p">]</span>
+    <span class="n">island_comp</span> <span class="o">=</span> <span class="n">eco</span><span class="o">.</span><span class="n">_utils</span><span class="o">.</span><span class="n">aggregate_spot_compositions</span><span class="p">(</span><span class="n">labelled_hot</span><span class="p">,</span> <span class="n">patches_comp</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Aggregating cold islands composition&quot;</span><span class="p">)</span>
+    <span class="n">filtered_patches_coordinates</span> <span class="o">=</span> <span class="p">[</span><span class="n">patch</span> <span class="k">for</span> <span class="n">patch</span><span class="p">,</span> <span class="n">is_coldspot</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">patches_coordinates</span><span class="p">,</span> <span class="n">coldspots</span><span class="o">.</span><span class="n">flatten</span><span class="p">())</span> <span class="k">if</span> <span class="n">is_coldspot</span><span class="p">]</span>
+    <span class="n">filtered_patches_comp</span> <span class="o">=</span> <span class="p">[</span><span class="n">patch</span> <span class="k">for</span> <span class="n">patch</span><span class="p">,</span> <span class="n">is_coldspot</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">patches_comp</span><span class="p">,</span> <span class="n">coldspots</span><span class="o">.</span><span class="n">flatten</span><span class="p">())</span> <span class="k">if</span> <span class="n">is_coldspot</span><span class="p">]</span>
+    <span class="n">island_comp</span> <span class="o">=</span> <span class="n">eco</span><span class="o">.</span><span class="n">_utils</span><span class="o">.</span><span class="n">aggregate_spot_compositions</span><span class="p">(</span><span class="n">labelled_cold</span><span class="p">,</span> <span class="n">patches_comp</span><span class="p">)</span>
+<span class="n">island_comp</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Aggregating hot islands composition
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>cell_type</th>
+      <th>B cells</th>
+      <th>B220(+) DN T cells</th>
+      <th>CD106(+)CD16/32(+)CD31(-)Ly6C(-) stroma</th>
+      <th>CD106(+)CD16/32(-)Ly6C(+)CD31(+)</th>
+      <th>CD106(-)CD16/32(-)Ly6C(+)CD31(+) stroma</th>
+      <th>CD31(hi) vascular</th>
+      <th>CD4(+) T cells</th>
+      <th>CD4(+)CD8(-)cDC</th>
+      <th>CD4(+)MHCII(+)</th>
+      <th>CD4(-)CD8(+)cDC</th>
+      <th>CD4(-)CD8(-) cDC</th>
+      <th>CD8(+) T cells</th>
+      <th>ERTR7(+) stroma</th>
+      <th>F4/80(+) mphs</th>
+      <th>erythroblasts</th>
+      <th>plasma cells</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>Island_1</th>
+      <td>16.0</td>
+      <td>4.0</td>
+      <td>18.0</td>
+      <td>5.0</td>
+      <td>1.0</td>
+      <td>4.0</td>
+      <td>11.0</td>
+      <td>23.0</td>
+      <td>2.0</td>
+      <td>2.0</td>
+      <td>5.0</td>
+      <td>3.0</td>
+      <td>15.0</td>
+      <td>3.0</td>
+      <td>12.0</td>
+      <td>9.0</td>
+    </tr>
+    <tr>
+      <th>Island_2</th>
+      <td>2.0</td>
+      <td>NaN</td>
+      <td>20.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>11.0</td>
+      <td>6.0</td>
+      <td>NaN</td>
+      <td>4.0</td>
+      <td>2.0</td>
+      <td>3.0</td>
+      <td>NaN</td>
+      <td>5.0</td>
+      <td>14.0</td>
+      <td>3.0</td>
+    </tr>
+    <tr>
+      <th>Island_3</th>
+      <td>6.0</td>
+      <td>11.0</td>
+      <td>29.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>49.0</td>
+      <td>20.0</td>
+      <td>1.0</td>
+      <td>19.0</td>
+      <td>5.0</td>
+      <td>20.0</td>
+      <td>1.0</td>
+      <td>4.0</td>
+      <td>7.0</td>
+      <td>13.0</td>
+    </tr>
+    <tr>
+      <th>Island_4</th>
+      <td>28.0</td>
+      <td>6.0</td>
+      <td>7.0</td>
+      <td>15.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>23.0</td>
+      <td>3.0</td>
+      <td>NaN</td>
+      <td>4.0</td>
+      <td>1.0</td>
+      <td>17.0</td>
+      <td>4.0</td>
+      <td>12.0</td>
+      <td>46.0</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>Island_5</th>
+      <td>18.0</td>
+      <td>5.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>3.0</td>
+      <td>4.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>1.0</td>
+      <td>5.0</td>
+      <td>1.0</td>
+      <td>NaN</td>
+      <td>7.0</td>
+      <td>NaN</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">colors</span> <span class="o">=</span> <span class="p">[</span><span class="n">color_dict</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">island_comp</span><span class="o">.</span><span class="n">columns</span><span class="p">]</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">island_comp</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="s1">&#39;barh&#39;</span><span class="p">,</span> <span class="n">stacked</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">colors</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">9</span><span class="p">))</span>
+
+<span class="c1"># Set plot title, axis labels, and legend</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">16</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Number of Cells&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">16</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">rotation</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">yticks</span><span class="p">(</span><span class="n">rotation</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">spines</span><span class="p">[</span><span class="s1">&#39;top&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">spines</span><span class="p">[</span><span class="s1">&#39;right&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">invert_yaxis</span><span class="p">()</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/notebooks_tutorials_MESA_Tutorials_20_0.png" src="../../_images/notebooks_tutorials_MESA_Tutorials_20_0.png" />
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">island_comp</span> <span class="o">=</span> <span class="n">island_comp</span><span class="o">.</span><span class="n">div</span><span class="p">(</span><span class="n">island_comp</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">island_comp_filled</span> <span class="o">=</span> <span class="n">island_comp</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="c1"># Calculate Bray-Curtis distance</span>
+<span class="n">distances</span> <span class="o">=</span> <span class="n">pdist</span><span class="p">(</span><span class="n">island_comp_filled</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">metric</span><span class="o">=</span><span class="s1">&#39;braycurtis&#39;</span><span class="p">)</span>
+
+<span class="c1"># Convert the condensed distance matrix to a square matrix</span>
+<span class="n">distance_matrix</span> <span class="o">=</span> <span class="n">squareform</span><span class="p">(</span><span class="n">distances</span><span class="p">)</span>
+
+<span class="c1"># Create a mask for the upper triangle</span>
+<span class="n">mask</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">triu</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ones_like</span><span class="p">(</span><span class="n">distance_matrix</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bool</span><span class="p">),</span><span class="n">k</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="n">axis_labels</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">distance_matrix</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">heatmap</span><span class="p">(</span><span class="n">distance_matrix</span><span class="p">,</span>
+            <span class="n">mask</span><span class="o">=</span><span class="n">mask</span><span class="p">,</span>
+            <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;rocket&#39;</span><span class="p">,</span>
+            <span class="n">vmin</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
+            <span class="n">vmax</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+            <span class="n">annot</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+            <span class="n">square</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="n">linewidths</span><span class="o">=</span><span class="mf">.5</span><span class="p">,</span>
+            <span class="n">xticklabels</span><span class="o">=</span><span class="n">axis_labels</span><span class="p">,</span>
+            <span class="n">yticklabels</span><span class="o">=</span><span class="n">axis_labels</span><span class="p">,</span>
+            <span class="n">cbar_kws</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;shrink&quot;</span><span class="p">:</span> <span class="mf">.5</span><span class="p">,</span> <span class="s2">&quot;label&quot;</span><span class="p">:</span> <span class="s2">&quot;Bray-Curtis Dissimilarity&quot;</span><span class="p">})</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/notebooks_tutorials_MESA_Tutorials_21_0.png" src="../../_images/notebooks_tutorials_MESA_Tutorials_21_0.png" />
+</div>
 </div>
 </section>
 <section id="Perform-Ecospatial-Analysis-on-all-samples">
@@ -1510,7 +1836,7 @@ plasma cells has p value = 0.299
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../../_images/notebooks_tutorials_MESA_Tutorials_28_1.png" src="../../_images/notebooks_tutorials_MESA_Tutorials_28_1.png" />
+<img alt="../../_images/notebooks_tutorials_MESA_Tutorials_36_1.png" src="../../_images/notebooks_tutorials_MESA_Tutorials_36_1.png" />
 </div>
 </div>
 </section>
@@ -1726,7 +2052,7 @@ plasma cells in hot spots has p value = 0.484
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../../_images/notebooks_tutorials_MESA_Tutorials_33_1.png" src="../../_images/notebooks_tutorials_MESA_Tutorials_33_1.png" />
+<img alt="../../_images/notebooks_tutorials_MESA_Tutorials_41_1.png" src="../../_images/notebooks_tutorials_MESA_Tutorials_41_1.png" />
 </div>
 </div>
 </section>
@@ -2190,7 +2516,7 @@ erythroblasts&amp;plasma cells has p value = 0.610
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../../_images/notebooks_tutorials_MESA_Tutorials_38_3.png" src="../../_images/notebooks_tutorials_MESA_Tutorials_38_3.png" />
+<img alt="../../_images/notebooks_tutorials_MESA_Tutorials_46_3.png" src="../../_images/notebooks_tutorials_MESA_Tutorials_46_3.png" />
 </div>
 </div>
 <div class="nbinput docutils container">
@@ -2667,7 +2993,7 @@ erythroblasts&amp;plasma cells in hot spots has p value = 0.719
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../../_images/notebooks_tutorials_MESA_Tutorials_40_3.png" src="../../_images/notebooks_tutorials_MESA_Tutorials_40_3.png" />
+<img alt="../../_images/notebooks_tutorials_MESA_Tutorials_48_3.png" src="../../_images/notebooks_tutorials_MESA_Tutorials_48_3.png" />
 </div>
 </div>
 </section>
@@ -3280,7 +3606,7 @@ erythroblasts&amp;plasma cells in hot spots has p value = 0.719
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../../_images/notebooks_tutorials_MESA_Tutorials_45_0.png" src="../../_images/notebooks_tutorials_MESA_Tutorials_45_0.png" />
+<img alt="../../_images/notebooks_tutorials_MESA_Tutorials_53_0.png" src="../../_images/notebooks_tutorials_MESA_Tutorials_53_0.png" />
 </div>
 </div>
 <div class="nbinput nblast docutils container">

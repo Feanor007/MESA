@@ -1,5 +1,5 @@
 MESA - Multiomics and Ecological Spatial Analysis for Quantitative Decoding of Tissue Disease States in Python
-===========================================================
+===============================================================================================================
 
 **MESA** is a novel pipeline that brings ecological principles together with multiomics data integration thereby enabling deeper and more quantitative decoding of the functional and spatial shifts of tissue remodeling across disease states.
 
