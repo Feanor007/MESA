@@ -1,0 +1,258 @@
+{
+ "cells": [
+  {
+   "cell_type": "markdown",
+   "id": "96c2eb38-d9e6-4f34-8005-9b3ef7647df3",
+   "metadata": {
+    "jp-MarkdownHeadingCollapsed": true
+   },
+   "source": [
+    "# Unit Test for generate_patches"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 1,
+   "id": "ad48e66b-b8bb-45bc-9e32-3f5bfa7333ab",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "/opt/miniconda3/envs/mesa/lib/python3.11/site-packages/geopandas/_compat.py:106: UserWarning: The Shapely GEOS version (3.8.0-CAPI-1.13.1) is incompatible with the GEOS version PyGEOS was compiled with (3.10.4-CAPI-1.16.2). Conversions between both will be slow.\n",
+      "  warnings.warn(\n",
+      "OMP: Info #276: omp_set_nested routine deprecated, please use omp_set_max_active_levels instead.\n",
+      "/opt/miniconda3/envs/mesa/lib/python3.11/site-packages/spaghetti/network.py:41: FutureWarning: The next major release of pysal/spaghetti (2.0.0) will drop support for all ``libpysal.cg`` geometries. This change is a first step in refactoring ``spaghetti`` that is expected to result in dramatically reduced runtimes for network instantiation and operations. Users currently requiring network and point pattern input as ``libpysal.cg`` geometries should prepare for this simply by converting to ``shapely`` geometries.\n",
+      "  warnings.warn(dep_msg, FutureWarning, stacklevel=1)\n"
+     ]
+    }
+   ],
+   "source": [
+    "import unittest\n",
+    "import numpy as np\n",
+    "import pandas as pd\n",
+    "import anndata as ad\n",
+    "\n",
+    "import os\n",
+    "os.sys.path.append('../../')\n",
+    "from mesa.ecospatial import generate_patches"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 2,
+   "id": "b3570429-5f90-43e4-9ed2-8f0294500843",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "class TestGeneratePatches(unittest.TestCase):\n",
+    "    def setUp(self):\n",
+    "        # Create common test data\n",
+    "        self.spatial_coords = np.array([[x, y] for x in range(0, 100, 20) for y in range(0, 100, 20)])\n",
+    "        self.obs = pd.DataFrame({'library_key': ['lib1'] * len(self.spatial_coords)})\n",
+    "        self.obs.index = self.obs.index.astype(str)\n",
+    "        \n",
+    "        # AnnData object\n",
+    "        self.adata = ad.AnnData(X=np.random.rand(len(self.spatial_coords), 5), obs=self.obs)\n",
+    "        self.adata.obsm['spatial'] = self.spatial_coords\n",
+    "\n",
+    "        # DataFrame\n",
+    "        self.df = pd.DataFrame({\n",
+    "            'library_key': ['lib1'] * len(self.spatial_coords),\n",
+    "            'spatial_x': self.spatial_coords[:, 0],\n",
+    "            'spatial_y': self.spatial_coords[:, 1]\n",
+    "        })\n",
+    "\n",
+    "    def test_generate_patches_with_AnnData(self):\n",
+    "        # Test with AnnData input\n",
+    "        patches = generate_patches(\n",
+    "            spatial_data=self.adata,\n",
+    "            library_key='library_key',\n",
+    "            library_id='lib1',\n",
+    "            scaling_factor=2,\n",
+    "            spatial_key='spatial'\n",
+    "        )\n",
+    "        expected_patches = 4  # Since scaling_factor=2, expect 2x2=4 patches\n",
+    "        self.assertEqual(len(patches), expected_patches)\n",
+    "        self.assertIsInstance(patches, list)\n",
+    "\n",
+    "    def test_generate_patches_with_DataFrame(self):\n",
+    "        # Test with DataFrame input\n",
+    "        patches = generate_patches(\n",
+    "            spatial_data=self.df,\n",
+    "            library_key='library_key',\n",
+    "            library_id='lib1',\n",
+    "            scaling_factor=5,\n",
+    "            spatial_key=['spatial_x', 'spatial_y']\n",
+    "        )\n",
+    "        expected_patches = 25  # Since scaling_factor=5, expect 5x5=25 patches\n",
+    "        self.assertEqual(len(patches), expected_patches)\n",
+    "        self.assertIsInstance(patches, list)\n",
+    "\n",
+    "    def test_invalid_spatial_data_type(self):\n",
+    "        # Test with invalid spatial_data type\n",
+    "        with self.assertRaises(ValueError):\n",
+    "            generate_patches(\n",
+    "                spatial_data='invalid_type',\n",
+    "                library_key='library_key',\n",
+    "                library_id='lib1',\n",
+    "                scaling_factor=2,\n",
+    "                spatial_key='spatial'\n",
+    "            )\n",
+    "\n",
+    "    def test_invalid_library_key(self):\n",
+    "        # Test with invalid library_key\n",
+    "        with self.assertRaises(KeyError):\n",
+    "            generate_patches(\n",
+    "                spatial_data=self.adata,\n",
+    "                library_key='invalid_key',\n",
+    "                library_id='lib1',\n",
+    "                scaling_factor=2,\n",
+    "                spatial_key='spatial'\n",
+    "            )\n",
+    "\n",
+    "    def test_invalid_library_id(self):\n",
+    "        # Test with invalid library_id\n",
+    "        with self.assertRaises(ValueError):\n",
+    "            generate_patches(\n",
+    "                spatial_data=self.adata,\n",
+    "                library_key='library_key',\n",
+    "                library_id='invalid_id',\n",
+    "                scaling_factor=2,\n",
+    "                spatial_key='spatial'\n",
+    "            )\n",
+    "\n",
+    "    def test_invalid_spatial_key(self):\n",
+    "        # Test with invalid spatial_key\n",
+    "        with self.assertRaises(KeyError):\n",
+    "            generate_patches(\n",
+    "                spatial_data=self.adata,\n",
+    "                library_key='library_key',\n",
+    "                library_id='lib1',\n",
+    "                scaling_factor=2,\n",
+    "                spatial_key='invalid_spatial_key'\n",
+    "            )\n",
+    "\n",
+    "    def test_zero_scaling_factor(self):\n",
+    "        # Test with zero scaling_factor\n",
+    "        with self.assertRaises(ValueError):\n",
+    "            generate_patches(\n",
+    "                spatial_data=self.adata,\n",
+    "                library_key='library_key',\n",
+    "                library_id='lib1',\n",
+    "                scaling_factor=0,\n",
+    "                spatial_key='spatial'\n",
+    "            )\n",
+    "\n",
+    "    def test_non_numeric_scaling_factor(self):\n",
+    "        # Test with non-numeric scaling_factor\n",
+    "        with self.assertRaises(TypeError):\n",
+    "            generate_patches(\n",
+    "                spatial_data=self.adata,\n",
+    "                library_key='library_key',\n",
+    "                library_id='lib1',\n",
+    "                scaling_factor='two',\n",
+    "                spatial_key='spatial'\n",
+    "            )\n",
+    "\n",
+    "    def test_empty_spatial_data_filtered(self):\n",
+    "        # Test when spatial_data_filtered is empty\n",
+    "        obs_empty = pd.DataFrame({'library_key': ['lib2'] * len(self.spatial_coords)})\n",
+    "        obs_empty.index = obs_empty.index.astype(str)\n",
+    "        adata_empty = ad.AnnData(X=np.random.rand(len(self.spatial_coords), 5), obs=obs_empty)\n",
+    "        adata_empty.obsm['spatial'] = self.spatial_coords\n",
+    "        with self.assertRaises(ValueError):\n",
+    "            generate_patches(\n",
+    "                spatial_data=adata_empty,\n",
+    "                library_key='library_key',\n",
+    "                library_id='lib1',\n",
+    "                scaling_factor=2,\n",
+    "                spatial_key='spatial'\n",
+    "            )\n",
+    "\n",
+    "    def test_output_patch_coordinates(self):\n",
+    "        # Test that patches have correct coordinates\n",
+    "        patches = generate_patches(\n",
+    "            spatial_data=self.adata,\n",
+    "            library_key='library_key',\n",
+    "            library_id='lib1',\n",
+    "            scaling_factor=2,\n",
+    "            spatial_key='spatial'\n",
+    "        )\n",
+    "        # Extract min and max spatial values\n",
+    "        min_coords = self.spatial_coords.min(axis=0)\n",
+    "        max_coords = self.spatial_coords.max(axis=0)\n",
+    "        expected_patch_width = (max_coords[0] - min_coords[0]) / 2\n",
+    "        expected_patch_height = (max_coords[1] - min_coords[1]) / 2\n",
+    "        # Check if patches cover the area correctly\n",
+    "        for patch in patches:\n",
+    "            x0, y0, x1, y1 = patch\n",
+    "            self.assertAlmostEqual(x1 - x0, expected_patch_width)\n",
+    "            self.assertAlmostEqual(y1 - y0, expected_patch_height)\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 3,
+   "id": "c5bf821f-8f30-44f6-bfeb-f230bad883ab",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "..........\n",
+      "----------------------------------------------------------------------\n",
+      "Ran 10 tests in 0.083s\n",
+      "\n",
+      "OK\n"
+     ]
+    },
+    {
+     "data": {
+      "text/plain": [
+       "<unittest.main.TestProgram at 0x1515898d0>"
+      ]
+     },
+     "execution_count": 3,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "# Run the tests in the notebook\n",
+    "unittest.main(argv=['first-arg-is-ignored'], exit=False)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "d2529dcd-5125-4680-b811-af7ea383df9a",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Python3.11 (mesa)",
+   "language": "python",
+   "name": "python311_mesa"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.11.3"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 5
+}

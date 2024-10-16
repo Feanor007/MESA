@@ -764,9 +764,7 @@
   {
    "cell_type": "markdown",
    "id": "d0fb23af-0f9e-48ce-a61f-e533d3c83ae3",
-   "metadata": {
-    "jp-MarkdownHeadingCollapsed": true
-   },
+   "metadata": {},
    "source": [
     "## Perform Ecospatial Analysis on all samples"
    ]
@@ -784,9 +782,7 @@
   {
    "cell_type": "markdown",
    "id": "000e156f-363b-4f14-8495-bdc758f89c01",
-   "metadata": {
-    "jp-MarkdownHeadingCollapsed": true
-   },
+   "metadata": {},
    "source": [
     "### Calculate MDI"
    ]

@@ -29,4 +29,5 @@ MESA is under the `Academic Software License Agreement <https://github.com/Feano
     installation
     api
     tutorials
+    unit_test
 
