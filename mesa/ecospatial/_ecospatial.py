@@ -1,6 +1,6 @@
 import math
 import time
-from typing import Union, List
+from typing import Union, List, Optional
 from itertools import combinations
 from collections import defaultdict
 
@@ -9,17 +9,20 @@ import pandas as pd
 import anndata as ad
 import seaborn as sns
 from scipy import stats
-from scipy import ndimage
-from scipy import spatial
 from pysal.lib import weights
 from pysal.explore import esda
 import networkx as nx
 import matplotlib.pyplot as plt
+from matplotlib import colormaps
 import matplotlib.patches as matpatches
 from matplotlib.figure import figaspect
+from matplotlib.colors import ListedColormap
 
 from mesa.ecospatial._utils import (
-    _append_series_to_df
+    _append_series_to_df,
+    _label_islands,
+    _compute_areas,
+    _nearest_neighbour_distance
 )
 
 def overlap_check(new_patch, existing_patches, max_overlap_ratio):
@@ -193,40 +196,74 @@ def map_spots_back_to_grid(spots, original_grid, masked_grid, fill_value=-1):
                 
     return mapped_spots
     
-def global_moran(grid:np.ndarray, tissue_only=False, plot_weights=False):
+def global_spatial_stats(grid:np.ndarray, mode='MoranI', tissue_only=False, plot_weights=False):
     """
-    Perform global Moran's I test for spatial autocorrelation.
-    
+    Perform global spatial autocorrelation analysis.
+
     Parameters
     ----------
     grid : numpy.ndarray
         The 2D grid of diversity indices to be analyzed.
-    tissue_only : bool, optional
-        If True, the analysis is restricted to tissue regions. Defaults to False.
-    plot_weights : bool, optional
-        If True, visualize the spatial weights matrix. Defaults to False.
-    
+    mode : str, optional (default='MoranI')
+        The spatial statistic to use. One of {'MoranI', 'GearyC', 'GetisOrdG'}.
+    tissue_only : bool, optional (default=False)
+        If True, the analysis is restricted to tissue regions.
+    plot_weights : bool, optional (default=False)
+        If True, visualize the spatial weights matrix.
+
     Returns
     -------
-    I : float
-        The Moran's I statistic.
+    stats : float
+        The spatial statistic.
     p : float
         The p-value for the test.
     """
-
+    
     # Get dimensions
     n, m = grid.shape
 
+    # Get spatial stats function
+    SPATIAL_STATS_FUNCTIONS = {
+        'MoranI': esda.Moran,
+        'GearyC': esda.Geary,
+        'Getis-OrdG':esda.G,
+        'Getis-OrdG*':esda.G
+    }
+    
+    if mode not in SPATIAL_STATS_FUNCTIONS:
+        raise ValueError(f"Unknown metric '{mode}'. Available metrics are: {list(SPATIAL_STATS_FUNCTIONS.keys())}")
+    else:
+        stats_function = SPATIAL_STATS_FUNCTIONS[mode]
+        
     # Create a spatial weights matrix
     if not tissue_only:
         w = weights.lat2W(n, m, rook=False)
-        mi = esda.Moran(grid.flatten(), w, transformation = 'r')
+        if mode[-1] == 'I':
+            # mi = esda.Moran(grid.flatten(), w, transformation = 'r')
+            mi = stats_function(grid.flatten(), w, transformation = 'r')
+        elif mode[-1] == 'C':
+            mi = stats_function(grid.flatten(), w, transformation = 'r')
+        elif mode[-1] == 'G':
+            # Getis-Ord G doesn't transform weights, keep the binarized (0,1) form
+            mi = stats_function(grid.flatten(), w)
+        elif mode[-2:] == 'G*':
+            w =  weights.fill_diagonal(w, val=1.0)
+            mi = stats_function(grid.flatten(), w)
     else:
         masked_grid_nan = np.where(grid == -1, np.nan, grid)
         masked_grid = masked_grid_nan[~np.isnan(masked_grid_nan)]
         w = create_masked_lat2W(grid)
-        print(f"Global Moran restricted to tissue region with w of shape{w.full()[0].shape}")
-        mi = esda.Moran(masked_grid.flatten(), w, transformation = 'r')
+        print(f"Global spatial stats restricted to tissue region with w of shape {w.full()[0].shape}")
+        if mode[-1] == 'I':
+            #  mi = esda.Moran(masked_grid.flatten(), w, transformation = 'o')
+            mi = stats_function(masked_grid.flatten(), w, transformation = 'o')
+        elif mode[-1] == 'C':
+            mi = stats_function(masked_grid.flatten(), w, transformation = 'o')
+        elif mode[-1] == 'G':
+            mi = stats_function(masked_grid.flatten(), w)
+        elif mode[-2:] == 'G*':
+            w =  weights.fill_diagonal(w, val=1.0)
+            mi = stats_function(grid.flatten(), w)
         
     if plot_weights:
     # Visualize the weights matrix
@@ -237,26 +274,41 @@ def global_moran(grid:np.ndarray, tissue_only=False, plot_weights=False):
         plt.colorbar(label='Spatial Weights')
         plt.title('Spatial Weights Matrix')
         plt.show()
-    
-    return mi.I, mi.p_sim
+        
+    if mode[-1] == 'I':
+        return mi.I, mi.p_sim
+    elif mode[-1] == 'C':
+        return mi.C, mi.p_sim
+    elif mode[-1] == 'G':
+        return mi.G, mi.p_sim
+    elif mode[-2:] == 'G*':
+        grid = grid.flatten()
+        grid = grid.reshape(len(grid),1)
+        return mi.G*((grid*grid.T).sum()-(grid*grid).sum())/((grid*grid.T).sum()), mi.p_sim
+    else:
+        return None
 
-
-def local_moran(grid: np.ndarray, tissue_only=False, p_value=0.01, seed=42, plot_weights=False):
+def local_spatial_stats(grid:np.ndarray, mode='MoranI', tissue_only=False, p_value=0.01, seed=42, plot_weights=False, return_stats=False):
     """
-    Perform local Moran's I test (LISA) for local spatial autocorrelation
+    Compute local indicators of spatial association (LISA) for local spatial autocorrelation,
+    and return significant hotspots and coldspots.
 
     Parameters
     ----------
     grid : numpy.ndarray
         The 2D grid of diversity indices to be analyzed.
-    tissue_only : bool, optional
-        If True, the analysis is restricted to tissue regions. Defaults to False.
-    p_value : float, optional
-        The p-value threshold for significance. Defaults to 0.01.
-    seed : int, optional
-        The random seed for reproducibility. Defaults to 42.
-    plot_weights : bool, optional
-        If True, visualize the spatial weights matrix. Defaults to False.
+    mode : str, optional (default='MoranI')
+        The spatial statistic to use. One of {'MoranI', 'GearyC', 'GetisOrdG'}.
+    tissue_only : bool, optional (default=False)
+        If True, the analysis is restricted to tissue regions.
+    p_value : float, optional (default=0.01)
+        The p-value cutoff for significance.
+    seed : int, optional (default=42)
+        Random seed for reproducibility.
+    plot_weights : bool, optional (default=False)
+        If True, visualize the spatial weights matrix.
+    return_stats : bool, optional (default=False)
+        If True, return LISA alongwith hot/cold spots
 
     Returns
     -------
@@ -264,27 +316,62 @@ def local_moran(grid: np.ndarray, tissue_only=False, p_value=0.01, seed=42, plot
         Boolean array indicating hotspots (high value surrounded by high values).
     coldspots : numpy.ndarray
         Boolean array indicating coldspots (low value surrounded by low values).
-    doughnuts : numpy.ndarray
-        Boolean array indicating doughnuts (high value surrounded by low values).
-    diamonds : numpy.ndarray
-        Boolean array indicating diamonds (low value surrounded by high values).
     """
-
+    
     # Get dimensions
     n, m = grid.shape
+
+    # Get spatial stats function
+    SPATIAL_STATS_FUNCTIONS = {
+        'MoranI': esda.Moran_Local,
+        'GearyC': esda.Geary_Local,
+        'Getis-OrdG':esda.G_Local,
+        'Getis-OrdG*':esda.G_Local
+    }
+    
+    if mode not in SPATIAL_STATS_FUNCTIONS:
+        raise ValueError(f"Unknown metric '{mode}'. Available metrics are: {list(SPATIAL_STATS_FUNCTIONS.keys())}")
+    else:
+        stats_function = SPATIAL_STATS_FUNCTIONS[mode]
     
     # Create a spatial weights matrix
     if not tissue_only:
         w = weights.lat2W(n, m, rook=False)
-        lisa = esda.Moran_Local(grid.flatten(), w, transformation='r', permutations=999, seed=seed)
+        if mode[-1] == 'I':
+            # lisa = esda.Moran_Local(grid.flatten(), w, transformation='r', permutations=999, seed=seed)
+            lisa = stats_function(grid.flatten(), w, transformation='r', permutations=999, seed=seed)
+            print(f"Using {mode}")
+        elif mode[-1] == 'C':
+            lisa = stats_function(w, labels=True, permutations=999, seed=seed).fit(grid.flatten())
+            print(f"Using {mode}")
+        elif mode[-1] == 'G':
+            # For local G, non-binary weights are allowed
+            lisa = stats_function(grid.flatten(), w, transform='r', permutations=999, seed=seed)
+            print(f"Using {mode}")
+        elif mode[-2:] == 'G*':
+            lisa = stats_function(grid.flatten(), w, transform='b', permutations=999, star=True, seed=seed)
+            print(f"Using {mode}")
     else:
         masked_grid_nan = np.where(grid == -1, np.nan, grid)
         masked_grid = masked_grid_nan[~np.isnan(masked_grid_nan)]
         print(masked_grid.shape)
         w = create_masked_lat2W(grid)
-        print(f"Local Moran restricted to tissue region with w of shape{w.full()[0].shape}")
-        lisa = esda.Moran_Local(masked_grid.flatten(), w, transformation='o', permutations=999, seed=seed)
-        
+        print(f"Local spatial stats restricted to tissue region with w of shape{w.full()[0].shape}")
+        if mode[-1] == 'I':
+            # lisa = esda.Moran_Local(masked_grid.flatten(), w, transformation='o', permutations=999, seed=seed)
+            lisa = stats_function(masked_grid.flatten(), w, transformation='o', permutations=999, seed=seed)
+            print(f"Using {mode}")
+        elif mode[-1] == 'C':
+            lisa = stats_function(w, labels=True ,permutations=999, seed=seed).fit(masked_grid.flatten())
+            print(f"Using {mode}")
+        elif mode[-1] == 'G':
+            # For local G, non-binary weights are allowed
+            lisa = stats_function(masked_grid.flatten(), w, permutations=999, seed=seed)
+            print(f"Using {mode}")
+        elif mode[-2:] == 'G*':
+            lisa = stats_function(masked_grid.flatten(), w, permutations=999, star=True, seed=seed)
+            print(f"Using {mode}")
+            
     if plot_weights:
     # Visualize the weights matrix
         weights_matrix, ids = w.full()
@@ -298,84 +385,36 @@ def local_moran(grid: np.ndarray, tissue_only=False, p_value=0.01, seed=42, plot
     significant = lisa.p_sim < p_value
     hotspots = np.zeros((n, m), dtype=bool)
     coldspots = np.zeros((n, m), dtype=bool)
-    doughnuts = np.zeros((n, m), dtype=bool)
-    diamonds = np.zeros((n, m), dtype=bool)
-    
-    hotspots.flat[significant * (lisa.q==1)] = True
-    coldspots.flat[significant * (lisa.q==3)] = True
-    doughnuts.flat[significant * (lisa.q==4)] = True
-    diamonds.flat[significant * (lisa.q==2)] = True
-    
+    if mode[-1] == 'I':
+        hotspots.flat[significant * (lisa.q==1)] = True
+        coldspots.flat[significant * (lisa.q==3)] = True
+    elif mode[-1] == 'C':
+        hotspots.flat[significant * (lisa.labs==1)] = True
+        coldspots.flat[significant * (lisa.labs==3)] = True
+    elif mode[-1] == 'G':
+        hotspots.flat[significant * (lisa.Zs>0)] = True
+        coldspots.flat[significant * (lisa.Zs<0)] = True
+    elif mode[-2:] == 'G*':
+        hotspots.flat[significant * (lisa.Zs>0)] = True
+        coldspots.flat[significant * (lisa.Zs<0)] = True
+        
     if tissue_only:
         hotspots = map_spots_back_to_grid(hotspots.flatten(), grid, masked_grid)
         coldspots = map_spots_back_to_grid(coldspots.flatten(), grid, masked_grid)
-        doughnuts = map_spots_back_to_grid(doughnuts.flatten(), grid, masked_grid)
-        diamonds = map_spots_back_to_grid(diamonds.flatten(), grid, masked_grid)
-    
-    return hotspots, coldspots, doughnuts, diamonds
 
-def find_coordinates(array, value):
-    return np.argwhere(array == value)
-
-def calculate_distance(coord1, coord2):
-    return np.sqrt((coord1[0] - coord2[0])**2 + (coord1[1] - coord2[1])**2)
-
-def label_islands(arr, rook=True):
-    """
-    Label the islands of True values in the array.
-    """
-    if not rook:
-        s = [[1,1,1],
-             [1,1,1],
-             [1,1,1]]
+    if return_stats:
+        return hotspots, coldspots, lisa
     else:
-        s = [[0,1,0],
-             [1,1,1],
-             [0,1,0]]
-    labeled, num_features = ndimage.label(arr, structure=s)
-    return labeled, num_features
-
-def compute_areas(labeled):
-    """
-    Compute the area of each labeled island.
-    """
-    return ndimage.sum(labeled > 0, labeled, range(1, labeled.max() + 1))
-
-def distance_transform_edt(labeled):
-    """
-    Compute the Euclidean distance transform.
-    """
-    return ndimage.distance_transform_edt(~labeled.astype(bool))
-
-def nearest_neighbour_distance(labeled, num_features):
-    """
-    Compute the nearest neighbour distance for each island.
-    """
-    
-    island_coords = {}
-    for i in range(1, num_features+1):
-        island_coords[i] = find_coordinates(labeled, i)
-    distances = []
-    
-    for i in range(1, num_features+1):
-        min_distance = float('inf')
-        tree = spatial.cKDTree(island_coords[i])
-        for j in range(1, num_features+1):
-            if i != j:
-                dist, _ = tree.query(island_coords[j], k=1)
-                min_distance = min(min_distance, np.min(dist))
-        distances.append(min_distance)
-                
-    return distances
+        return hotspots, coldspots
 
 def compute_proximity_index(arr, rook=True):
     """
     Compute the Proximity Index for the sample.
     """
-    labelled, num_islands = label_islands(arr, rook=rook)
+    labelled, num_islands = _label_islands(arr, rook=rook)
     print(f"{num_islands} islands identified", flush=True)
-    areas = compute_areas(labelled)
-    distances = nearest_neighbour_distance(labelled, num_islands)
+    areas = _compute_areas(labelled)
+    distances = _nearest_neighbour_distance(labelled, num_islands)
     
     # Calculate the proximity index using the given formula
     proximity_index = sum([areas[i] / distances[i] for i in range(num_islands)])
@@ -424,6 +463,8 @@ def generate_patches(spatial_data: Union[ad.AnnData, pd.DataFrame],
     else:
         raise ValueError("spatial_data should be either an AnnData object or a pandas DataFrame")
 
+    if scaling_factor == 0:
+        raise ValueError("scaling factor cannot be zero")
         
     width = spatial_values.max(axis=0)[0] - spatial_values.min(axis=0)[0]
     height = spatial_values.max(axis=0)[1] - spatial_values.min(axis=0)[1]
@@ -521,7 +562,7 @@ def generate_patches_randomly(spatial_data: Union[ad.AnnData, pd.DataFrame],
 
 def display_patches(spatial_data: Union[ad.AnnData, pd.DataFrame], 
                     library_key: str, 
-                    library_ids: List[str],
+                    library_id: List[str],
                     spatial_key: Union[str, List[str]], 
                     cluster_keys: List[str],
                     scale:Union[int,float],
@@ -529,8 +570,8 @@ def display_patches(spatial_data: Union[ad.AnnData, pd.DataFrame],
                     **kwargs):
     
     # Count the total number of plots to make
-    total_plots = len(library_ids) * len(cluster_keys)
-    num_rows = len(library_ids)
+    total_plots = len(library_id) * len(cluster_keys)
+    num_rows = len(library_id)
     num_cols = len(cluster_keys)
     print(f" The number of plot is {total_plots}")
     
@@ -538,12 +579,12 @@ def display_patches(spatial_data: Union[ad.AnnData, pd.DataFrame],
     fig, axes = plt.subplots(num_rows, num_cols, figsize=(8*num_cols, 8*num_rows),squeeze=False)
     
     # Iterate over each library_id and cluster_key, making a plot for each
-    for i, library_id in enumerate(library_ids):
+    for i, sample_id in enumerate(library_id):
         for j, cluster_key in enumerate(cluster_keys):
             if isinstance(spatial_data, ad.AnnData):
-                spatial_data_region = spatial_data[spatial_data.obs[library_key] == library_id]
+                spatial_data_region = spatial_data[spatial_data.obs[library_key] == sample_id]
             elif isinstance(spatial_data, pd.DataFrame):
-                spatial_data_region = spatial_data[spatial_data[library_key] == library_id]
+                spatial_data_region = spatial_data[spatial_data[library_key] == sample_id]
             else:
                 raise ValueError("spatial_data should be either an AnnData object or a pandas DataFrame")
                 
@@ -555,7 +596,7 @@ def display_patches(spatial_data: Union[ad.AnnData, pd.DataFrame],
             else:    
                 patches_coordinates = generate_patches(spatial_data_region, 
                                                        library_key,
-                                                       library_id,
+                                                       sample_id,
                                                        scaling_factor=scale, 
                                                        spatial_key=spatial_key)
             
@@ -569,7 +610,7 @@ def display_patches(spatial_data: Union[ad.AnnData, pd.DataFrame],
                             legend='full', 
                             ax=ax)
 
-            ax.set_title('Cluster: {} Region: {}'.format(cluster_key, library_id))
+            ax.set_title('Cluster: {} Region: {}'.format(cluster_key, sample_id))
             ax.legend(bbox_to_anchor=(1.0, -0.1), ncol=3, fontsize='small')
 
             for patch in patches_coordinates:
@@ -694,7 +735,7 @@ def calculate_diversity_index(spatial_data: Union[ad.AnnData, pd.DataFrame],
 def calculate_MDI(spatial_data: Union[ad.AnnData, pd.DataFrame], 
                   scales: Union[tuple, list], 
                   library_key: str,
-                  library_ids: Union[tuple, list], 
+                  library_id: Union[tuple, list], 
                   spatial_key: Union[str, List[str]],
                   cluster_key: str,
                   random_patch=False,
@@ -713,14 +754,12 @@ def calculate_MDI(spatial_data: Union[ad.AnnData, pd.DataFrame],
         The scales to be used for the analysis.
     library_key : str
         The key to access the library data.
-    library_ids : Union[tuple, list]
+    library_id : Union[tuple, list]
         The identifiers of the libraries.
     spatial_key : Union[str, List[str]]
         The key or list of keys to access the spatial data.
     cluster_key : str
         The key to access the cluster data.
-    mode : str, optional
-        The mode of operation, default is 'D'.
     random_patch : bool, optional
         Whether to generate patches in a random manner. Defaults to False.
     plotfigs : bool, optional
@@ -739,8 +778,8 @@ def calculate_MDI(spatial_data: Union[ad.AnnData, pd.DataFrame],
     """
     
     # Prepare to store the results
-    results = pd.DataFrame(index = scales, columns = library_ids)
-    slopes = {library_id: [] for library_id in library_ids}
+    results = pd.DataFrame(index = scales, columns = library_id)
+    slopes = {sample_id: [] for sample_id in library_id}
     
     # Generate sequence of overlap for each scale if not specified in patch_kwargs
     if "max_overlap" not in patch_kwargs and random_patch:
@@ -756,14 +795,14 @@ def calculate_MDI(spatial_data: Union[ad.AnnData, pd.DataFrame],
         if "max_overlap" not in patch_kwargs and random_patch:
             patch_kwargs["max_overlap"] = overlaps[i]
             
-        for library_id in library_ids:
-            print(f"Processing region: {library_id} at scale {scale}", flush=True)
+        for sample_id in library_id:
+            print(f"Processing region: {sample_id} at scale {scale}", flush=True)
             
             # Generate the patch coordinates 
             if random_patch:
                 patches = generate_patches_randomly(spatial_data, 
                                                     library_key,
-                                                    library_id,
+                                                    sample_id,
                                                     scale,
                                                     spatial_key,
                                                     **patch_kwargs)
@@ -771,40 +810,40 @@ def calculate_MDI(spatial_data: Union[ad.AnnData, pd.DataFrame],
             else:
                 patches = generate_patches(spatial_data, 
                                            library_key,
-                                           library_id,
+                                           sample_id,
                                            scale,
                                            spatial_key)
                 
             # Calculate the diversity index
             indices = calculate_diversity_index(spatial_data=spatial_data, 
                                                 library_key=library_key, 
-                                                library_id=library_id, 
+                                                library_id=sample_id, 
                                                 spatial_key=spatial_key,
                                                 patches=patches,
                                                 cluster_key=cluster_key,
                                                 **other_kwargs)
                 
             count = indices.sum()/len(indices)
-            print(f"{library_id} at scale {scale} has {indices.eq(0.0).sum()} patches with zero diveristy", flush=True)
-            print(f"{library_id} at scale {scale} diversity is {count}", flush=True)
+            print(f"{sample_id} at scale {scale} has {indices.eq(0.0).sum()} patches with zero diveristy", flush=True)
+            print(f"{sample_id} at scale {scale} diversity is {count}", flush=True)
             
             # Store the result
-            results.loc[scale,library_id] = count
+            results.loc[scale,sample_id] = count
             
     scales = np.log2(np.reciprocal(scales))
     if plotfigs:
         # Plot the results
-        num_library_ids = len(library_ids)
-        num_cols = min(num_library_ids, 2) 
-        num_rows = math.ceil(num_library_ids / num_cols)
+        num_library_id = len(sample_id)
+        num_cols = min(num_library_id, 2) 
+        num_rows = math.ceil(num_library_id / num_cols)
         fig, axes = plt.subplots(num_rows, num_cols, figsize=(6 * num_cols, 6 * num_rows))
-        if num_library_ids == 1:
+        if num_library_id == 1:
             axes = np.array([axes])
         axes = axes.flatten()
-        for i, library_id in enumerate(library_ids):
+        for i, sample_id in enumerate(library_id):
             counts = results[library_id].values.astype(np.float64)
             #counts = np.log2(counts)
-            axes[i].scatter(scales, counts, marker='x', c='black', label=library_id)
+            axes[i].scatter(scales, counts, marker='x', c='black', label=sample_id)
 
             # Calculate the slope and intercept of the best fit line
             slope, intercept, r_value, p_value, std_err = stats.linregress(scales, counts)
@@ -823,44 +862,84 @@ def calculate_MDI(spatial_data: Union[ad.AnnData, pd.DataFrame],
         if savefigs:
             fig.savefig('fractal_dim')
     else:
-        for i, library_id in enumerate(library_ids):
-            counts = results[library_id].values.astype(np.float64)
+        for i, sample_id in enumerate(library_id):
+            counts = results[sample_id].values.astype(np.float64)
             #counts = np.log2(counts)
             slope, intercept, r_value, p_value, std_err = stats.linregress(scales, counts)
-            slopes[library_id].append(slope)
+            slopes[sample_id].append(slope)
             
     df_results = pd.concat([results.transpose(), pd.DataFrame(slopes).transpose()], axis=1)
     df_results = df_results.rename(columns={0.0: 'Slope'})
     return df_results
 
-def calculate_GDI(spatial_data:Union[ad.AnnData,pd.DataFrame], 
-                  scale:float, 
-                  library_key:str,
-                  library_ids:Union[tuple, list], 
-                  spatial_key:Union[str,List[str]],
-                  cluster_key:str,
-                  hotspot=True,
-                  whole_tissue=False,
-                  p_value=0.01,
-                  restricted=False,
+def calculate_GDI(spatial_data: Union[ad.AnnData, pd.DataFrame], 
+                  scale: float, 
+                  library_key: str,
+                  library_id: Union[tuple, list], 
+                  spatial_key: Union[str, List[str]],
+                  cluster_key: str,
+                  hotspot: bool = True,
+                  whole_tissue: bool = False,
+                  p_value: float = 0.01,
+                  restricted: bool = False,
+                  mode: str = 'MoranI',
                   **kwargs):
+    """
+    Calculates a generalized diversity index (GDI) for specified libraries within spatial data. 
+    The function processes each specified library, calculates diversity indices, and assesses
+    spatial statistics to determine GDI values under the specified mode of analysis.
+
+    Parameters
+    ----------
+    spatial_data : Union[ad.AnnData, pd.DataFrame]
+        The spatial data containing library and clustering information.
+    scale : float
+        The scaling factor to adjust spatial coordinates.
+    library_key : str
+        The key associated with the library information in `spatial_data`.
+    library_id : Union[tuple, list]
+        The identifiers for libraries to be analyzed.
+    spatial_key : Union[str, List[str]]
+        The key(s) identifying the spatial coordinates in `spatial_data`.
+    cluster_key : str
+        The key used to access cluster information within `spatial_data`.
+    hotspot : bool, optional
+        If True, analyzes spatial hotspots; otherwise, analyzes coldspots. Defaults to True.
+    whole_tissue : bool, optional
+        If True, analyzes the whole tissue instead of specific regions. Defaults to False.
+    p_value : float, optional
+        The p-value threshold for statistical significance in spatial analysis. Defaults to 0.01.
+    restricted : bool, optional
+        If True, the analysis is restricted to specified conditions, typically specific tissue types. Defaults to False.
+    mode : str, optional
+        The mode of spatial statistics to apply (e.g., 'MoranI'). Defaults to 'MoranI'.
+    **kwargs
+        Additional keyword arguments for further customization and specific parameters in underlying functions.
+
+    Returns
+    -------
+    pd.DataFrame
+        A DataFrame with indices representing library identifiers and a single column 'GDI' 
+        containing the calculated Global Diversity Index for each sample.
+    """
+
     
-    global_moranI = {library_id: [] for library_id in library_ids}
+    global_stats = {sample_id: [] for sample_id in library_id}
     
-    for library_id in library_ids:
-        print(f"Processing region: {library_id} at scale {scale}", flush=True)
+    for sample_id in library_id:
+        print(f"Processing region: {sample_id} at scale {scale}", flush=True)
 
         # Generate the patch coordinates 
         patches = generate_patches(spatial_data, 
                                    library_key,
-                                   library_id,
+                                   sample_id,
                                    scale,
                                    spatial_key)
 
         # Calculate the heterogeneity index
         indices, patches_comp = calculate_diversity_index(spatial_data=spatial_data, 
                                                           library_key=library_key, 
-                                                          library_id=library_id, 
+                                                          library_id=sample_id, 
                                                           spatial_key=spatial_key,
                                                           patches=patches,
                                                           cluster_key=cluster_key,
@@ -869,26 +948,27 @@ def calculate_GDI(spatial_data:Union[ad.AnnData,pd.DataFrame],
         
         grid = diversity_heatmap(spatial_data=spatial_data,
                                  library_key=library_key,
-                                 library_id=library_id,
+                                 library_id=sample_id,
                                  spatial_key=spatial_key,
                                  patches=patches, 
                                  heterogeneity_indices=indices,
                                  tissue_only=restricted,
                                  plot=False)
         
-        moranI, moranI_p = global_moran(grid, tissue_only=restricted)
-        global_moranI[library_id].append(moranI)
+        stats, pvals = global_spatial_stats(grid, tissue_only=restricted, mode=mode)
+        global_stats[sample_id].append(stats)
         
-    return pd.DataFrame(global_moranI, index=['GDI']).T
+    return pd.DataFrame(global_stats, index=['GDI']).T
 
 def calculate_DPI(spatial_data:Union[ad.AnnData,pd.DataFrame], 
                   scale:float, 
                   library_key:str,
-                  library_ids:Union[tuple, list], 
+                  library_id:Union[tuple, list], 
                   spatial_key:Union[str,List[str]],
                   cluster_key:str,
                   hotspot=True,
                   p_value=0.01,
+                  mode='MoranI',
                   restricted=False,
                   **kwargs):
     """
@@ -903,7 +983,7 @@ def calculate_DPI(spatial_data:Union[ad.AnnData,pd.DataFrame],
         The scale factor used for generating patches within the spatial regions.
     library_key : str
         The key in `spatial_data` that corresponds to the library identifiers.
-    library_ids : Union[tuple, list]
+    library_id : Union[tuple, list]
         A tuple or list of library identifiers to be processed.
     spatial_key : Union[str, List[str]]
         The key(s) in `spatial_data` used to determine spatial coordinates.
@@ -925,22 +1005,22 @@ def calculate_DPI(spatial_data:Union[ad.AnnData,pd.DataFrame],
         the proximity index for that region.
     """
     
-    PX = {library_id: [] for library_id in library_ids}
+    PX = {sample_id: [] for sample_id in library_id}
     
-    for library_id in library_ids:
-        print(f"Processing region: {library_id} at scale {scale}", flush=True)
+    for sample_id in library_id:
+        print(f"Processing region: {sample_id} at scale {scale}", flush=True)
 
         # Generate the patch coordinates 
         patches = generate_patches(spatial_data, 
                                    library_key,
-                                   library_id,
+                                   sample_id,
                                    scale,
                                    spatial_key)
 
         # Calculate the heterogeneity index
         indices, patches_comp = calculate_diversity_index(spatial_data=spatial_data, 
                                                           library_key=library_key, 
-                                                          library_id=library_id, 
+                                                          library_id=sample_id, 
                                                           spatial_key=spatial_key,
                                                           patches=patches,
                                                           cluster_key=cluster_key,
@@ -949,22 +1029,22 @@ def calculate_DPI(spatial_data:Union[ad.AnnData,pd.DataFrame],
         
         grid = diversity_heatmap(spatial_data=spatial_data,
                                  library_key=library_key,
-                                 library_id=library_id,
+                                 library_id=sample_id,
                                  spatial_key=spatial_key,
                                  patches=patches, 
                                  heterogeneity_indices=indices,
                                  plot=False)
         
-        hotspots, coldspots, _, _ = local_moran(grid, tissue_only=restricted, p_value=p_value)
+        hotspots, coldspots = local_spatial_stats(grid, tissue_only=restricted, mode=mode, p_value=p_value)
         
         if hotspot:
-            print(f"Region {library_id} contains {sum(hotspots.flatten())} diversity hotspots", flush=True)
+            print(f"Region {sample_id} contains {sum(hotspots.flatten())} diversity hotspots", flush=True)
             px = compute_proximity_index(hotspots)
         else:
-            print(f"Region {library_id} contains {sum(coldspots.flatten())} diversity coldspots", flush=True)
+            print(f"Region {sample_id} contains {sum(coldspots.flatten())} diversity coldspots", flush=True)
             px = compute_proximity_index(coldspots)
             
-        PX[library_id].append(px)
+        PX[sample_id].append(px)
         
     # Return the dictionary containing Proximity Index
     return pd.DataFrame(PX, index=['DPI']).T
@@ -1137,21 +1217,68 @@ def diversity_heatmap(spatial_data: Union[ad.AnnData, pd.DataFrame],
         return grid, fig
     return grid
 
-def spot_cellfreq(spatial_data:Union[ad.AnnData,pd.DataFrame], 
-                  scale:float, 
-                  library_key:str,
-                  library_ids:Union[tuple, list], 
-                  spatial_key:Union[str,List[str]],
-                  cluster_key:str,
-                  mode='hot',
-                  p_value=0.01,
-                  combination=2,
-                  top=15,
-                  selected_comb=None,
-                  restricted=False,
+def spot_cellfreq(spatial_data: Union[ad.AnnData, pd.DataFrame], 
+                  scale: float, 
+                  library_key: str,
+                  library_id: Union[tuple, list], 
+                  spatial_key: Union[str, List[str]],
+                  cluster_key: str,
+                  spots: str = 'hot',
+                  p_value: float = 0.01,
+                  combination: int = 2,
+                  top: int = 15,
+                  selected_comb: Optional[list] = None,
+                  mode: str = 'MoranI',
+                  restricted: bool = False,
                   **kwargs):
+    """
+    This function analyzes cell frequency and co-occurrence across different spots in spatial data 
+    based on specified library IDs and clustering keys, applying spatial statistics methods. It processes 
+    each specified region, calculates diversity indices, and evaluates the presence of hotspots, coldspots, 
+    or overall diversity based on the specified mode.
+
+    Parameters
+    ----------
+    spatial_data : Union[ad.AnnData, pd.DataFrame]
+        The spatial data containing library information and spatial coordinates.
+    scale : float
+        The scaling factor for adjusting the spatial coordinates.
+    library_key : str
+        The key associated with the library information in `spatial_data`.
+    library_id : Union[tuple, list]
+        The identifiers for libraries to be used in the analysis.
+    spatial_key : Union[str, List[str]]
+        The key(s) identifying the spatial coordinates in `spatial_data`.
+    cluster_key : str
+        The key used to access cluster information within `spatial_data`.
+    spots : str, optional
+        Type of spots to analyze ('hot', 'cold', or 'global'). Defaults to 'hot'.
+    p_value : float, optional
+        The p-value threshold for significance in spatial statistics testing. Defaults to 0.01.
+    combination : int, optional
+        The number of top combinations to consider for analyzing frequency. Defaults to 2.
+    top : int, optional
+        The number of top results to return. Defaults to 15.
+    selected_comb : list, optional
+        Specific combinations of clusters to analyze. If None, the top combinations are used.
+    mode : str, optional
+        The mode of spatial statistics to apply (e.g., 'MoranI'). Defaults to 'MoranI'.
+    restricted : bool, optional
+        If True, the analysis is restricted to specified conditions. Defaults to False.
+    **kwargs
+        Additional keyword arguments for other specific parameters or configurations.
+
+    Returns
+    -------
+    pd.DataFrame
+        A DataFrame containing the normalized cell frequencies for each cluster across the specified regions,
+        or across the entire tissue if 'global' is specified.
+    pd.DataFrame
+        A transposed DataFrame containing the frequency of specific cluster combinations in each region, 
+        sorted by the top specified combinations if `selected_comb` is None.
+    """
     
-    if mode == 'global':
+    if spots=='global':
         spatial_df = spatial_data.obs[[library_key, cluster_key]]
         global_cell_count = spatial_df.groupby([library_key, cluster_key], observed=False).size().unstack(fill_value=0)
         cellfreq_df = global_cell_count.div(global_cell_count.sum(axis=1), axis=0)
@@ -1160,7 +1287,7 @@ def spot_cellfreq(spatial_data:Union[ad.AnnData,pd.DataFrame],
         
     co_occurrence_df = pd.DataFrame()
     
-    for library_id in library_ids:
+    for library_id in library_id:
         print(f"Processing region: {library_id} at scale {scale}", flush=True)
 
         # Generate the patch coordinates 
@@ -1189,15 +1316,15 @@ def spot_cellfreq(spatial_data:Union[ad.AnnData,pd.DataFrame],
                                  tissue_only=restricted,
                                  plot=False)
         
-        hotspots, coldspots, doughnuts, diamonds = local_moran(grid, tissue_only=restricted, p_value = p_value)
+        hotspots, coldspots= local_spatial_stats(grid, tissue_only=restricted, mode=mode, p_value = p_value)
         
-        if mode == 'hot':
+        if spots == 'hot':
             print(f'Region {library_id} contains {sum(hotspots.flatten())} diversity hotspots', flush=True)
             filtered_patches_comp = [patch for patch, is_hotspot in zip(patches_comp, hotspots.flatten()) if is_hotspot]
-        elif mode == 'cold':
+        elif spots == 'cold':
             print(f'Region {library_id} contains {sum(coldspots.flatten())} diversity coldspots', flush=True)
             filtered_patches_comp = [patch for patch, is_coldspot in zip(patches_comp, coldspots.flatten()) if is_coldspot]
-        elif mode == 'global':
+        elif spots == 'global':
             print('Considering whole tissue')
             filtered_patches_comp = patches_comp 
         else:
@@ -1215,3 +1342,81 @@ def spot_cellfreq(spatial_data:Union[ad.AnnData,pd.DataFrame],
     
     return cellfreq_df, co_occurrence_df.T # sample id as columns (row index)
     
+def signif_heatmap(spatial_data:Union[ad.AnnData,pd.DataFrame], 
+                   library_key:str,
+                   library_id:str,
+                   spatial_key:str, 
+                   patches,
+                   heterogeneity_indices, 
+                   tissue_only=False,
+                   plot=True,
+                   discrete=False,
+                   return_fig=False):
+
+    if isinstance(spatial_data, ad.AnnData):
+        spatial_data_filtered = spatial_data[spatial_data.obs[library_key] == library_id]
+    elif isinstance(spatial_data, pd.DataFrame):
+        spatial_data_filtered = spatial_data[spatial_data[library_key] == library_id]
+    else:
+        raise ValueError("spatial_data should be either an AnnData object or a pandas DataFrame")    
+    
+    if isinstance(spatial_data, ad.AnnData):
+        x_coords = spatial_data_filtered.obsm[spatial_key][:, 0]
+        y_coords = spatial_data_filtered.obsm[spatial_key][:, 1]
+    elif isinstance(spatial_data, pd.DataFrame):
+        x_coords = spatial_data_filtered[spatial_key[0]]
+        y_coords = spatial_data_filtered[spatial_key[1]]
+    else:
+        raise ValueError("spatial_data should be either an AnnData object or a pandas DataFrame")
+        
+    if plot:
+        min_x, min_y = np.min(x_coords), np.min(y_coords)
+        max_x, max_y = np.max(x_coords), np.max(y_coords)
+        
+        # Create a 2D grid
+        grid = np.zeros((int(max_y - min_y + 1), int(max_x - min_x + 1)))
+
+        # Fill the grid with heterogeneity indices
+        for patch, heterogeneity_index in heterogeneity_indices.items():
+            x0, y0, x1, y1 = patches[patch]
+            grid[int(y0-min_y):int(y1-min_y+1), int(x0-min_x):int(x1-min_x+1)] = heterogeneity_index
+
+        if not discrete:
+            # Plot the heatmap
+            plt.imshow(grid, cmap='Greens_r', interpolation='none')
+            cb = plt.colorbar(label='P-Value', format="{x:.2f}")
+            cb.ax.minorticks_on()
+            
+            # Define minor tick positions and labels
+            minor_locator = AutoMinorLocator(5)  # This would put 1 minor tick between major ticks
+            cb.ax.yaxis.set_minor_locator(minor_locator)
+            
+            # Define a function to format minor tick labels
+            def minor_tick_format(x, pos):
+                return f"{x:.2f}"  # Adjust format as needed
+            
+            # Apply formatter for the minor ticks
+            cb.ax.yaxis.set_minor_formatter(FuncFormatter(minor_tick_format))
+        else:
+            # Define the categories
+            categories = [0.1, 0.05, 0.01, 0.005]
+            
+            # Select colors from the Greens_r colormap
+            greens = colormaps.get_cmap('Greens')
+            colors = [greens(i / len(categories)) for i in range(len(categories) + 1)]
+            cmap = ListedColormap(colors)  # Create a custom ListedColormap
+    
+            # Assign colors to the grid based on the categories
+            grid_colored = np.digitize(grid, bins=categories, right=False)
+            
+            # Plot the heatmap
+            plt.imshow(grid_colored, cmap=cmap, interpolation='none')
+            
+            # Create a legend with custom patches
+            labels = ['>0.1', '<0.1', '<0.05', '<0.01', '<0.005']
+            patches = [matpatches.Patch(facecolor=cmap(i), label=label, edgecolor='k') for i, label in enumerate(labels)]
+            plt.legend(handles=patches, bbox_to_anchor=(1.05, 1), loc=2, borderaxespad=0.)
+            
+        if return_fig and plot:
+            fig = plt.gcf()
+            return fig
