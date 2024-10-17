@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>MESA Ecospatial Tutorials &mdash; MESA 0.0.3 documentation</title>
+  <title>MESA Ecospatial Tutorials &mdash; MESA 0.0.5 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
@@ -17,7 +17,7 @@
   
         <script src="../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../../_static/documentation_options.js?v=47de8214"></script>
+        <script src="../../_static/documentation_options.js?v=282f96c0"></script>
         <script src="../../_static/doctools.js?v=888ff710"></script>
         <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
         <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -44,7 +44,7 @@
             MESA
           </a>
               <div class="version">
-                0.0.3
+                0.0.5
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
@@ -251,24 +251,24 @@ OMP: Info #276: omp_set_nested routine deprecated, please use omp_set_max_active
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Calculate MDI</span>
 <span class="c1">## Define the sequence of scales</span>
 <span class="n">scales</span> <span class="o">=</span> <span class="p">[</span><span class="mf">1.</span><span class="p">,</span> <span class="mf">2.</span><span class="p">,</span> <span class="mf">4.</span><span class="p">,</span> <span class="mf">8.</span><span class="p">,</span> <span class="mf">16.</span><span class="p">,</span> <span class="mf">32.</span><span class="p">,</span> <span class="mf">64.</span><span class="p">]</span>
 
-<span class="n">df_entropy</span><span class="p">,</span> <span class="n">df_slopes</span> <span class="o">=</span> <span class="n">eco</span><span class="o">.</span><span class="n">multiscale_diversity</span><span class="p">(</span><span class="n">spatial_data</span><span class="o">=</span><span class="n">adata</span><span class="p">,</span>
-                                                 <span class="n">scales</span><span class="o">=</span><span class="n">scales</span><span class="p">,</span>
-                                                 <span class="n">library_key</span><span class="o">=</span><span class="s1">&#39;sample&#39;</span><span class="p">,</span>
-                                                 <span class="n">library_ids</span><span class="o">=</span><span class="p">[</span><span class="n">sample_id</span><span class="p">],</span>
-                                                 <span class="n">spatial_key</span><span class="o">=</span><span class="s1">&#39;spatial&#39;</span><span class="p">,</span>
-                                                 <span class="n">cluster_key</span><span class="o">=</span><span class="s1">&#39;cell_type&#39;</span><span class="p">,</span>
-                                                 <span class="n">random_patch</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-                                                 <span class="n">plotfigs</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-                                                 <span class="n">savefigs</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-                                                 <span class="n">patch_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;random_seed&#39;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s1">&#39;min_points&#39;</span><span class="p">:</span><span class="mi">2</span><span class="p">},</span>
-                                                 <span class="n">other_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;metric&#39;</span><span class="p">:</span> <span class="s1">&#39;Shannon Diversity&#39;</span><span class="p">})</span>
+<span class="n">df_results</span> <span class="o">=</span> <span class="n">eco</span><span class="o">.</span><span class="n">calculate_MDI</span><span class="p">(</span><span class="n">spatial_data</span><span class="o">=</span><span class="n">adata</span><span class="p">,</span>
+                               <span class="n">scales</span><span class="o">=</span><span class="n">scales</span><span class="p">,</span>
+                               <span class="n">library_key</span><span class="o">=</span><span class="s1">&#39;sample&#39;</span><span class="p">,</span>
+                               <span class="n">library_id</span><span class="o">=</span><span class="p">[</span><span class="n">sample_id</span><span class="p">],</span>
+                               <span class="n">spatial_key</span><span class="o">=</span><span class="s1">&#39;spatial&#39;</span><span class="p">,</span>
+                               <span class="n">cluster_key</span><span class="o">=</span><span class="s1">&#39;cell_type&#39;</span><span class="p">,</span>
+                               <span class="n">random_patch</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                               <span class="n">plotfigs</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                               <span class="n">savefigs</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                               <span class="n">patch_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;random_seed&#39;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s1">&#39;min_points&#39;</span><span class="p">:</span><span class="mi">2</span><span class="p">},</span>
+                               <span class="n">other_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;metric&#39;</span><span class="p">:</span> <span class="s1">&#39;Shannon Diversity&#39;</span><span class="p">})</span>
 </pre></div>
 </div>
 </div>
@@ -308,10 +308,10 @@ MRL-8 at scale 64.0 diversity is 1.8713334691757577
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;MDI: </span><span class="si">{</span><span class="n">df_slopes</span><span class="p">[</span><span class="n">sample_id</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;MDI: </span><span class="si">{</span><span class="n">df_results</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">sample_id</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -320,11 +320,11 @@ MRL-8 at scale 64.0 diversity is 1.8713334691757577
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-MDI: 0.256
+MDI: 3.466
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Caculate Shannon Diversity Index for each quadrat</span>
@@ -366,7 +366,7 @@ MDI: 0.256
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Calculate GDI by applying global moran&#39;s I on the Diversity Heatmap</span>
@@ -384,7 +384,47 @@ GDI: 0.379, p-value: 0.001
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">lisa</span> <span class="o">=</span> <span class="n">eco</span><span class="o">.</span><span class="n">local_spatial_stats</span><span class="p">(</span><span class="n">grid</span><span class="o">=</span><span class="n">grid</span><span class="p">,</span>
+                                     <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;MoranI&#39;</span><span class="p">,</span>
+                                     <span class="n">tissue_only</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                                     <span class="n">p_value</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span>
+                                     <span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span>
+                                     <span class="n">plot_weights</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                                     <span class="n">return_stats</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="n">heatmap_fig</span> <span class="o">=</span> <span class="n">eco</span><span class="o">.</span><span class="n">signif_heatmap</span><span class="p">(</span><span class="n">spatial_data</span><span class="o">=</span><span class="n">adata</span><span class="p">,</span>
+                                 <span class="n">library_key</span><span class="o">=</span><span class="s1">&#39;sample&#39;</span><span class="p">,</span>
+                                 <span class="n">library_id</span><span class="o">=</span><span class="n">sample_id</span><span class="p">,</span>
+                                 <span class="n">spatial_key</span><span class="o">=</span><span class="s1">&#39;spatial&#39;</span><span class="p">,</span>
+                                 <span class="n">patches</span><span class="o">=</span><span class="n">patches_coordinates</span><span class="p">,</span>
+                                 <span class="n">heterogeneity_indices</span><span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">lisa</span><span class="o">.</span><span class="n">p_sim</span><span class="p">),</span>
+                                 <span class="n">tissue_only</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                                 <span class="n">plot</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                                 <span class="n">discrete</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                                 <span class="n">return_fig</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Using MoranI
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/notebooks_tutorials_MESA_Tutorials_16_1.png" src="../../_images/notebooks_tutorials_MESA_Tutorials_16_1.png" />
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Calculate LDI and find hot/coldspots by applying local moran&#39;s I on the Diversity Heatmap</span>
@@ -401,7 +441,7 @@ Using MoranI
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Visualise hot/coldspot</span>
@@ -443,23 +483,23 @@ width: 1768.140, height: 1704.784
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-&lt;matplotlib.image.AxesImage at 0x151128e50&gt;
+&lt;matplotlib.image.AxesImage at 0x15239be50&gt;
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../../_images/notebooks_tutorials_MESA_Tutorials_17_2.png" src="../../_images/notebooks_tutorials_MESA_Tutorials_17_2.png" />
+<img alt="../../_images/notebooks_tutorials_MESA_Tutorials_18_2.png" src="../../_images/notebooks_tutorials_MESA_Tutorials_18_2.png" />
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Calculate DPI for hotspots</span>
@@ -492,7 +532,7 @@ DPI: 183.256
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Visualise Islands composition and similarity</span>
@@ -522,7 +562,7 @@ Aggregating hot islands composition
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
 </pre></div>
 </div>
 <div class="output_area rendered_html docutils container">
@@ -663,7 +703,7 @@ Aggregating hot islands composition
 </div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">colors</span> <span class="o">=</span> <span class="p">[</span><span class="n">color_dict</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">island_comp</span><span class="o">.</span><span class="n">columns</span><span class="p">]</span>
@@ -688,11 +728,11 @@ Aggregating hot islands composition
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../../_images/notebooks_tutorials_MESA_Tutorials_20_0.png" src="../../_images/notebooks_tutorials_MESA_Tutorials_20_0.png" />
+<img alt="../../_images/notebooks_tutorials_MESA_Tutorials_21_0.png" src="../../_images/notebooks_tutorials_MESA_Tutorials_21_0.png" />
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">island_comp</span> <span class="o">=</span> <span class="n">island_comp</span><span class="o">.</span><span class="n">div</span><span class="p">(</span><span class="n">island_comp</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
@@ -731,7 +771,7 @@ Aggregating hot islands composition
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../../_images/notebooks_tutorials_MESA_Tutorials_21_0.png" src="../../_images/notebooks_tutorials_MESA_Tutorials_21_0.png" />
+<img alt="../../_images/notebooks_tutorials_MESA_Tutorials_22_0.png" src="../../_images/notebooks_tutorials_MESA_Tutorials_22_0.png" />
 </div>
 </div>
 </section>
@@ -1838,7 +1878,7 @@ plasma cells has p value = 0.299
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../../_images/notebooks_tutorials_MESA_Tutorials_36_1.png" src="../../_images/notebooks_tutorials_MESA_Tutorials_36_1.png" />
+<img alt="../../_images/notebooks_tutorials_MESA_Tutorials_37_1.png" src="../../_images/notebooks_tutorials_MESA_Tutorials_37_1.png" />
 </div>
 </div>
 </section>
@@ -2054,7 +2094,7 @@ plasma cells in hot spots has p value = 0.484
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../../_images/notebooks_tutorials_MESA_Tutorials_41_1.png" src="../../_images/notebooks_tutorials_MESA_Tutorials_41_1.png" />
+<img alt="../../_images/notebooks_tutorials_MESA_Tutorials_42_1.png" src="../../_images/notebooks_tutorials_MESA_Tutorials_42_1.png" />
 </div>
 </div>
 </section>
@@ -2518,7 +2558,7 @@ erythroblasts&amp;plasma cells has p value = 0.610
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../../_images/notebooks_tutorials_MESA_Tutorials_46_3.png" src="../../_images/notebooks_tutorials_MESA_Tutorials_46_3.png" />
+<img alt="../../_images/notebooks_tutorials_MESA_Tutorials_47_3.png" src="../../_images/notebooks_tutorials_MESA_Tutorials_47_3.png" />
 </div>
 </div>
 <div class="nbinput docutils container">
@@ -2995,7 +3035,7 @@ erythroblasts&amp;plasma cells in hot spots has p value = 0.719
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../../_images/notebooks_tutorials_MESA_Tutorials_48_3.png" src="../../_images/notebooks_tutorials_MESA_Tutorials_48_3.png" />
+<img alt="../../_images/notebooks_tutorials_MESA_Tutorials_49_3.png" src="../../_images/notebooks_tutorials_MESA_Tutorials_49_3.png" />
 </div>
 </div>
 </section>
@@ -3608,7 +3648,7 @@ erythroblasts&amp;plasma cells in hot spots has p value = 0.719
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../../_images/notebooks_tutorials_MESA_Tutorials_53_0.png" src="../../_images/notebooks_tutorials_MESA_Tutorials_53_0.png" />
+<img alt="../../_images/notebooks_tutorials_MESA_Tutorials_54_0.png" src="../../_images/notebooks_tutorials_MESA_Tutorials_54_0.png" />
 </div>
 </div>
 <div class="nbinput nblast docutils container">

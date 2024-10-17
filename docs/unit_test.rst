@@ -3,4 +3,4 @@ UnitTest
 
 .. toctree::
 
-    unit_test/test_generate_patches.ipynb
+    notebooks/unit_test/test_generate_patches.ipynb
