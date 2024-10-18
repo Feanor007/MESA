@@ -34,6 +34,41 @@ def get_spatial_knn_indices(locations, n_neighbors=15, method='kd_tree'):
     ).fit(locations).kneighbors(locations)
     return knn_indices
 
+def get_spatial_knn_indices_within_distance(locations, n_neighbors=15, method='kd_tree', max_distance=np.inf):
+    """
+    Compute k-nearest neighbors of locations with a maximum distance constraint.
+
+    Parameters
+    ----------
+    locations: np.ndarray of shape (n_samples, 2)
+        Data matrix
+    n_neighbors: int
+        Number of nearest neighbors
+    method: str, default='kd_tree'
+        Method to use when computing the nearest neighbors, one of ['ball_tree', 'kd_tree', 'brute']
+    max_distance: float, default=np.inf
+        The maximum distance between neighbors
+
+    Returns
+    -------
+    knn_indices: np.ndarray of shape (n_samples, n_neighbors)
+        Each row represents the knn of that sample. Distance greater than max_distance will not be considered.
+    """
+    locations = np.array(locations)
+    assert n_neighbors <= locations.shape[0]
+    nbrs = NearestNeighbors(n_neighbors=n_neighbors, algorithm=method, radius=max_distance)
+    nbrs.fit(locations)
+    distances, indices = nbrs.radius_neighbors(locations)
+
+    # Filter out neighbors too far away and limit the number of neighbors to n_neighbors
+    knn_indices = []
+    for dist, idx in zip(distances, indices):
+        filtered_idx = idx[dist <= max_distance][:n_neighbors]  # Apply max_distance and limit to n_neighbors
+        # In case there are fewer neighbors than required, pad with -1 or any other placeholder
+        if len(filtered_idx) < n_neighbors:
+            filtered_idx = np.pad(filtered_idx, (0, n_neighbors - len(filtered_idx)), constant_values=-1)
+        knn_indices.append(filtered_idx)
+    return np.array(knn_indices)
 
 def leiden_clustering(n, edges, resolution=1, n_runs=1, seed=None, verbose=False):
     """
