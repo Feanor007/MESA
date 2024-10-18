@@ -12,9 +12,7 @@ This approach allows you to harness R's powerful data analysis and visualization
 Loading Packages
 ----------------
 
-.. highlight:: r
-
-::
+.. code-block:: r
 
     > library(reticulate)
     > library(dplyr)
@@ -24,9 +22,7 @@ Loading Packages
 Read and prepare data 
 ----------------------
 
-.. highlight:: r
-
-::
+.. code-block:: r
 
     > eco <- import("mesa.ecospatial")
     > ad <- import("anndata")
@@ -38,9 +34,7 @@ Read and prepare data
 Calculate MDI
 -------------
 
-.. highlight:: r
-
-::
+.. code-block:: r
 
     # Calculate MDI (Multiscale Diversity Index)
     > scales <- c(1.0, 2.0, 4.0, 8.0, 16.0, 32.0, 64.0)
@@ -77,9 +71,7 @@ Calculate MDI
 Perform statistical test and plot results
 ------------------------------------------
 
-.. highlight:: r
-
-::
+.. code-block:: r
 
     # Perform Welch's t-test
     > t_test_result <- t.test(mdi_balbc, mdi_mrl, var.equal = FALSE)
