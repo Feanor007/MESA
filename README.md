@@ -1,7 +1,7 @@
 # MESA: Multiomics and Ecological Spatial Analysis for Quantitative Decoding of Tissue Disease States
 
 <p align="center">
-  <img src="docs/_static/images/figure1_new.png" width="75%" height="75%">
+  <img src="https://raw.githubusercontent.com/Feanor007/MESA/refs/heads/main/docs/_static/images/figure1_new.png" width="75%" height="75%">
 </p>
 
 MESA is a novel pipeline that brings ecological principles together with multiomics data integration thereby enabling deeper and more quantitative decoding of the functional and spatial shifts of tissue remodeling across disease states. 
