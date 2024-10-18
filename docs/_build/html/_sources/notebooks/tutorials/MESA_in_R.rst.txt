@@ -7,7 +7,7 @@ To use `MESA` in R, you can utilize the `reticulate` package, which provides a b
 2. Import `MESA` modules as needed. For example, to import the ecological module, use ``eco <- reticulate::import("mesa.ecospatial")``.
 3. You can now create and run `MESA` models directly within your R environment.
 
-This approach allows you to harness R's powerful data analysis and visualization capabilities alongside `MESA`'s modeling framework.
+This approach allows you to harness R's powerful data analysis and visualization capabilities alongside `MESA`'s modeling framework. See below for a detailed example of using `MESA` in R. 
 
 Loading Packages
 ----------------
