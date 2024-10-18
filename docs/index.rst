@@ -7,7 +7,7 @@ MESA - Multiomics and Ecological Spatial Analysis for Quantitative Decoding of T
 
 - Furthermore, MESA employs a multi-omics approach to spatial omics analyses. MESA in silico amalgamates cross-modality single-cell data to enrich the context of spatial omics observations. With the additional layers of information brought to bear by multiomics, MESA facilitates an extended view of cellular neighborhoods and their spatial interactions within tissue microenvironments. MESA's approach, incorporating differential expression, gene set enrichment, and ligand-receptor interaction analyses within these spatially defined cellular assemblies, further enhances a mechanistic understanding of tissue remodeling across disease states.
 
-.. image:: https://github.com/Feanor007/MESA/blob/main/docs/_static/images/figure1_new.png?raw=true
+.. image:: https://raw.githubusercontent.com/Feanor007/MESA/refs/heads/main/docs/_static/images/figure1_new.png
     :alt: MESA figure1
     :width: 720px
     :align: center
