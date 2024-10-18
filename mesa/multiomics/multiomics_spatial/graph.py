@@ -56,19 +56,19 @@ def get_spatial_knn_indices_within_distance(locations, n_neighbors=15, method='k
     """
     locations = np.array(locations)
     assert n_neighbors <= locations.shape[0]
-    nbrs = NearestNeighbors(n_neighbors=n_neighbors, algorithm=method, radius=max_distance)
+    nbrs = NearestNeighbors(n_neighbors=n_neighbors, algorithm=method)
     nbrs.fit(locations)
-    distances, indices = nbrs.radius_neighbors(locations)
+    distances, indices = nbrs.kneighbors(locations)
 
-    # Filter out neighbors too far away and limit the number of neighbors to n_neighbors
-    knn_indices = []
-    for dist, idx in zip(distances, indices):
-        filtered_idx = idx[dist <= max_distance][:n_neighbors]  # Apply max_distance and limit to n_neighbors
-        # In case there are fewer neighbors than required, pad with -1 or any other placeholder
-        if len(filtered_idx) < n_neighbors:
-            filtered_idx = np.pad(filtered_idx, (0, n_neighbors - len(filtered_idx)), constant_values=-1)
-        knn_indices.append(filtered_idx)
-    return np.array(knn_indices)
+    # Initialize the knn_indices array with -1 to indicate insufficient neighbors within max_distance
+    knn_indices = -np.ones((locations.shape[0], n_neighbors), dtype=int)
+
+    # Filter indices based on max_distance
+    for i in range(locations.shape[0]):
+        valid_neighbors = indices[i][distances[i] <= max_distance][:n_neighbors]
+        knn_indices[i, :len(valid_neighbors)] = valid_neighbors
+
+    return knn_indices
 
 def leiden_clustering(n, edges, resolution=1, n_runs=1, seed=None, verbose=False):
     """
