@@ -13,7 +13,7 @@ MESA is a novel pipeline that brings ecological principles together with multiom
 MESA is hosted on `pypi` and can be installed via `pip`. 
 
 ```
-pip install mesa
+pip install mesa-py
 ```
 Visit our [documentation](https://mesa-py.readthedocs.io/en/latest/) to see examples and tutorials!
 
