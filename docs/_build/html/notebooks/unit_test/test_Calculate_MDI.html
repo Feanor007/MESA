@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Unit Test for Calculate_MDI &mdash; MESA 0.0.5 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../../_static/nbsphinx-code-cells.css" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../_static/documentation_options.js?v=282f96c0"></script>
+        <script src="../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="../../_static/copybutton.js?v=f281be69"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+        <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="prev" title="Unit Test for calculate_diversity_index" href="test_calculate_diversity_index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            MESA
+          </a>
+              <div class="version">
+                0.0.5
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">General</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api.html">API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials.html">Tutorials</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../unit_test.html">UnitTest</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="test_generate_patches.html">Unit Test for generate_patches</a></li>
+<li class="toctree-l2"><a class="reference internal" href="test_generate_patches_randomly.html">Unit Test for generate_patches_randomly</a></li>
+<li class="toctree-l2"><a class="reference internal" href="test_calculate_diversity_index.html">Unit Test for calculate_diversity_index</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Unit Test for Calculate_MDI</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">MESA</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../unit_test.html">UnitTest</a></li>
+      <li class="breadcrumb-item active">Unit Test for Calculate_MDI</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/notebooks/unit_test/test_Calculate_MDI.ipynb.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="Unit-Test-for-Calculate_MDI">
+<h1>Unit Test for Calculate_MDI<a class="headerlink" href="#Unit-Test-for-Calculate_MDI" title="Link to this heading"></a></h1>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">unittest</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">anndata</span> <span class="k">as</span> <span class="nn">ad</span>
+<span class="kn">from</span> <span class="nn">unittest.mock</span> <span class="kn">import</span> <span class="n">patch</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="n">os</span><span class="o">.</span><span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;../../../&#39;</span><span class="p">)</span>
+
+<span class="kn">from</span> <span class="nn">mesa</span> <span class="kn">import</span> <span class="n">ecospatial</span> <span class="k">as</span> <span class="n">eco</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+/opt/miniconda3/envs/mesa/lib/python3.11/site-packages/geopandas/_compat.py:106: UserWarning: The Shapely GEOS version (3.8.0-CAPI-1.13.1) is incompatible with the GEOS version PyGEOS was compiled with (3.10.4-CAPI-1.16.2). Conversions between both will be slow.
+  warnings.warn(
+OMP: Info #276: omp_set_nested routine deprecated, please use omp_set_max_active_levels instead.
+/opt/miniconda3/envs/mesa/lib/python3.11/site-packages/spaghetti/network.py:41: FutureWarning: The next major release of pysal/spaghetti (2.0.0) will drop support for all ``libpysal.cg`` geometries. This change is a first step in refactoring ``spaghetti`` that is expected to result in dramatically reduced runtimes for network instantiation and operations. Users currently requiring network and point pattern input as ``libpysal.cg`` geometries should prepare for this simply by converting to ``shapely`` geometries.
+  warnings.warn(dep_msg, FutureWarning, stacklevel=1)
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">TestCalculateMDI</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">setUp</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># Set up test data</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">spatial_data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
+            <span class="s1">&#39;x&#39;</span><span class="p">:</span> <span class="mi">1000</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">5000</span><span class="p">),</span>
+            <span class="s1">&#39;y&#39;</span><span class="p">:</span> <span class="mi">1000</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">5000</span><span class="p">),</span>
+            <span class="s1">&#39;library_key&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;sample_1&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="mi">2500</span> <span class="o">+</span> <span class="p">[</span><span class="s1">&#39;sample_2&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="mi">2500</span><span class="p">,</span>
+            <span class="s1">&#39;cluster_key&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">5000</span><span class="p">)</span>
+        <span class="p">})</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">scales</span> <span class="o">=</span> <span class="p">[</span><span class="mf">1.</span><span class="p">,</span> <span class="mf">2.</span><span class="p">,</span> <span class="mf">4.</span><span class="p">,</span> <span class="mf">8.</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">library_key</span> <span class="o">=</span> <span class="s1">&#39;library_key&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">library_id</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;sample_1&#39;</span><span class="p">,</span> <span class="s1">&#39;sample_2&#39;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">spatial_key</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="s1">&#39;y&#39;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cluster_key</span> <span class="o">=</span> <span class="s1">&#39;cluster_key&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">expected_index</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">library_id</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">expected_columns</span> <span class="o">=</span> <span class="p">[</span><span class="n">scale</span> <span class="k">for</span> <span class="n">scale</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">scales</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="s1">&#39;Slope&#39;</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">test_calculate_MDI_with_random_patch_false</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+            <span class="c1"># Call the function under test with random_patch=False</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="n">eco</span><span class="o">.</span><span class="n">calculate_MDI</span><span class="p">(</span>
+                <span class="n">spatial_data</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">spatial_data</span><span class="p">,</span>
+                <span class="n">scales</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">scales</span><span class="p">,</span>
+                <span class="n">library_key</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">library_key</span><span class="p">,</span>
+                <span class="n">library_id</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">library_id</span><span class="p">,</span>
+                <span class="n">spatial_key</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">spatial_key</span><span class="p">,</span>
+                <span class="n">cluster_key</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">cluster_key</span><span class="p">,</span>
+                <span class="n">random_patch</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                <span class="n">plotfigs</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                <span class="n">savefigs</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                <span class="n">patch_kwargs</span><span class="o">=</span><span class="p">{},</span>
+                <span class="n">other_kwargs</span><span class="o">=</span><span class="p">{}</span>
+            <span class="p">)</span>
+            <span class="c1"># Check that result is a DataFrame</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">assertIsInstance</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span>
+
+            <span class="c1"># Check that the DataFrame has the expected index and columns</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">assertListEqual</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">columns</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">expected_columns</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">assertListEqual</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">index</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">expected_index</span><span class="p">)</span>
+
+            <span class="c1"># Verify that &#39;Slope&#39; column exists and is numeric</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">assertIn</span><span class="p">(</span><span class="s1">&#39;Slope&#39;</span><span class="p">,</span> <span class="n">result</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">issubdtype</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="s1">&#39;Slope&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">dtype</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">number</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="nf">test_calculate_MDI_with_random_patch_true</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+            <span class="c1"># Call the function under test with random_patch=True</span>
+            <span class="n">result_random</span> <span class="o">=</span> <span class="n">eco</span><span class="o">.</span><span class="n">calculate_MDI</span><span class="p">(</span>
+                <span class="n">spatial_data</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">spatial_data</span><span class="p">,</span>
+                <span class="n">scales</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">scales</span><span class="p">,</span>
+                <span class="n">library_key</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">library_key</span><span class="p">,</span>
+                <span class="n">library_id</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">library_id</span><span class="p">,</span>
+                <span class="n">spatial_key</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">spatial_key</span><span class="p">,</span>
+                <span class="n">cluster_key</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">cluster_key</span><span class="p">,</span>
+                <span class="n">random_patch</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                <span class="n">plotfigs</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                <span class="n">savefigs</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                <span class="n">patch_kwargs</span><span class="o">=</span><span class="p">{},</span>
+                <span class="n">other_kwargs</span><span class="o">=</span><span class="p">{}</span>
+            <span class="p">)</span>
+
+            <span class="c1"># Check the results as before</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">assertIsInstance</span><span class="p">(</span><span class="n">result_random</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">assertListEqual</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">result_random</span><span class="o">.</span><span class="n">columns</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">expected_columns</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">assertListEqual</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">result_random</span><span class="o">.</span><span class="n">index</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">expected_index</span><span class="p">)</span>
+
+            <span class="c1"># Verify that &#39;Slope&#39; column exists and is numeric</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">assertIn</span><span class="p">(</span><span class="s1">&#39;Slope&#39;</span><span class="p">,</span> <span class="n">result_random</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">issubdtype</span><span class="p">(</span><span class="n">result_random</span><span class="p">[</span><span class="s1">&#39;Slope&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">dtype</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">number</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Run the tests in the notebook</span>
+<span class="n">unittest</span><span class="o">.</span><span class="n">main</span><span class="p">(</span><span class="n">argv</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;first-arg-is-ignored&#39;</span><span class="p">],</span> <span class="n">exit</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Processing region: sample_1 at scale 1.0
+0.000 per cent patches are empty
+sample_1 at scale 1.0 has 0 patches with zero diveristy
+sample_1 at scale 1.0 diversity is 3.320548430536853
+Processing region: sample_2 at scale 1.0
+0.000 per cent patches are empty
+sample_2 at scale 1.0 has 0 patches with zero diveristy
+sample_2 at scale 1.0 diversity is 3.318675527712075
+Processing region: sample_1 at scale 2.0
+0.000 per cent patches are empty
+sample_1 at scale 2.0 has 0 patches with zero diveristy
+sample_1 at scale 2.0 diversity is 3.3157615698139944
+Processing region: sample_2 at scale 2.0
+0.000 per cent patches are empty
+sample_2 at scale 2.0 has 0 patches with zero diveristy
+sample_2 at scale 2.0 diversity is 3.3098586262794134
+Processing region: sample_1 at scale 4.0
+0.000 per cent patches are empty
+sample_1 at scale 4.0 has 0 patches with zero diveristy
+sample_1 at scale 4.0 diversity is 3.2738724660974885
+Processing region: sample_2 at scale 4.0
+0.000 per cent patches are empty
+sample_2 at scale 4.0 has 0 patches with zero diveristy
+sample_2 at scale 4.0 diversity is 3.2712741280351403
+Processing region: sample_1 at scale 8.0
+0.000 per cent patches are empty
+sample_1 at scale 8.0 has 0 patches with zero diveristy
+sample_1 at scale 8.0 diversity is 3.1357805949294244
+Processing region: sample_2 at scale 8.0
+0.000 per cent patches are empty
+sample_2 at scale 8.0 has 0 patches with zero diveristy
+sample_2 at scale 8.0 diversity is 3.136249663683922
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+.
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[0.5, 0.5571428571428572, 0.6714285714285715, 0.9]
+Processing region: sample_1 at scale 1.0
+0.000 per cent patches are empty
+sample_1 at scale 1.0 has 0 patches with zero diveristy
+sample_1 at scale 1.0 diversity is 3.319397130221288
+Processing region: sample_2 at scale 1.0
+0.000 per cent patches are empty
+sample_2 at scale 1.0 has 0 patches with zero diveristy
+sample_2 at scale 1.0 diversity is 3.3198048602087438
+Processing region: sample_1 at scale 2.0
+0.000 per cent patches are empty
+sample_1 at scale 2.0 has 0 patches with zero diveristy
+sample_1 at scale 2.0 diversity is 3.311824991920736
+Processing region: sample_2 at scale 2.0
+0.000 per cent patches are empty
+sample_2 at scale 2.0 has 0 patches with zero diveristy
+sample_2 at scale 2.0 diversity is 3.3127017488287462
+Processing region: sample_1 at scale 4.0
+0.000 per cent patches are empty
+sample_1 at scale 4.0 has 0 patches with zero diveristy
+sample_1 at scale 4.0 diversity is 3.2742115498481206
+Processing region: sample_2 at scale 4.0
+0.000 per cent patches are empty
+sample_2 at scale 4.0 has 0 patches with zero diveristy
+sample_2 at scale 4.0 diversity is 3.280909902805943
+Processing region: sample_1 at scale 8.0
+0.000 per cent patches are empty
+sample_1 at scale 8.0 has 0 patches with zero diveristy
+sample_1 at scale 8.0 diversity is 3.1625338119527555
+Processing region: sample_2 at scale 8.0
+0.000 per cent patches are empty
+sample_2 at scale 8.0 has 0 patches with zero diveristy
+sample_2 at scale 8.0 diversity is 3.153896959644078
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+.
+----------------------------------------------------------------------
+Ran 2 tests in 1.135s
+
+OK
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&lt;unittest.main.TestProgram at 0x150b6c9d0&gt;
+</pre></div></div>
+</div>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="test_calculate_diversity_index.html" class="btn btn-neutral float-left" title="Unit Test for calculate_diversity_index" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Daisy Yi Ding, Zeyu Tang, Bokai Zhu.</p>
+  </div>
+
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

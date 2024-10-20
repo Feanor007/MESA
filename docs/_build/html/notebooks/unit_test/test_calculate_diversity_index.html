@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Unit Test for calculate_diversity_index &mdash; MESA 0.0.5 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../../_static/nbsphinx-code-cells.css" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../_static/documentation_options.js?v=282f96c0"></script>
+        <script src="../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="../../_static/copybutton.js?v=f281be69"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+        <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Unit Test for Calculate_MDI" href="test_Calculate_MDI.html" />
+    <link rel="prev" title="Unit Test for generate_patches_randomly" href="test_generate_patches_randomly.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            MESA
+          </a>
+              <div class="version">
+                0.0.5
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">General</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api.html">API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials.html">Tutorials</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../unit_test.html">UnitTest</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="test_generate_patches.html">Unit Test for generate_patches</a></li>
+<li class="toctree-l2"><a class="reference internal" href="test_generate_patches_randomly.html">Unit Test for generate_patches_randomly</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Unit Test for calculate_diversity_index</a></li>
+<li class="toctree-l2"><a class="reference internal" href="test_Calculate_MDI.html">Unit Test for Calculate_MDI</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">MESA</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../unit_test.html">UnitTest</a></li>
+      <li class="breadcrumb-item active">Unit Test for calculate_diversity_index</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/notebooks/unit_test/test_calculate_diversity_index.ipynb.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="Unit-Test-for-calculate_diversity_index">
+<h1>Unit Test for calculate_diversity_index<a class="headerlink" href="#Unit-Test-for-calculate_diversity_index" title="Link to this heading"></a></h1>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">unittest</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">anndata</span> <span class="k">as</span> <span class="nn">ad</span>
+<span class="kn">from</span> <span class="nn">unittest.mock</span> <span class="kn">import</span> <span class="n">patch</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="n">os</span><span class="o">.</span><span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;../../../&#39;</span><span class="p">)</span>
+
+<span class="kn">from</span> <span class="nn">mesa</span> <span class="kn">import</span> <span class="n">ecospatial</span> <span class="k">as</span> <span class="n">eco</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+/opt/miniconda3/envs/mesa/lib/python3.11/site-packages/geopandas/_compat.py:106: UserWarning: The Shapely GEOS version (3.8.0-CAPI-1.13.1) is incompatible with the GEOS version PyGEOS was compiled with (3.10.4-CAPI-1.16.2). Conversions between both will be slow.
+  warnings.warn(
+OMP: Info #276: omp_set_nested routine deprecated, please use omp_set_max_active_levels instead.
+/opt/miniconda3/envs/mesa/lib/python3.11/site-packages/spaghetti/network.py:41: FutureWarning: The next major release of pysal/spaghetti (2.0.0) will drop support for all ``libpysal.cg`` geometries. This change is a first step in refactoring ``spaghetti`` that is expected to result in dramatically reduced runtimes for network instantiation and operations. Users currently requiring network and point pattern input as ``libpysal.cg`` geometries should prepare for this simply by converting to ``shapely`` geometries.
+  warnings.warn(dep_msg, FutureWarning, stacklevel=1)
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">TestCalculateDiversityIndex</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">setUpClass</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
+        <span class="c1"># Create sample data for testing, shared among all tests</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Setting up test data...&quot;</span><span class="p">)</span>
+        <span class="c1"># For AnnData</span>
+        <span class="n">obs</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
+            <span class="s1">&#39;library_key&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;sample_1&#39;</span><span class="p">,</span> <span class="s1">&#39;sample_1&#39;</span><span class="p">,</span> <span class="s1">&#39;sample_2&#39;</span><span class="p">,</span> <span class="s1">&#39;sample_2&#39;</span><span class="p">,</span> <span class="s1">&#39;sample_1&#39;</span><span class="p">],</span>
+            <span class="s1">&#39;cluster_key&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;A&#39;</span><span class="p">,</span> <span class="s1">&#39;B&#39;</span><span class="p">,</span> <span class="s1">&#39;A&#39;</span><span class="p">,</span> <span class="s1">&#39;B&#39;</span><span class="p">,</span> <span class="s1">&#39;A&#39;</span><span class="p">]</span>
+        <span class="p">},</span> <span class="n">index</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;cell1&#39;</span><span class="p">,</span> <span class="s1">&#39;cell2&#39;</span><span class="p">,</span> <span class="s1">&#39;cell3&#39;</span><span class="p">,</span> <span class="s1">&#39;cell4&#39;</span><span class="p">,</span> <span class="s1">&#39;cell5&#39;</span><span class="p">])</span>
+        <span class="n">obsm</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;spatial_key&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">]])}</span>
+        <span class="bp">cls</span><span class="o">.</span><span class="n">adata</span> <span class="o">=</span> <span class="n">ad</span><span class="o">.</span><span class="n">AnnData</span><span class="p">(</span><span class="n">obs</span><span class="o">=</span><span class="n">obs</span><span class="p">)</span>
+        <span class="bp">cls</span><span class="o">.</span><span class="n">adata</span><span class="o">.</span><span class="n">obsm</span> <span class="o">=</span> <span class="n">obsm</span>
+
+        <span class="c1"># For DataFrame</span>
+        <span class="bp">cls</span><span class="o">.</span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
+            <span class="s1">&#39;library_key&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;sample_1&#39;</span><span class="p">,</span> <span class="s1">&#39;sample_1&#39;</span><span class="p">,</span> <span class="s1">&#39;sample_2&#39;</span><span class="p">,</span> <span class="s1">&#39;sample_2&#39;</span><span class="p">,</span> <span class="s1">&#39;sample_1&#39;</span><span class="p">],</span>
+            <span class="s1">&#39;cluster_key&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;A&#39;</span><span class="p">,</span> <span class="s1">&#39;B&#39;</span><span class="p">,</span> <span class="s1">&#39;A&#39;</span><span class="p">,</span> <span class="s1">&#39;B&#39;</span><span class="p">,</span> <span class="s1">&#39;A&#39;</span><span class="p">],</span>
+            <span class="s1">&#39;x_coord&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">],</span>
+            <span class="s1">&#39;y_coord&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">]</span>
+        <span class="p">},</span> <span class="n">index</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;cell1&#39;</span><span class="p">,</span> <span class="s1">&#39;cell2&#39;</span><span class="p">,</span> <span class="s1">&#39;cell3&#39;</span><span class="p">,</span> <span class="s1">&#39;cell4&#39;</span><span class="p">,</span> <span class="s1">&#39;cell5&#39;</span><span class="p">])</span>
+
+        <span class="c1"># Patches: [(x0, y0, x1, y1), ...]</span>
+        <span class="bp">cls</span><span class="o">.</span><span class="n">patches</span> <span class="o">=</span> <span class="p">[(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mf">0.6</span><span class="p">,</span> <span class="mf">0.6</span><span class="p">)]</span>
+
+    <span class="k">def</span> <span class="nf">test_calculate_diversity_index_with_adata</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># Test with AnnData input</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">eco</span><span class="o">.</span><span class="n">calculate_diversity_index</span><span class="p">(</span>
+            <span class="n">spatial_data</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">adata</span><span class="p">,</span>
+            <span class="n">library_key</span><span class="o">=</span><span class="s1">&#39;library_key&#39;</span><span class="p">,</span>
+            <span class="n">library_id</span><span class="o">=</span><span class="s1">&#39;sample_1&#39;</span><span class="p">,</span>
+            <span class="n">spatial_key</span><span class="o">=</span><span class="s1">&#39;spatial_key&#39;</span><span class="p">,</span>
+            <span class="n">patches</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">patches</span><span class="p">,</span>
+            <span class="n">cluster_key</span><span class="o">=</span><span class="s1">&#39;cluster_key&#39;</span><span class="p">,</span>
+            <span class="n">metric</span><span class="o">=</span><span class="s1">&#39;Shannon Diversity&#39;</span>
+        <span class="p">)</span>
+
+        <span class="c1"># Assert that result is a pandas Series</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertIsInstance</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">)</span>
+        <span class="c1"># Expected indices</span>
+        <span class="n">expected_entropy_patch0</span> <span class="o">=</span> <span class="n">eco</span><span class="o">.</span><span class="n">calculate_shannon_entropy</span><span class="p">([</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertAlmostEqual</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">expected_entropy_patch0</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertNotIn</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">result</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
+        <span class="n">expected_entropy_patch2</span> <span class="o">=</span> <span class="n">eco</span><span class="o">.</span><span class="n">calculate_shannon_entropy</span><span class="p">([</span><span class="mi">2</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertAlmostEqual</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">expected_entropy_patch2</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">result</span><span class="p">),</span> <span class="mi">2</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">test_calculate_diversity_index_with_dataframe</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># Test with DataFrame input</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">eco</span><span class="o">.</span><span class="n">calculate_diversity_index</span><span class="p">(</span>
+            <span class="n">spatial_data</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="p">,</span>
+            <span class="n">library_key</span><span class="o">=</span><span class="s1">&#39;library_key&#39;</span><span class="p">,</span>
+            <span class="n">library_id</span><span class="o">=</span><span class="s1">&#39;sample_1&#39;</span><span class="p">,</span>
+            <span class="n">spatial_key</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;x_coord&#39;</span><span class="p">,</span> <span class="s1">&#39;y_coord&#39;</span><span class="p">],</span>
+            <span class="n">patches</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">patches</span><span class="p">,</span>
+            <span class="n">cluster_key</span><span class="o">=</span><span class="s1">&#39;cluster_key&#39;</span><span class="p">,</span>
+            <span class="n">metric</span><span class="o">=</span><span class="s1">&#39;Shannon Diversity&#39;</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertIsInstance</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">)</span>
+        <span class="n">expected_entropy_patch0</span> <span class="o">=</span> <span class="n">eco</span><span class="o">.</span><span class="n">calculate_shannon_entropy</span><span class="p">([</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertAlmostEqual</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">expected_entropy_patch0</span><span class="p">)</span>
+        <span class="n">expected_entropy_patch2</span> <span class="o">=</span> <span class="n">eco</span><span class="o">.</span><span class="n">calculate_shannon_entropy</span><span class="p">([</span><span class="mi">2</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertAlmostEqual</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">expected_entropy_patch2</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">result</span><span class="p">),</span> <span class="mi">2</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">test_invalid_metric</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># Test with invalid metric</span>
+        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">assertRaises</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">)</span> <span class="k">as</span> <span class="n">context</span><span class="p">:</span>
+            <span class="n">eco</span><span class="o">.</span><span class="n">calculate_diversity_index</span><span class="p">(</span>
+                <span class="n">spatial_data</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">adata</span><span class="p">,</span>
+                <span class="n">library_key</span><span class="o">=</span><span class="s1">&#39;library_key&#39;</span><span class="p">,</span>
+                <span class="n">library_id</span><span class="o">=</span><span class="s1">&#39;sample_1&#39;</span><span class="p">,</span>
+                <span class="n">spatial_key</span><span class="o">=</span><span class="s1">&#39;spatial_key&#39;</span><span class="p">,</span>
+                <span class="n">patches</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">patches</span><span class="p">,</span>
+                <span class="n">cluster_key</span><span class="o">=</span><span class="s1">&#39;cluster_key&#39;</span><span class="p">,</span>
+                <span class="n">metric</span><span class="o">=</span><span class="s1">&#39;Invalid Metric&#39;</span>
+            <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertIn</span><span class="p">(</span><span class="s2">&quot;Unknown metric&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">context</span><span class="o">.</span><span class="n">exception</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="nf">test_invalid_spatial_data</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># Test with invalid spatial_data type</span>
+        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">assertRaises</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">)</span> <span class="k">as</span> <span class="n">context</span><span class="p">:</span>
+            <span class="n">eco</span><span class="o">.</span><span class="n">calculate_diversity_index</span><span class="p">(</span>
+                <span class="n">spatial_data</span><span class="o">=</span><span class="s1">&#39;invalid_data&#39;</span><span class="p">,</span>
+                <span class="n">library_key</span><span class="o">=</span><span class="s1">&#39;library_key&#39;</span><span class="p">,</span>
+                <span class="n">library_id</span><span class="o">=</span><span class="s1">&#39;sample_1&#39;</span><span class="p">,</span>
+                <span class="n">spatial_key</span><span class="o">=</span><span class="s1">&#39;spatial_key&#39;</span><span class="p">,</span>
+                <span class="n">patches</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">patches</span><span class="p">,</span>
+                <span class="n">cluster_key</span><span class="o">=</span><span class="s1">&#39;cluster_key&#39;</span><span class="p">,</span>
+                <span class="n">metric</span><span class="o">=</span><span class="s1">&#39;Shannon Diversity&#39;</span>
+            <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertIn</span><span class="p">(</span><span class="s2">&quot;spatial_data should be either an AnnData object or a pandas DataFrame&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">context</span><span class="o">.</span><span class="n">exception</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="nf">test_missing_cluster_key</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># Test with missing cluster_key in obs</span>
+        <span class="n">adata_missing_cluster</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">adata</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="n">adata_missing_cluster</span><span class="o">.</span><span class="n">obs</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s1">&#39;cluster_key&#39;</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">assertRaises</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">)</span> <span class="k">as</span> <span class="n">context</span><span class="p">:</span>
+            <span class="n">eco</span><span class="o">.</span><span class="n">calculate_diversity_index</span><span class="p">(</span>
+                <span class="n">spatial_data</span><span class="o">=</span><span class="n">adata_missing_cluster</span><span class="p">,</span>
+                <span class="n">library_key</span><span class="o">=</span><span class="s1">&#39;library_key&#39;</span><span class="p">,</span>
+                <span class="n">library_id</span><span class="o">=</span><span class="s1">&#39;sample_1&#39;</span><span class="p">,</span>
+                <span class="n">spatial_key</span><span class="o">=</span><span class="s1">&#39;spatial_key&#39;</span><span class="p">,</span>
+                <span class="n">patches</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">patches</span><span class="p">,</span>
+                <span class="n">cluster_key</span><span class="o">=</span><span class="s1">&#39;cluster_key&#39;</span><span class="p">,</span>
+                <span class="n">metric</span><span class="o">=</span><span class="s1">&#39;Shannon Diversity&#39;</span>
+            <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertIn</span><span class="p">(</span><span class="s2">&quot;cluster_key &#39;cluster_key&#39; not found&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">context</span><span class="o">.</span><span class="n">exception</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="nf">test_empty_patches</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># Test patches that are empty</span>
+        <span class="n">empty_patches</span> <span class="o">=</span> <span class="p">[(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">11</span><span class="p">)]</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">eco</span><span class="o">.</span><span class="n">calculate_diversity_index</span><span class="p">(</span>
+            <span class="n">spatial_data</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">adata</span><span class="p">,</span>
+            <span class="n">library_key</span><span class="o">=</span><span class="s1">&#39;library_key&#39;</span><span class="p">,</span>
+            <span class="n">library_id</span><span class="o">=</span><span class="s1">&#39;sample_1&#39;</span><span class="p">,</span>
+            <span class="n">spatial_key</span><span class="o">=</span><span class="s1">&#39;spatial_key&#39;</span><span class="p">,</span>
+            <span class="n">patches</span><span class="o">=</span><span class="n">empty_patches</span><span class="p">,</span>
+            <span class="n">cluster_key</span><span class="o">=</span><span class="s1">&#39;cluster_key&#39;</span><span class="p">,</span>
+            <span class="n">metric</span><span class="o">=</span><span class="s1">&#39;Shannon Diversity&#39;</span>
+        <span class="p">)</span>
+        <span class="c1"># Result should be empty</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">result</span><span class="p">),</span> <span class="mi">0</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">test_return_comp_true</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># Test with return_comp=True</span>
+        <span class="n">result_series</span><span class="p">,</span> <span class="n">patches_comp</span> <span class="o">=</span> <span class="n">eco</span><span class="o">.</span><span class="n">calculate_diversity_index</span><span class="p">(</span>
+            <span class="n">spatial_data</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">adata</span><span class="p">,</span>
+            <span class="n">library_key</span><span class="o">=</span><span class="s1">&#39;library_key&#39;</span><span class="p">,</span>
+            <span class="n">library_id</span><span class="o">=</span><span class="s1">&#39;sample_1&#39;</span><span class="p">,</span>
+            <span class="n">spatial_key</span><span class="o">=</span><span class="s1">&#39;spatial_key&#39;</span><span class="p">,</span>
+            <span class="n">patches</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">patches</span><span class="p">,</span>
+            <span class="n">cluster_key</span><span class="o">=</span><span class="s1">&#39;cluster_key&#39;</span><span class="p">,</span>
+            <span class="n">metric</span><span class="o">=</span><span class="s1">&#39;Shannon Diversity&#39;</span><span class="p">,</span>
+            <span class="n">return_comp</span><span class="o">=</span><span class="kc">True</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertIsInstance</span><span class="p">(</span><span class="n">result_series</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertIsInstance</span><span class="p">(</span><span class="n">patches_comp</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">patches_comp</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">to_dict</span><span class="p">(),</span> <span class="p">{</span><span class="s1">&#39;A&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;B&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">})</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertIsNone</span><span class="p">(</span><span class="n">patches_comp</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">patches_comp</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">to_dict</span><span class="p">(),</span> <span class="p">{</span><span class="s1">&#39;A&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">})</span>
+
+    <span class="k">def</span> <span class="nf">test_metric_simpson</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># Test with metric &#39;Simpson&#39;</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">eco</span><span class="o">.</span><span class="n">calculate_diversity_index</span><span class="p">(</span>
+            <span class="n">spatial_data</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">adata</span><span class="p">,</span>
+            <span class="n">library_key</span><span class="o">=</span><span class="s1">&#39;library_key&#39;</span><span class="p">,</span>
+            <span class="n">library_id</span><span class="o">=</span><span class="s1">&#39;sample_1&#39;</span><span class="p">,</span>
+            <span class="n">spatial_key</span><span class="o">=</span><span class="s1">&#39;spatial_key&#39;</span><span class="p">,</span>
+            <span class="n">patches</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">patches</span><span class="p">,</span>
+            <span class="n">cluster_key</span><span class="o">=</span><span class="s1">&#39;cluster_key&#39;</span><span class="p">,</span>
+            <span class="n">metric</span><span class="o">=</span><span class="s1">&#39;Simpson&#39;</span>
+        <span class="p">)</span>
+        <span class="n">expected_simpson_patch0</span> <span class="o">=</span> <span class="n">eco</span><span class="o">.</span><span class="n">calculate_simpson_index</span><span class="p">([</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertAlmostEqual</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">expected_simpson_patch0</span><span class="p">)</span>
+        <span class="n">expected_simpson_patch2</span> <span class="o">=</span> <span class="n">eco</span><span class="o">.</span><span class="n">calculate_simpson_index</span><span class="p">([</span><span class="mi">2</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertAlmostEqual</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">expected_simpson_patch2</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">test_metric_simpson_diversity</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># Test with metric &#39;Simpson Diversity&#39;</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">eco</span><span class="o">.</span><span class="n">calculate_diversity_index</span><span class="p">(</span>
+            <span class="n">spatial_data</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">adata</span><span class="p">,</span>
+            <span class="n">library_key</span><span class="o">=</span><span class="s1">&#39;library_key&#39;</span><span class="p">,</span>
+            <span class="n">library_id</span><span class="o">=</span><span class="s1">&#39;sample_1&#39;</span><span class="p">,</span>
+            <span class="n">spatial_key</span><span class="o">=</span><span class="s1">&#39;spatial_key&#39;</span><span class="p">,</span>
+            <span class="n">patches</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">patches</span><span class="p">,</span>
+            <span class="n">cluster_key</span><span class="o">=</span><span class="s1">&#39;cluster_key&#39;</span><span class="p">,</span>
+            <span class="n">metric</span><span class="o">=</span><span class="s1">&#39;Simpson Diversity&#39;</span>
+        <span class="p">)</span>
+        <span class="n">expected_simpson_diversity_patch0</span> <span class="o">=</span> <span class="n">eco</span><span class="o">.</span><span class="n">calculate_simpsonDiversity_index</span><span class="p">([</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertAlmostEqual</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">expected_simpson_diversity_patch0</span><span class="p">)</span>
+        <span class="n">expected_simpson_diversity_patch2</span> <span class="o">=</span> <span class="n">eco</span><span class="o">.</span><span class="n">calculate_simpsonDiversity_index</span><span class="p">([</span><span class="mi">2</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertAlmostEqual</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">expected_simpson_diversity_patch2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Run the tests in the notebook</span>
+<span class="n">unittest</span><span class="o">.</span><span class="n">main</span><span class="p">(</span><span class="n">argv</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;first-arg-is-ignored&#39;</span><span class="p">],</span> <span class="n">exit</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+......./opt/miniconda3/envs/mesa/lib/python3.11/site-packages/anndata/_core/anndata.py:183: ImplicitModificationWarning: Transforming to str index.
+  warnings.warn(&#34;Transforming to str index.&#34;, ImplicitModificationWarning)
+..
+----------------------------------------------------------------------
+Ran 9 tests in 0.082s
+
+OK
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Setting up test data...
+33.333 per cent patches are empty
+33.333 per cent patches are empty
+100.000 per cent patches are empty
+33.333 per cent patches are empty
+33.333 per cent patches are empty
+33.333 per cent patches are empty
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&lt;unittest.main.TestProgram at 0x151d4a150&gt;
+</pre></div></div>
+</div>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="test_generate_patches_randomly.html" class="btn btn-neutral float-left" title="Unit Test for generate_patches_randomly" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="test_Calculate_MDI.html" class="btn btn-neutral float-right" title="Unit Test for Calculate_MDI" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Daisy Yi Ding, Zeyu Tang, Bokai Zhu.</p>
+  </div>
+
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -59,6 +59,56 @@ def aggregate_spot_compositions(labelled, compositions):
         aggregated_df[f'Island_{label}'] = island_composition
 
     return aggregated_df.T
+
+def _overlap_check(new_patch, existing_patches, max_overlap_ratio):
+    """
+    This function checks if the new patch overlaps with any of the existing patches.
+    
+    Parameters:
+    new_patch: tuple
+        The coordinates of the new patch to be checked for overlaps.
+    existing_patches: list
+        A list of existing patches to check for overlaps.
+    max_overlap_ratio: float
+        The maximum allowable overlap ratio for a new patch.
+    
+    Returns:
+    bool
+        Returns True if the new patch doesn't overlap with any existing patch beyond the allowable overlap ratio.
+        Otherwise, returns False.
+    """
+    
+    patch_area = (new_patch[2] - new_patch[0]) * (new_patch[3] - new_patch[1])
+    max_overlap = max_overlap_ratio * patch_area
+    for patch in existing_patches:
+        dx = min(new_patch[2], patch[2]) - max(new_patch[0], patch[0])
+        dy = min(new_patch[3], patch[3]) - max(new_patch[1], patch[1])
+        if (dx>=0) and (dy>=0) and (dx*dy > max_overlap):
+            return False
+    return True
+
+def _contains_points(patch, spatial_values, min_points):
+    """
+    This function checks if a patch contains a certain number of spatial values (points).
+    
+    Parameters:
+    patch: tuple
+        The coordinates of the patch to be checked.
+    spatial_values: list
+        A list of spatial values (cells' coordinates) to check if they are within the patch.
+    min_points: int
+        The minimum number of points that the patch should contain.
+        
+    Returns:
+    bool
+        Returns True if the patch contains at least 'min_points' number of spatial values（cells' coordinates）. Otherwise, returns False.
+    """
+    
+    # Count the points within the patch
+    points_in_patch = sum((patch[0] <= point[0] <= patch[2]) and (patch[1] <= point[1] <= patch[3]) for point in spatial_values)
+    
+    # Check if the number of points in the patch is at least min_points
+    return points_in_patch >= min_points
     
 def _find_coordinates(array, value):
     return np.argwhere(array == value)

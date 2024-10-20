@@ -22,58 +22,11 @@ from mesa.ecospatial._utils import (
     _append_series_to_df,
     _label_islands,
     _compute_areas,
-    _nearest_neighbour_distance
+    _nearest_neighbour_distance,
+    _overlap_check,
+    _contains_points
 )
 
-def overlap_check(new_patch, existing_patches, max_overlap_ratio):
-    """
-    This function checks if the new patch overlaps with any of the existing patches.
-    
-    Parameters:
-    new_patch: tuple
-        The coordinates of the new patch to be checked for overlaps.
-    existing_patches: list
-        A list of existing patches to check for overlaps.
-    max_overlap_ratio: float
-        The maximum allowable overlap ratio for a new patch.
-    
-    Returns:
-    bool
-        Returns True if the new patch doesn't overlap with any existing patch beyond the allowable overlap ratio.
-        Otherwise, returns False.
-    """
-    
-    patch_area = (new_patch[2] - new_patch[0]) * (new_patch[3] - new_patch[1])
-    max_overlap = max_overlap_ratio * patch_area
-    for patch in existing_patches:
-        dx = min(new_patch[2], patch[2]) - max(new_patch[0], patch[0])
-        dy = min(new_patch[3], patch[3]) - max(new_patch[1], patch[1])
-        if (dx>=0) and (dy>=0) and (dx*dy > max_overlap):
-            return False
-    return True
-
-def contains_points(patch, spatial_values, min_points):
-    """
-    This function checks if a patch contains a certain number of spatial values (points).
-    
-    Parameters:
-    patch: tuple
-        The coordinates of the patch to be checked.
-    spatial_values: list
-        A list of spatial values (cells' coordinates) to check if they are within the patch.
-    min_points: int
-        The minimum number of points that the patch should contain.
-        
-    Returns:
-    bool
-        Returns True if the patch contains at least 'min_points' number of spatial values（cells' coordinates）. Otherwise, returns False.
-    """
-    
-    # Count the points within the patch
-    points_in_patch = sum((patch[0] <= point[0] <= patch[2]) and (patch[1] <= point[1] <= patch[3]) for point in spatial_values)
-    
-    # Check if the number of points in the patch is at least min_points
-    return points_in_patch >= min_points
 
 def calculate_shannon_entropy(counts:np.ndarray):
     """
@@ -111,7 +64,7 @@ def calculate_simpson_index(counts:np.ndarray):
     float
         The Simpson index of the counts.
     """
-    
+    counts = np.array(counts)
     N = np.sum(counts)
     if N > 1.0:
         simpson_index = np.sum(counts * (counts-1))/(N*(N-1))
@@ -516,22 +469,24 @@ def generate_patches_randomly(spatial_data: Union[ad.AnnData, pd.DataFrame],
     """
     rng = np.random.default_rng(random_seed)
 
+    # Filter the spatial data for the given library_id
     if isinstance(spatial_data, ad.AnnData):
         spatial_data_filtered = spatial_data[spatial_data.obs[library_key] == library_id]
-    elif isinstance(spatial_data, pd.DataFrame):
-        spatial_data_filtered = spatial_data[spatial_data[library_key] == library_id]
-    else:
-        raise ValueError("spatial_data should be either an AnnData object or a pandas DataFrame")
-    
-    if isinstance(spatial_data, ad.AnnData):
         spatial_values = spatial_data_filtered.obsm[spatial_key]
     elif isinstance(spatial_data, pd.DataFrame):
+        spatial_data_filtered = spatial_data[spatial_data[library_key] == library_id]
         spatial_values = spatial_data_filtered[spatial_key].values
     else:
         raise ValueError("spatial_data should be either an AnnData object or a pandas DataFrame")
+        
+    if scaling_factor == 0:
+        raise ValueError("scaling factor cannot be zero")
 
-    width = spatial_values.max(axis=0)[0] - spatial_values.min(axis=0)[0]
-    height = spatial_values.max(axis=0)[1] - spatial_values.min(axis=0)[1]
+    x_min, y_min = spatial_values.min(axis=0)
+    x_max, y_max = spatial_values.max(axis=0)
+
+    width = x_max - x_min
+    height = y_max - y_min
 
     patch_width = width / scaling_factor
     patch_height = height / scaling_factor
@@ -545,15 +500,32 @@ def generate_patches_randomly(spatial_data: Union[ad.AnnData, pd.DataFrame],
         start_time = time.time()
         while True:
             if time.time() - start_time > 5:  # seconds
-                print(f"Warning: Could not generate a new patch within 5 seconds. Return {len(patches)} out of {num_patches} patches")
+                print(f"Warning: Could not generate a new patch within 5 seconds. Returning {len(patches)} out of {num_patches} patches")
                 return patches
-            
-            x0 = rng.uniform(spatial_values.min(axis=0)[0], spatial_values.max(axis=0)[0] - patch_width)
-            y0 = rng.uniform(spatial_values.min(axis=0)[1], spatial_values.max(axis=0)[1] - patch_height)
+
+            # Calculate high and low values for x and y
+            low_x = x_min
+            high_x = x_max - patch_width
+            low_y = y_min
+            high_y = y_max - patch_height
+
+            # Adjust x0 and y0 if high <= low
+            if high_x <= low_x:
+                x0 = low_x
+            else:
+                x0 = rng.uniform(low_x, high_x)
+            if high_y <= low_y:
+                y0 = low_y
+            else:
+                y0 = rng.uniform(low_y, high_y)
+
             x1 = x0 + patch_width
             y1 = y0 + patch_height
             new_patch = (x0, y0, x1, y1)
-            if (x0, y0) not in used_coordinates and overlap_check(new_patch, patches, max_overlap) and contains_points(new_patch, spatial_values, min_points):
+
+            if ((x0, y0) not in used_coordinates and
+                _overlap_check(new_patch, patches, max_overlap) and
+                _contains_points(new_patch, spatial_values, min_points)):
                 used_coordinates.add((x0, y0))
                 patches.append(new_patch)
                 break
@@ -632,7 +604,7 @@ def calculate_diversity_index(spatial_data: Union[ad.AnnData, pd.DataFrame],
                               spatial_key: Union[str, List[str]],
                               patches: list,
                               cluster_key: str,
-                              metric: str,
+                              metric: str = 'Shannon Diversity',
                               return_comp=False):
     """
     Calculate the heterogeneity index for a set of patches.
@@ -735,7 +707,7 @@ def calculate_diversity_index(spatial_data: Union[ad.AnnData, pd.DataFrame],
 def calculate_MDI(spatial_data: Union[ad.AnnData, pd.DataFrame], 
                   scales: Union[tuple, list], 
                   library_key: str,
-                  library_id: Union[tuple, list], 
+                  library_id: Union[tuple, list],  
                   spatial_key: Union[str, List[str]],
                   cluster_key: str,
                   random_patch=False,
