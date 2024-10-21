@@ -29,7 +29,8 @@ dependencies = [
     "seaborn",
     "matplotlib",
     "networkx",
-    "leidenalg"
+    "leidenalg",
+    "igraph"
 ]
 
 [project.optional-dependencies]
