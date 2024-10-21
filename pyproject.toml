@@ -6,12 +6,11 @@ build-backend = "hatchling.build"
 name = "mesa-py"
 version = "0.0.7"
 authors = [
-  { name="Daisy Yi Ding", email="dingd@stanford.edu " },
+  { name="Daisy Yi Ding", email="dingd@stanford.edu" },
   { name="Zeyu Tang", email="feanortang@gmail.com" },
   { name="Bokai Zhu", email="bkzhu@stanford.edu" },
 ]
 maintainers = [
-    {name="Daisy Yi Ding", email="dingd@stanford.edu " },
     {name = "Zeyu Tang", email = "feanortang@gmail.com"},
 ]
 description = "Multiomics and Ecological Spatial Analysis for Quantitative Decoding of Cellular Neighborhoods and Tissue Compartments"
@@ -30,6 +29,7 @@ dependencies = [
     "seaborn",
     "matplotlib",
     "networkx",
+    "leidenalg"
 ]
 
 [project.optional-dependencies]
