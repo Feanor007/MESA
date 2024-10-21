@@ -7,11 +7,15 @@ Import MESA as::
 Multiomics
 ----------
 
-.. module:: mesa.multiomics
+.. module:: mesa.multiomics.multiomics_spatial
 .. currentmodule:: mesa
 
 .. autosummary::
     :toctree: api
+
+    multiomics.multiomics_spatial.get_spatial_knn_indices
+    multiomics.multiomics_spatial.get_global_neighborhood_composition
+    multiomics.multiomics_spatial.get_avg_expression_neighbors
 
 Ecospatial
 ----------

@@ -10,10 +10,22 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 2,
+   "execution_count": 1,
    "id": "5aec3231-1807-4e25-8e11-ef8ff29edbfd",
    "metadata": {},
-   "outputs": [],
+   "outputs": [
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "/opt/miniconda3/envs/mesa/lib/python3.11/site-packages/geopandas/_compat.py:106: UserWarning: The Shapely GEOS version (3.8.0-CAPI-1.13.1) is incompatible with the GEOS version PyGEOS was compiled with (3.10.4-CAPI-1.16.2). Conversions between both will be slow.\n",
+      "  warnings.warn(\n",
+      "OMP: Info #276: omp_set_nested routine deprecated, please use omp_set_max_active_levels instead.\n",
+      "/opt/miniconda3/envs/mesa/lib/python3.11/site-packages/spaghetti/network.py:41: FutureWarning: The next major release of pysal/spaghetti (2.0.0) will drop support for all ``libpysal.cg`` geometries. This change is a first step in refactoring ``spaghetti`` that is expected to result in dramatically reduced runtimes for network instantiation and operations. Users currently requiring network and point pattern input as ``libpysal.cg`` geometries should prepare for this simply by converting to ``shapely`` geometries.\n",
+      "  warnings.warn(dep_msg, FutureWarning, stacklevel=1)\n"
+     ]
+    }
+   ],
    "source": [
     "import numpy as np\n",
     "import pandas as pd\n",

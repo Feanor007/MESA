@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "mesa-py"
-version = "0.0.6"
+version = "0.0.7"
 authors = [
   { name="Daisy Yi Ding", email="dingd@stanford.edu " },
   { name="Zeyu Tang", email="feanortang@gmail.com" },

@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>API &mdash; MESA 0.0.5 documentation</title>
+  <title>API &mdash; MESA 0.0.6 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
@@ -16,7 +16,7 @@
   
         <script src="_static/jquery.js?v=5d32c60e"></script>
         <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="_static/documentation_options.js?v=282f96c0"></script>
+        <script src="_static/documentation_options.js?v=1fd71caa"></script>
         <script src="_static/doctools.js?v=888ff710"></script>
         <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
         <script src="_static/clipboard.min.js?v=a7894cd8"></script>
@@ -25,7 +25,7 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="mesa.ecospatial.generate_patches" href="api/mesa.ecospatial.generate_patches.html" />
+    <link rel="next" title="mesa.multiomics.multiomics_spatial.get_spatial_knn_indices" href="api/mesa.multiomics.multiomics_spatial.get_spatial_knn_indices.html" />
     <link rel="prev" title="Installation" href="installation.html" /> 
 </head>
 
@@ -41,7 +41,7 @@
             MESA
           </a>
               <div class="version">
-                0.0.5
+                0.0.6
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -55,7 +55,12 @@
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">API</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#module-mesa.multiomics">Multiomics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-mesa.multiomics.multiomics_spatial">Multiomics</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/mesa.multiomics.multiomics_spatial.get_spatial_knn_indices.html">mesa.multiomics.multiomics_spatial.get_spatial_knn_indices</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/mesa.multiomics.multiomics_spatial.get_global_neighborhood_composition.html">mesa.multiomics.multiomics_spatial.get_global_neighborhood_composition</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/mesa.multiomics.multiomics_spatial.get_avg_expression_neighbors.html">mesa.multiomics.multiomics_spatial.get_avg_expression_neighbors</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="#module-mesa.ecospatial">Ecospatial</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="api/mesa.ecospatial.generate_patches.html">mesa.ecospatial.generate_patches</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/mesa.ecospatial.calculate_shannon_entropy.html">mesa.ecospatial.calculate_shannon_entropy</a></li>
@@ -105,10 +110,19 @@
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">mesa</span> <span class="k">as</span> <span class="nn">ms</span>
 </pre></div>
 </div>
-<section id="module-mesa.multiomics">
-<span id="multiomics"></span><h2>Multiomics<a class="headerlink" href="#module-mesa.multiomics" title="Link to this heading"></a></h2>
+<section id="module-mesa.multiomics.multiomics_spatial">
+<span id="multiomics"></span><h2>Multiomics<a class="headerlink" href="#module-mesa.multiomics.multiomics_spatial" title="Link to this heading"></a></h2>
 <table class="autosummary longtable docutils align-default">
 <tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/mesa.multiomics.multiomics_spatial.get_spatial_knn_indices.html#mesa.multiomics.multiomics_spatial.get_spatial_knn_indices" title="mesa.multiomics.multiomics_spatial.get_spatial_knn_indices"><code class="xref py py-obj docutils literal notranslate"><span class="pre">multiomics.multiomics_spatial.get_spatial_knn_indices</span></code></a>(...)</p></td>
+<td><p>Compute k-nearest neighbors of locations.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="api/mesa.multiomics.multiomics_spatial.get_global_neighborhood_composition.html#mesa.multiomics.multiomics_spatial.get_global_neighborhood_composition" title="mesa.multiomics.multiomics_spatial.get_global_neighborhood_composition"><code class="xref py py-obj docutils literal notranslate"><span class="pre">multiomics.multiomics_spatial.get_global_neighborhood_composition</span></code></a>(...)</p></td>
+<td><p>Compute the composition of neighbors for each sample.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/mesa.multiomics.multiomics_spatial.get_avg_expression_neighbors.html#mesa.multiomics.multiomics_spatial.get_avg_expression_neighbors" title="mesa.multiomics.multiomics_spatial.get_avg_expression_neighbors"><code class="xref py py-obj docutils literal notranslate"><span class="pre">multiomics.multiomics_spatial.get_avg_expression_neighbors</span></code></a>(...)</p></td>
+<td><p>Calculate the average expression values over the neighbors of each data point. :type exp_df: <span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v2.2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">DataFrame</span></code></a></span> :param exp_df: The DataFrame to process. Each row represents a data point (e.g., a cell in single-cell data),                and each column represents an attribute of the data points (e.g., gene expression values). :type exp_df: pd.DataFrame :type spatial_knn_indices: <span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a></span> :param spatial_knn_indices: The indices that represent the k-nearest neighbors for each data point in a spatial data structure. :type spatial_knn_indices: np.ndarray.</p></td>
+</tr>
 </tbody>
 </table>
 </section>
@@ -156,7 +170,7 @@
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="installation.html" class="btn btn-neutral float-left" title="Installation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="api/mesa.ecospatial.generate_patches.html" class="btn btn-neutral float-right" title="mesa.ecospatial.generate_patches" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="api/mesa.multiomics.multiomics_spatial.get_spatial_knn_indices.html" class="btn btn-neutral float-right" title="mesa.multiomics.multiomics_spatial.get_spatial_knn_indices" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
