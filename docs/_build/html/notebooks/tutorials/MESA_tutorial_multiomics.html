@@ -1,0 +1,1398 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Prepare Data for Multiomics Integration &mdash; MESA 0.0.8 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../../_static/nbsphinx-code-cells.css" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../_static/documentation_options.js?v=53b53b71"></script>
+        <script src="../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="../../_static/copybutton.js?v=f281be69"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+        <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Using MESA in R" href="MESA_in_R.html" />
+    <link rel="prev" title="MESA Ecospatial Tutorials" href="MESA_tutorial_ecospatial.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            MESA
+          </a>
+              <div class="version">
+                0.0.8
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">General</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api.html">API</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../tutorials.html">Tutorials</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="MESA_tutorial_ecospatial.html">MESA Ecospatial Tutorials</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Prepare Data for Multiomics Integration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#Multiomics-Integration">Multiomics Integration</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Step-I:-preparations">Step I: preparations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Step-II:-finding-initial-pivots">Step II: finding initial pivots</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Step-III:-finding-refined-pivots">Step III: finding refined pivots</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Step-IV:-propagation">Step IV: propagation</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#Neighborhood-Characterization">Neighborhood Characterization</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Cellular-Composition-based-Neighborhoods">Cellular Composition-based Neighborhoods</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#MESA's-Local-Average-Protein-Expression-based-Neighborhoods">MESA’s Local Average Protein Expression-based Neighborhoods</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#MESA's-Local-Average-mRNA-Expression-based-Neighborhoods">MESA’s Local Average mRNA Expression-based Neighborhoods</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Neighborhood-Heatmap">Neighborhood Heatmap</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="MESA_in_R.html">Using MESA in R</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../unit_test.html">UnitTest</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">MESA</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../tutorials.html">Tutorials</a></li>
+      <li class="breadcrumb-item active">Prepare Data for Multiomics Integration</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/notebooks/tutorials/MESA_tutorial_multiomics.ipynb.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">scipy.io</span> <span class="kn">import</span> <span class="n">mmread</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">anndata</span> <span class="k">as</span> <span class="nn">ad</span>
+<span class="kn">import</span> <span class="nn">scanpy</span> <span class="k">as</span> <span class="nn">sc</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">sklearn.cluster</span> <span class="kn">import</span> <span class="n">KMeans</span>
+<span class="kn">import</span> <span class="nn">utils</span>
+<span class="kn">from</span> <span class="nn">tqdm</span> <span class="kn">import</span> <span class="n">tqdm</span>
+<span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">MinMaxScaler</span>
+
+<span class="n">os</span><span class="o">.</span><span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;../../../&#39;</span><span class="p">)</span>
+<span class="kn">from</span> <span class="nn">mesa</span> <span class="kn">import</span> <span class="n">multiomics</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s2">&quot;figure.figsize&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">6</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;font.family&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;Arial&#39;</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;svg.fonttype&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;none&#39;</span>  <span class="c1"># To keep text as text in SVGs</span>
+</pre></div>
+</div>
+</div>
+<section id="Prepare-Data-for-Multiomics-Integration">
+<h1>Prepare Data for Multiomics Integration<a class="headerlink" href="#Prepare-Data-for-Multiomics-Integration" title="Link to this heading"></a></h1>
+<p>We begin by reading in CODEX and scRNASeq data.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># read in CODEX data</span>
+<span class="n">data_dir</span> <span class="o">=</span> <span class="s1">&#39;../../../../../tonsil/&#39;</span>
+<span class="n">protein</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">data_dir</span><span class="p">,</span> <span class="s1">&#39;tonsil_codex.csv&#39;</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<p>Let’s visualize the CODEX data. Here each cell is colored by cell type.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sns</span><span class="o">.</span><span class="n">scatterplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">protein</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s2">&quot;centroid_x&quot;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">&quot;centroid_y&quot;</span><span class="p">,</span> <span class="n">hue</span> <span class="o">=</span> <span class="s2">&quot;cluster.term&quot;</span><span class="p">,</span> <span class="n">s</span> <span class="o">=</span> <span class="mf">0.3</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&lt;Axes: xlabel=&#39;centroid_x&#39;, ylabel=&#39;centroid_y&#39;&gt;
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/notebooks_tutorials_MESA_tutorial_multiomics_5_1.png" src="../../_images/notebooks_tutorials_MESA_tutorial_multiomics_5_1.png" />
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># input csv contains meta info, take only protein features</span>
+<span class="n">protein_features</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;CD38&#39;</span><span class="p">,</span> <span class="s1">&#39;CD19&#39;</span><span class="p">,</span> <span class="s1">&#39;CD31&#39;</span><span class="p">,</span> <span class="s1">&#39;Vimentin&#39;</span><span class="p">,</span> <span class="s1">&#39;CD22&#39;</span><span class="p">,</span> <span class="s1">&#39;Ki67&#39;</span><span class="p">,</span> <span class="s1">&#39;CD8&#39;</span><span class="p">,</span>
+       <span class="s1">&#39;CD90&#39;</span><span class="p">,</span> <span class="s1">&#39;CD123&#39;</span><span class="p">,</span> <span class="s1">&#39;CD15&#39;</span><span class="p">,</span> <span class="s1">&#39;CD3&#39;</span><span class="p">,</span> <span class="s1">&#39;CD152&#39;</span><span class="p">,</span> <span class="s1">&#39;CD21&#39;</span><span class="p">,</span> <span class="s1">&#39;cytokeratin&#39;</span><span class="p">,</span> <span class="s1">&#39;CD2&#39;</span><span class="p">,</span>
+       <span class="s1">&#39;CD66&#39;</span><span class="p">,</span> <span class="s1">&#39;collagen IV&#39;</span><span class="p">,</span> <span class="s1">&#39;CD81&#39;</span><span class="p">,</span> <span class="s1">&#39;HLA-DR&#39;</span><span class="p">,</span> <span class="s1">&#39;CD57&#39;</span><span class="p">,</span> <span class="s1">&#39;CD4&#39;</span><span class="p">,</span> <span class="s1">&#39;CD7&#39;</span><span class="p">,</span> <span class="s1">&#39;CD278&#39;</span><span class="p">,</span>
+       <span class="s1">&#39;podoplanin&#39;</span><span class="p">,</span> <span class="s1">&#39;CD45RA&#39;</span><span class="p">,</span> <span class="s1">&#39;CD34&#39;</span><span class="p">,</span> <span class="s1">&#39;CD54&#39;</span><span class="p">,</span> <span class="s1">&#39;CD9&#39;</span><span class="p">,</span> <span class="s1">&#39;IGM&#39;</span><span class="p">,</span> <span class="s1">&#39;CD117&#39;</span><span class="p">,</span> <span class="s1">&#39;CD56&#39;</span><span class="p">,</span>
+       <span class="s1">&#39;CD279&#39;</span><span class="p">,</span> <span class="s1">&#39;CD45&#39;</span><span class="p">,</span> <span class="s1">&#39;CD49f&#39;</span><span class="p">,</span> <span class="s1">&#39;CD5&#39;</span><span class="p">,</span> <span class="s1">&#39;CD16&#39;</span><span class="p">,</span> <span class="s1">&#39;CD63&#39;</span><span class="p">,</span> <span class="s1">&#39;CD11b&#39;</span><span class="p">,</span> <span class="s1">&#39;CD1c&#39;</span><span class="p">,</span>
+       <span class="s1">&#39;CD40&#39;</span><span class="p">,</span> <span class="s1">&#39;CD274&#39;</span><span class="p">,</span> <span class="s1">&#39;CD27&#39;</span><span class="p">,</span> <span class="s1">&#39;CD104&#39;</span><span class="p">,</span> <span class="s1">&#39;CD273&#39;</span><span class="p">,</span> <span class="s1">&#39;FAPalpha&#39;</span><span class="p">,</span> <span class="s1">&#39;Ecadherin&#39;</span><span class="p">]</span>
+<span class="c1"># convert to AnnData</span>
+<span class="n">protein_adata</span> <span class="o">=</span> <span class="n">ad</span><span class="o">.</span><span class="n">AnnData</span><span class="p">(</span>
+    <span class="n">protein</span><span class="p">[</span><span class="n">protein_features</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">(),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span>
+<span class="p">)</span>
+<span class="n">protein_adata</span><span class="o">.</span><span class="n">var_names</span> <span class="o">=</span> <span class="n">protein</span><span class="p">[</span><span class="n">protein_features</span><span class="p">]</span><span class="o">.</span><span class="n">columns</span>
+</pre></div>
+</div>
+</div>
+<p>Then we read in the scRNASeq data and convert to <code class="docutils literal notranslate"><span class="pre">adata</span></code> format too.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># read in RNA data</span>
+<span class="n">rna</span> <span class="o">=</span> <span class="n">mmread</span><span class="p">(</span><span class="s2">&quot;../../../../../tonsil/tonsil_rna_counts.txt&quot;</span><span class="p">)</span> <span class="c1"># rna count as sparse matrix, 10k cells (RNA)</span>
+<span class="n">rna_names</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;../../../../../tonsil/tonsil_rna_names.csv&#39;</span><span class="p">)[</span><span class="s1">&#39;names&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
+<span class="c1"># convert to AnnData</span>
+<span class="n">rna_adata</span> <span class="o">=</span> <span class="n">ad</span><span class="o">.</span><span class="n">AnnData</span><span class="p">(</span>
+    <span class="n">rna</span><span class="o">.</span><span class="n">tocsr</span><span class="p">(),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span>
+<span class="p">)</span>
+<span class="n">rna_adata</span><span class="o">.</span><span class="n">var_names</span> <span class="o">=</span> <span class="n">rna_names</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">rna_adata_raw</span> <span class="o">=</span> <span class="n">rna_adata</span>
+</pre></div>
+</div>
+</div>
+<p>Here we are integrating protein and RNA data, and most of the time there are name differences between protein (antibody) and their corresponding gene names. To construct the feature correspondence in straight forward way, we prepared a <code class="docutils literal notranslate"><span class="pre">.csv</span></code> file containing most of the antibody name (seen in cite-seq or codex antibody names etc) and their corresponding gene names:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">correspondence</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;../../../../../tonsil/protein_gene_conversion.csv&#39;</span><span class="p">)</span>
+<span class="n">correspondence</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Protein name</th>
+      <th>RNA name</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>CD80</td>
+      <td>CD80</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>CD86</td>
+      <td>CD86</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>CD274</td>
+      <td>CD274</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>CD273</td>
+      <td>PDCD1LG2</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>CD275</td>
+      <td>ICOSLG</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<p>But of course this files does contain all names including custom names in new assays. If a certain correspondence is not found, either it is missing in the other modality, or you should customly add the name conversion to this <code class="docutils literal notranslate"><span class="pre">.csv</span></code> file.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">rna_protein_correspondence</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">correspondence</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
+    <span class="n">curr_protein_name</span><span class="p">,</span> <span class="n">curr_rna_names</span> <span class="o">=</span> <span class="n">correspondence</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">curr_protein_name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">protein_adata</span><span class="o">.</span><span class="n">var_names</span><span class="p">:</span>
+        <span class="k">continue</span>
+    <span class="k">if</span> <span class="n">curr_rna_names</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;Ignore&#39;</span><span class="p">)</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span> <span class="c1"># some correspondence ignored eg. protein isoform to one gene</span>
+        <span class="k">continue</span>
+    <span class="n">curr_rna_names</span> <span class="o">=</span> <span class="n">curr_rna_names</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)</span> <span class="c1"># eg. one protein to multiple genes</span>
+    <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">curr_rna_names</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">rna_adata</span><span class="o">.</span><span class="n">var_names</span><span class="p">:</span>
+            <span class="n">rna_protein_correspondence</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">r</span><span class="p">,</span> <span class="n">curr_protein_name</span><span class="p">])</span>
+
+<span class="n">rna_protein_correspondence</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">rna_protein_correspondence</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Columns rna_shared and protein_shared are matched.</span>
+<span class="c1"># One may encounter &quot;Variable names are not unique&quot; warning,</span>
+<span class="c1"># this is fine and is because one RNA may encode multiple proteins and vice versa.</span>
+<span class="n">rna_shared</span> <span class="o">=</span> <span class="n">rna_adata</span><span class="p">[:,</span> <span class="n">rna_protein_correspondence</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="n">protein_shared</span> <span class="o">=</span> <span class="n">protein_adata</span><span class="p">[:,</span> <span class="n">rna_protein_correspondence</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Make sure no column is static</span>
+<span class="n">mask</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="p">(</span><span class="n">rna_shared</span><span class="o">.</span><span class="n">X</span><span class="o">.</span><span class="n">toarray</span><span class="p">()</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mf">0.5</span><span class="p">)</span>
+    <span class="o">&amp;</span> <span class="p">(</span><span class="n">protein_shared</span><span class="o">.</span><span class="n">X</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mf">0.1</span><span class="p">)</span>
+<span class="p">)</span>
+<span class="n">rna_shared</span> <span class="o">=</span> <span class="n">rna_shared</span><span class="p">[:,</span> <span class="n">mask</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="n">protein_shared</span> <span class="o">=</span> <span class="n">protein_shared</span><span class="p">[:,</span> <span class="n">mask</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">([</span><span class="n">rna_shared</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span><span class="n">protein_shared</span><span class="o">.</span><span class="n">shape</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[(12977, 32), (178919, 32)]
+</pre></div></div>
+</div>
+<p>We apply standard Scanpy preprocessing steps to <code class="docutils literal notranslate"><span class="pre">rna_shared</span></code>. We skipped the processing steps for <code class="docutils literal notranslate"><span class="pre">protein_shared</span></code> because the input CODEX data was already normalized et.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># process rna_shared</span>
+<span class="n">sc</span><span class="o">.</span><span class="n">pp</span><span class="o">.</span><span class="n">normalize_total</span><span class="p">(</span><span class="n">rna_shared</span><span class="p">)</span>
+<span class="n">sc</span><span class="o">.</span><span class="n">pp</span><span class="o">.</span><span class="n">log1p</span><span class="p">(</span><span class="n">rna_shared</span><span class="p">)</span>
+<span class="n">sc</span><span class="o">.</span><span class="n">pp</span><span class="o">.</span><span class="n">scale</span><span class="p">(</span><span class="n">rna_shared</span><span class="p">)</span>
+<span class="n">rna_shared</span> <span class="o">=</span> <span class="n">rna_shared</span><span class="o">.</span><span class="n">X</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">protein_shared</span> <span class="o">=</span> <span class="n">protein_shared</span><span class="o">.</span><span class="n">X</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<p>We again apply standard Scanpy preprocessing steps to <strong>all available RNA measurements and protein measurements</strong> (not just the shared ones) to get two arrays, <code class="docutils literal notranslate"><span class="pre">rna_active</span></code> and <code class="docutils literal notranslate"><span class="pre">protein_active</span></code>, which are used for iterative refinement. Again if the input data is already processed, these steps can be skipped.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># process all RNA features</span>
+<span class="n">sc</span><span class="o">.</span><span class="n">pp</span><span class="o">.</span><span class="n">normalize_total</span><span class="p">(</span><span class="n">rna_adata</span><span class="p">)</span>
+<span class="n">sc</span><span class="o">.</span><span class="n">pp</span><span class="o">.</span><span class="n">log1p</span><span class="p">(</span><span class="n">rna_adata</span><span class="p">)</span>
+<span class="n">sc</span><span class="o">.</span><span class="n">pp</span><span class="o">.</span><span class="n">highly_variable_genes</span><span class="p">(</span><span class="n">rna_adata</span><span class="p">,</span> <span class="n">n_top_genes</span><span class="o">=</span><span class="mi">5000</span><span class="p">)</span>
+<span class="c1"># only retain highly variable genes</span>
+<span class="n">rna_adata</span> <span class="o">=</span> <span class="n">rna_adata</span><span class="p">[:,</span> <span class="n">rna_adata</span><span class="o">.</span><span class="n">var</span><span class="o">.</span><span class="n">highly_variable</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="n">sc</span><span class="o">.</span><span class="n">pp</span><span class="o">.</span><span class="n">scale</span><span class="p">(</span><span class="n">rna_adata</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># make sure no feature is static</span>
+<span class="n">rna_active</span> <span class="o">=</span> <span class="n">rna_adata</span><span class="o">.</span><span class="n">X</span>
+<span class="n">protein_active</span> <span class="o">=</span> <span class="n">protein_adata</span><span class="o">.</span><span class="n">X</span>
+<span class="n">rna_active</span> <span class="o">=</span> <span class="n">rna_active</span><span class="p">[:,</span> <span class="n">rna_active</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mf">1e-5</span><span class="p">]</span> <span class="c1"># these are fine since already using variable features</span>
+<span class="n">protein_active</span> <span class="o">=</span> <span class="n">protein_active</span><span class="p">[:,</span> <span class="n">protein_active</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mf">1e-5</span><span class="p">]</span> <span class="c1"># protein are generally variable</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="Multiomics-Integration">
+<h1>Multiomics Integration<a class="headerlink" href="#Multiomics-Integration" title="Link to this heading"></a></h1>
+<p>While we are using the MaxFuse method for multiomics integration in MESA, other integration methods can also be implemented. For more detailed documentation of MaxFuse, please check out: <a class="reference external" href="https://maxfuse.readthedocs.io/en/latest/index.html">https://maxfuse.readthedocs.io/en/latest/index.html</a>.</p>
+<section id="Step-I:-preparations">
+<h2>Step I: preparations<a class="headerlink" href="#Step-I:-preparations" title="Link to this heading"></a></h2>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># call constructor for Fusor object</span>
+<span class="c1"># which is the main object for running MaxFuse pipeline</span>
+<span class="n">fusor</span> <span class="o">=</span> <span class="n">mf</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">Fusor</span><span class="p">(</span>
+    <span class="n">shared_arr1</span><span class="o">=</span><span class="n">rna_shared</span><span class="p">,</span>
+    <span class="n">shared_arr2</span><span class="o">=</span><span class="n">protein_shared</span><span class="p">,</span>
+    <span class="n">active_arr1</span><span class="o">=</span><span class="n">rna_active</span><span class="p">,</span>
+    <span class="n">active_arr2</span><span class="o">=</span><span class="n">protein_active</span><span class="p">,</span>
+    <span class="n">labels1</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">labels2</span><span class="o">=</span><span class="kc">None</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>To reduce computational complexity, we call <code class="docutils literal notranslate"><span class="pre">split_into_batches</span></code> to fit the batched version of MaxFuse.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fusor</span><span class="o">.</span><span class="n">split_into_batches</span><span class="p">(</span>
+    <span class="n">max_outward_size</span><span class="o">=</span><span class="mi">8000</span><span class="p">,</span>
+    <span class="n">matching_ratio</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
+    <span class="n">metacell_size</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+    <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+The first data is split into 1 batches, average batch size is 12977, and max batch size is 12977.
+The second data is split into 5 batches, average batch size is 35783, and max batch size is 35787.
+Batch to batch correspondence is:
+  [&#39;0&lt;-&gt;0&#39;, &#39;0&lt;-&gt;1&#39;, &#39;0&lt;-&gt;2&#39;, &#39;0&lt;-&gt;3&#39;, &#39;0&lt;-&gt;4&#39;].
+</pre></div></div>
+</div>
+<p>The next step is to construct appropriate nearest-neighbor graphs for each modality with all features available. But before that, we plot the singular values of the two active arrays to determine how many principal components (PCs) to keep when doing graph construction.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># plot top singular values of avtive_arr1 on a random batch</span>
+<span class="n">fusor</span><span class="o">.</span><span class="n">plot_singular_values</span><span class="p">(</span>
+    <span class="n">target</span><span class="o">=</span><span class="s1">&#39;active_arr1&#39;</span><span class="p">,</span>
+    <span class="n">n_components</span><span class="o">=</span><span class="kc">None</span> <span class="c1"># can also explicitly specify the number of components</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+(&lt;Figure size 600x600 with 1 Axes&gt;,
+ &lt;Axes: title={&#39;center&#39;: &#39;Singular value v.s. component index for batch 0&#39;}, xlabel=&#39;Index&#39;, ylabel=&#39;Singular value&#39;&gt;)
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/notebooks_tutorials_MESA_tutorial_multiomics_28_1.png" src="../../_images/notebooks_tutorials_MESA_tutorial_multiomics_28_1.png" />
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># plot top singular values of avtive_arr2 on a random batch</span>
+<span class="n">fusor</span><span class="o">.</span><span class="n">plot_singular_values</span><span class="p">(</span>
+    <span class="n">target</span><span class="o">=</span><span class="s1">&#39;active_arr2&#39;</span><span class="p">,</span>
+    <span class="n">n_components</span><span class="o">=</span><span class="kc">None</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+(&lt;Figure size 600x600 with 1 Axes&gt;,
+ &lt;Axes: title={&#39;center&#39;: &#39;Singular value v.s. component index for batch 1&#39;}, xlabel=&#39;Index&#39;, ylabel=&#39;Singular value&#39;&gt;)
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/notebooks_tutorials_MESA_tutorial_multiomics_29_1.png" src="../../_images/notebooks_tutorials_MESA_tutorial_multiomics_29_1.png" />
+</div>
+</div>
+<p>Inspecting the “elbows”, we choose the number of PCs to be <strong>40</strong> for both RNA and <strong>15</strong> for protein active data. We then call <code class="docutils literal notranslate"><span class="pre">construct_graphs</span></code> to compute nearest-neighbor graphs as needed.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fusor</span><span class="o">.</span><span class="n">construct_graphs</span><span class="p">(</span>
+    <span class="n">n_neighbors1</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span>
+    <span class="n">n_neighbors2</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span>
+    <span class="n">svd_components1</span><span class="o">=</span><span class="mi">40</span><span class="p">,</span>
+    <span class="n">svd_components2</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span>
+    <span class="n">resolution1</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+    <span class="n">resolution2</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+    <span class="c1"># if two resolutions differ less than resolution_tol</span>
+    <span class="c1"># then we do not distinguish between then</span>
+    <span class="n">resolution_tol</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span>
+    <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Aggregating cells in arr1 into metacells of average size 2...
+Constructing neighborhood graphs for cells in arr1...
+Now at batch 0...
+Graph construction finished!
+Clustering into metacells...
+Now at batch 0...
+Metacell clustering finished!
+Constructing neighborhood graphs for cells in arr1...
+Now at batch 0...
+Graph construction finished!
+Clustering the graphs for cells in arr1...
+Now at batch 0...
+Graph clustering finished!
+Constructing neighborhood graphs for cells in arr2...
+Now at batch 0...
+Now at batch 1...
+Now at batch 2...
+Now at batch 3...
+Now at batch 4...
+Graph construction finished!
+Clustering the graphs for cells in arr2...
+Now at batch 0...
+Now at batch 1...
+Now at batch 2...
+Now at batch 3...
+Now at batch 4...
+Graph clustering finished!
+</pre></div></div>
+</div>
+</section>
+<section id="Step-II:-finding-initial-pivots">
+<h2>Step II: finding initial pivots<a class="headerlink" href="#Step-II:-finding-initial-pivots" title="Link to this heading"></a></h2>
+<p>We then use shared arrays whose columns are matched to find initial pivots. Before we do so, we plot top singular values of two shared arrays to determine how many PCs to use.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[24]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># plot top singular values of shared_arr1 on a random batch</span>
+<span class="n">fusor</span><span class="o">.</span><span class="n">plot_singular_values</span><span class="p">(</span>
+    <span class="n">target</span><span class="o">=</span><span class="s1">&#39;shared_arr1&#39;</span><span class="p">,</span>
+    <span class="n">n_components</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[24]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+(&lt;Figure size 600x600 with 1 Axes&gt;,
+ &lt;Axes: title={&#39;center&#39;: &#39;Singular value v.s. component index for batch 0&#39;}, xlabel=&#39;Index&#39;, ylabel=&#39;Singular value&#39;&gt;)
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/notebooks_tutorials_MESA_tutorial_multiomics_34_1.png" src="../../_images/notebooks_tutorials_MESA_tutorial_multiomics_34_1.png" />
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[25]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># plot top singular values of shared_arr2 on a random batch</span>
+<span class="n">fusor</span><span class="o">.</span><span class="n">plot_singular_values</span><span class="p">(</span>
+    <span class="n">target</span><span class="o">=</span><span class="s1">&#39;shared_arr2&#39;</span><span class="p">,</span>
+    <span class="n">n_components</span><span class="o">=</span><span class="kc">None</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[25]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+(&lt;Figure size 600x600 with 1 Axes&gt;,
+ &lt;Axes: title={&#39;center&#39;: &#39;Singular value v.s. component index for batch 3&#39;}, xlabel=&#39;Index&#39;, ylabel=&#39;Singular value&#39;&gt;)
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/notebooks_tutorials_MESA_tutorial_multiomics_35_1.png" src="../../_images/notebooks_tutorials_MESA_tutorial_multiomics_35_1.png" />
+</div>
+</div>
+<p>We choose to use <strong>25</strong> PCs for <code class="docutils literal notranslate"><span class="pre">rna_shared</span></code> and <strong>20</strong> PCs for <code class="docutils literal notranslate"><span class="pre">protein_shared</span></code>. We then call <code class="docutils literal notranslate"><span class="pre">find_initial_pivots</span></code> to compute initial set of matched pairs.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[26]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fusor</span><span class="o">.</span><span class="n">find_initial_pivots</span><span class="p">(</span>
+    <span class="n">wt1</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">wt2</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span>
+    <span class="n">svd_components1</span><span class="o">=</span><span class="mi">25</span><span class="p">,</span> <span class="n">svd_components2</span><span class="o">=</span><span class="mi">20</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Now at batch 0&lt;-&gt;0...
+Now at batch 0&lt;-&gt;1...
+Now at batch 0&lt;-&gt;2...
+Now at batch 0&lt;-&gt;3...
+Now at batch 0&lt;-&gt;4...
+Done!
+</pre></div></div>
+</div>
+<p>Now, we have a set of <em>initial pivots</em> that store the matched pairs when only the information in the shared arrays is used. The information on initial pivots are stored in the internal field <code class="docutils literal notranslate"><span class="pre">fusor._init_matching</span></code> that is invisible to users.</p>
+</section>
+<section id="Step-III:-finding-refined-pivots">
+<h2>Step III: finding refined pivots<a class="headerlink" href="#Step-III:-finding-refined-pivots" title="Link to this heading"></a></h2>
+<p>We now use the information in active arrays to iteratively refine initial pivots. We plot the top canonical correlations to choose the best number of components in canonical correlation analysis (CCA).</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[27]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># plot top canonical correlations in a random batch</span>
+<span class="n">fusor</span><span class="o">.</span><span class="n">plot_canonical_correlations</span><span class="p">(</span>
+    <span class="n">svd_components1</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span>
+    <span class="n">svd_components2</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">cca_components</span><span class="o">=</span><span class="mi">45</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[27]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+(&lt;Figure size 600x600 with 1 Axes&gt;,
+ &lt;Axes: title={&#39;center&#39;: &#39;Canonical correlation v.s. component index for batch 0&lt;-&gt;0&#39;}, xlabel=&#39;Index&#39;, ylabel=&#39;Canonical correlation&#39;&gt;)
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/notebooks_tutorials_MESA_tutorial_multiomics_41_1.png" src="../../_images/notebooks_tutorials_MESA_tutorial_multiomics_41_1.png" />
+</div>
+</div>
+<p>A quick check on the previous plot gives a rough guide on what the <code class="docutils literal notranslate"><span class="pre">refine_pivots</span></code> parameters should be picked.</p>
+<p><strong>Note:</strong> here that the <code class="docutils literal notranslate"><span class="pre">n_iters</span></code> number we choosed <em>1</em>, as in low snr datasets (eg. spatial-omis) increase amount of iteration might degrade the performance.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[28]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fusor</span><span class="o">.</span><span class="n">refine_pivots</span><span class="p">(</span>
+    <span class="n">wt1</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">wt2</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span>
+    <span class="n">svd_components1</span><span class="o">=</span><span class="mi">40</span><span class="p">,</span> <span class="n">svd_components2</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">cca_components</span><span class="o">=</span><span class="mi">25</span><span class="p">,</span>
+    <span class="n">n_iters</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+    <span class="n">randomized_svd</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">svd_runs</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+    <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Now at batch 0&lt;-&gt;0...
+Now at batch 0&lt;-&gt;1...
+Now at batch 0&lt;-&gt;2...
+Now at batch 0&lt;-&gt;3...
+Now at batch 0&lt;-&gt;4...
+Done!
+</pre></div></div>
+</div>
+<p><strong>Note:</strong> here we can see <code class="docutils literal notranslate"><span class="pre">filter_prop</span></code> we increased the pivot filtering to <em>0.5</em> compared to previous example. We found harsher filtering for integrations that involves spatial-omics is more beneficial.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[29]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fusor</span><span class="o">.</span><span class="n">filter_bad_matches</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="s1">&#39;pivot&#39;</span><span class="p">,</span> <span class="n">filter_prop</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Begin filtering...
+Now at batch 0&lt;-&gt;0...
+Now at batch 0&lt;-&gt;1...
+Now at batch 0&lt;-&gt;2...
+Now at batch 0&lt;-&gt;3...
+Now at batch 0&lt;-&gt;4...
+16245/32485 pairs of matched cells remain after the filtering.
+Fitting CCA on pivots...
+Scoring matched pairs...
+9567/12977 cells in arr1 are selected as pivots.
+16245/178919 cells in arr2 are selected as pivots.
+Done!
+</pre></div></div>
+</div>
+</section>
+<section id="Step-IV:-propagation">
+<h2>Step IV: propagation<a class="headerlink" href="#Step-IV:-propagation" title="Link to this heading"></a></h2>
+<p>Refined pivots can only give us a pivot matching that captures a subset of cells. In order to get a <em>full</em> matching that involves all cells during input, we need to call <code class="docutils literal notranslate"><span class="pre">propagate</span></code>.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[30]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fusor</span><span class="o">.</span><span class="n">propagate</span><span class="p">(</span>
+    <span class="n">svd_components1</span><span class="o">=</span><span class="mi">40</span><span class="p">,</span>
+    <span class="n">svd_components2</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">wt1</span><span class="o">=</span><span class="mf">0.7</span><span class="p">,</span>
+    <span class="n">wt2</span><span class="o">=</span><span class="mf">0.7</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Now at batch 0&lt;-&gt;0...
+Now at batch 0&lt;-&gt;1...
+Now at batch 0&lt;-&gt;2...
+Now at batch 0&lt;-&gt;3...
+Now at batch 0&lt;-&gt;4...
+Done!
+</pre></div></div>
+</div>
+<p>We call <code class="docutils literal notranslate"><span class="pre">filter_bad_matches</span></code> with <code class="docutils literal notranslate"><span class="pre">target=propagated</span></code> to optionally filter away a few matched pairs from propagation.</p>
+<p><strong>Note:</strong> In the best scenario, we would prefer all cells in the <em>full</em> dataset can be matched accross modality. However, in the case that invovles <em>low-snr</em> datasets (eg. spatial-omics), many cells are noisy (or lack of information) and should not be included in downstream cross-modality analysis. We suggest in such scenarios, <code class="docutils literal notranslate"><span class="pre">filter_prop</span></code> should be set around <em>0.1-0.4</em>.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[31]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fusor</span><span class="o">.</span><span class="n">filter_bad_matches</span><span class="p">(</span>
+    <span class="n">target</span><span class="o">=</span><span class="s1">&#39;propagated&#39;</span><span class="p">,</span>
+    <span class="n">filter_prop</span><span class="o">=</span><span class="mf">0.3</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Begin filtering...
+Now at batch 0&lt;-&gt;0...
+Now at batch 0&lt;-&gt;1...
+Now at batch 0&lt;-&gt;2...
+Now at batch 0&lt;-&gt;3...
+Now at batch 0&lt;-&gt;4...
+125238/178914 pairs of matched cells remain after the filtering.
+Scoring matched pairs...
+Done!
+</pre></div></div>
+</div>
+<p>We use <code class="docutils literal notranslate"><span class="pre">get_matching</span></code> with <code class="docutils literal notranslate"><span class="pre">target='full_data'</span></code> to extract the full matching.</p>
+<p>Because of the batching operation, the resulting matching may contain duplicates. The <code class="docutils literal notranslate"><span class="pre">order</span></code> argument determines how those duplicates are dealt with. <code class="docutils literal notranslate"><span class="pre">order=None</span></code> means doing nothing and returning the matching with potential duplicates; <code class="docutils literal notranslate"><span class="pre">order=(1,</span> <span class="pre">2)</span></code> means returning a matching where each cell in the first modality contains <em>at least one match</em> in the second modality; <code class="docutils literal notranslate"><span class="pre">order=(2,</span> <span class="pre">1)</span></code> means returning a matching where each cell in the second modality contains <em>at least one match</em> in the
+first modality.</p>
+<p><strong>Note:</strong> Since we filtered out some cell pairs here, not all cells in the full dataset has matches.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[32]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">full_matching</span> <span class="o">=</span> <span class="n">fusor</span><span class="o">.</span><span class="n">get_matching</span><span class="p">(</span><span class="n">order</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">target</span><span class="o">=</span><span class="s1">&#39;full_data&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[41]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">len</span><span class="p">(</span><span class="n">full_matching</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[41]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+141438
+</pre></div></div>
+</div>
+<p>Since we are doing <code class="docutils literal notranslate"><span class="pre">order=(2,</span> <span class="pre">1)</span></code> here, the matching info is all the cells (10k) in mod 2 (protein) has at least one match cell in the RNA modality. Note that the matched cell in RNA could be duplicated, as protein cells could be matched to the same RNA cell. For a quick check on matching format:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[33]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">full_matching</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">full_matching</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">full_matching</span><span class="p">[</span><span class="mi">2</span><span class="p">])),</span>
+             <span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;mod1_indx&#39;</span><span class="p">,</span> <span class="s1">&#39;mod2_indx&#39;</span><span class="p">,</span> <span class="s1">&#39;score&#39;</span><span class="p">])</span>
+<span class="c1"># columns: cell idx in mod1, cell idx in mod2, and matching scores</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[33]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>mod1_indx</th>
+      <th>mod2_indx</th>
+      <th>score</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>11555</td>
+      <td>0</td>
+      <td>0.677698</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>12419</td>
+      <td>13</td>
+      <td>0.829264</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>6964</td>
+      <td>26</td>
+      <td>0.743796</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>12027</td>
+      <td>35</td>
+      <td>0.633725</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>3463</td>
+      <td>38</td>
+      <td>0.873877</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>141433</th>
+      <td>6516</td>
+      <td>178913</td>
+      <td>0.650691</td>
+    </tr>
+    <tr>
+      <th>141434</th>
+      <td>6380</td>
+      <td>178915</td>
+      <td>0.752489</td>
+    </tr>
+    <tr>
+      <th>141435</th>
+      <td>11798</td>
+      <td>178916</td>
+      <td>0.624662</td>
+    </tr>
+    <tr>
+      <th>141436</th>
+      <td>6516</td>
+      <td>178917</td>
+      <td>0.598526</td>
+    </tr>
+    <tr>
+      <th>141437</th>
+      <td>6253</td>
+      <td>178918</td>
+      <td>0.721950</td>
+    </tr>
+  </tbody>
+</table>
+<p>141438 rows × 3 columns</p>
+</div></div>
+</div>
+<p>Saving the results…</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[42]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_res</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">full_matching</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">full_matching</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">full_matching</span><span class="p">[</span><span class="mi">2</span><span class="p">])),</span>
+             <span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;mod1_indx&#39;</span><span class="p">,</span> <span class="s1">&#39;mod2_indx&#39;</span><span class="p">,</span> <span class="s1">&#39;score&#39;</span><span class="p">])</span>
+<span class="c1">#df_res.to_csv(&#39;tonsil_codex_rna.csv&#39;, index=False)</span>
+</pre></div>
+</div>
+</div>
+</section>
+</section>
+<section id="Neighborhood-Characterization">
+<h1>Neighborhood Characterization<a class="headerlink" href="#Neighborhood-Characterization" title="Link to this heading"></a></h1>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># protein expression in protein</span>
+<span class="n">protein_features</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;CD38&#39;</span><span class="p">,</span> <span class="s1">&#39;CD19&#39;</span><span class="p">,</span> <span class="s1">&#39;CD31&#39;</span><span class="p">,</span> <span class="s1">&#39;Vimentin&#39;</span><span class="p">,</span> <span class="s1">&#39;CD22&#39;</span><span class="p">,</span> <span class="s1">&#39;Ki67&#39;</span><span class="p">,</span> <span class="s1">&#39;CD8&#39;</span><span class="p">,</span>
+       <span class="s1">&#39;CD90&#39;</span><span class="p">,</span> <span class="s1">&#39;CD123&#39;</span><span class="p">,</span> <span class="s1">&#39;CD15&#39;</span><span class="p">,</span> <span class="s1">&#39;CD3&#39;</span><span class="p">,</span> <span class="s1">&#39;CD152&#39;</span><span class="p">,</span> <span class="s1">&#39;CD21&#39;</span><span class="p">,</span> <span class="s1">&#39;cytokeratin&#39;</span><span class="p">,</span> <span class="s1">&#39;CD2&#39;</span><span class="p">,</span>
+       <span class="s1">&#39;CD66&#39;</span><span class="p">,</span> <span class="s1">&#39;collagen IV&#39;</span><span class="p">,</span> <span class="s1">&#39;CD81&#39;</span><span class="p">,</span> <span class="s1">&#39;HLA-DR&#39;</span><span class="p">,</span> <span class="s1">&#39;CD57&#39;</span><span class="p">,</span> <span class="s1">&#39;CD4&#39;</span><span class="p">,</span> <span class="s1">&#39;CD7&#39;</span><span class="p">,</span> <span class="s1">&#39;CD278&#39;</span><span class="p">,</span>
+       <span class="s1">&#39;podoplanin&#39;</span><span class="p">,</span> <span class="s1">&#39;CD45RA&#39;</span><span class="p">,</span> <span class="s1">&#39;CD34&#39;</span><span class="p">,</span> <span class="s1">&#39;CD54&#39;</span><span class="p">,</span> <span class="s1">&#39;CD9&#39;</span><span class="p">,</span> <span class="s1">&#39;IGM&#39;</span><span class="p">,</span> <span class="s1">&#39;CD117&#39;</span><span class="p">,</span> <span class="s1">&#39;CD56&#39;</span><span class="p">,</span>
+       <span class="s1">&#39;CD279&#39;</span><span class="p">,</span> <span class="s1">&#39;CD45&#39;</span><span class="p">,</span> <span class="s1">&#39;CD49f&#39;</span><span class="p">,</span> <span class="s1">&#39;CD5&#39;</span><span class="p">,</span> <span class="s1">&#39;CD16&#39;</span><span class="p">,</span> <span class="s1">&#39;CD63&#39;</span><span class="p">,</span> <span class="s1">&#39;CD11b&#39;</span><span class="p">,</span> <span class="s1">&#39;CD1c&#39;</span><span class="p">,</span>
+       <span class="s1">&#39;CD40&#39;</span><span class="p">,</span> <span class="s1">&#39;CD274&#39;</span><span class="p">,</span> <span class="s1">&#39;CD27&#39;</span><span class="p">,</span> <span class="s1">&#39;CD104&#39;</span><span class="p">,</span> <span class="s1">&#39;CD273&#39;</span><span class="p">,</span> <span class="s1">&#39;FAPalpha&#39;</span><span class="p">,</span> <span class="s1">&#39;Ecadherin&#39;</span><span class="p">]</span>
+<span class="n">protein_exp</span> <span class="o">=</span> <span class="n">protein</span><span class="p">[</span><span class="n">protein_features</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<section id="Cellular-Composition-based-Neighborhoods">
+<h2>Cellular Composition-based Neighborhoods<a class="headerlink" href="#Cellular-Composition-based-Neighborhoods" title="Link to this heading"></a></h2>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Get neighborhood composition</span>
+<span class="n">ks</span> <span class="o">=</span> <span class="mi">20</span>
+<span class="n">locations</span> <span class="o">=</span> <span class="n">protein</span><span class="p">[[</span><span class="s1">&#39;centroid_x&#39;</span><span class="p">,</span> <span class="s1">&#39;centroid_y&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">values</span>
+<span class="n">feature_labels</span> <span class="o">=</span> <span class="n">protein</span><span class="p">[</span><span class="s1">&#39;cluster.term&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+<span class="n">spatial_knn_indices</span> <span class="o">=</span> <span class="n">multiomics</span><span class="o">.</span><span class="n">multiomics_spatial</span><span class="o">.</span><span class="n">get_spatial_knn_indices</span><span class="p">(</span><span class="n">locations</span><span class="o">=</span><span class="n">locations</span><span class="p">,</span> <span class="n">n_neighbors</span><span class="o">=</span><span class="n">ks</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;kd_tree&#39;</span><span class="p">)</span>
+<span class="n">cell_nbhd</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">get_neighborhood_composition</span><span class="p">(</span><span class="n">knn_indices</span><span class="o">=</span><span class="n">spatial_knn_indices</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="n">feature_labels</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">n_cluster</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="n">kmeans</span> <span class="o">=</span> <span class="n">KMeans</span><span class="p">(</span><span class="n">n_clusters</span><span class="o">=</span><span class="n">n_cluster</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">cell_nbhd</span><span class="p">)</span>
+<span class="c1">#print(kmeans.labels_)</span>
+<span class="n">protein</span><span class="p">[</span><span class="s1">&#39;cluster_composition&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">kmeans</span><span class="o">.</span><span class="n">labels_</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+/Users/daisyding/opt/miniconda3/envs/omics/lib/python3.9/site-packages/sklearn/cluster/_kmeans.py:870: FutureWarning: The default value of `n_init` will change from 10 to &#39;auto&#39; in 1.4. Set the value of `n_init` explicitly to suppress the warning
+  warnings.warn(
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">order_clusters_composition</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+<span class="ansi-red-fg">---------------------------------------------------------------------------</span>
+<span class="ansi-red-fg">NameError</span>                                 Traceback (most recent call last)
+Cell <span class="ansi-green-fg">In[13], line 1</span>
+<span class="ansi-green-fg">----&gt; 1</span> <span class="ansi-yellow-bg">order_clusters_composition</span>
+
+<span class="ansi-red-fg">NameError</span>: name &#39;order_clusters_composition&#39; is not defined
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cell_type_order</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">protein</span><span class="p">[</span><span class="s1">&#39;cluster.term&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">())</span>
+<span class="n">order_clusters_composition</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">protein</span><span class="p">[</span><span class="s1">&#39;cluster_composition&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">())</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">scatterplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">protein</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s2">&quot;centroid_x&quot;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">&quot;centroid_y&quot;</span><span class="p">,</span> <span class="n">hue</span><span class="o">=</span><span class="s2">&quot;cluster_composition&quot;</span><span class="p">,</span>
+                <span class="n">hue_order</span><span class="o">=</span><span class="n">order_clusters_composition</span><span class="p">,</span> <span class="n">s</span> <span class="o">=</span> <span class="mf">0.3</span><span class="p">,</span> <span class="n">rasterized</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">labelsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="n">labelsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Centroid x&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Centroid y&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
+
+<span class="n">legend</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="s1">&#39;upper left&#39;</span><span class="p">)</span>
+<span class="n">legend</span><span class="o">.</span><span class="n">get_title</span><span class="p">()</span><span class="o">.</span><span class="n">set_fontsize</span><span class="p">(</span><span class="s1">&#39;0&#39;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">label</span> <span class="ow">in</span> <span class="n">legend</span><span class="o">.</span><span class="n">get_texts</span><span class="p">():</span>
+    <span class="n">label</span><span class="o">.</span><span class="n">set_fontsize</span><span class="p">(</span><span class="mf">12.5</span><span class="p">)</span>
+
+<span class="c1">#plt.savefig(&#39;../figures/tonsil/tonsil_ct_composition.png&#39;)</span>
+<span class="c1">#plt.savefig(&#39;../figures/tonsil/tonsil_ct_composition.svg&#39;, dpi=300)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/notebooks_tutorials_MESA_tutorial_multiomics_64_0.png" src="../../_images/notebooks_tutorials_MESA_tutorial_multiomics_64_0.png" />
+</div>
+</div>
+</section>
+<section id="MESA's-Local-Average-Protein-Expression-based-Neighborhoods">
+<h2>MESA’s Local Average Protein Expression-based Neighborhoods<a class="headerlink" href="#MESA's-Local-Average-Protein-Expression-based-Neighborhoods" title="Link to this heading"></a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[41]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">avg_exp</span> <span class="o">=</span> <span class="n">mesa</span><span class="o">.</span><span class="n">multiomics</span><span class="o">.</span><span class="n">multiomics_spatial</span><span class="o">.</span><span class="n">get_avg_expression_neighbors</span><span class="p">(</span><span class="n">protein_exp</span><span class="p">,</span> <span class="n">spatial_knn_indices</span><span class="p">)</span>
+<span class="n">avg_exp_df</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">stack</span><span class="p">(</span><span class="n">avg_exp</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+Computing avg expression: 100%|██████████| 178919/178919 [00:21&lt;00:00, 8293.29it/s]
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[42]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">n_cluster</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="n">kmeans_protein</span> <span class="o">=</span> <span class="n">KMeans</span><span class="p">(</span><span class="n">n_clusters</span><span class="o">=</span><span class="n">n_cluster</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">avg_exp_df</span><span class="p">)</span>
+<span class="n">protein</span><span class="p">[</span><span class="s1">&#39;cluster_protein&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">kmeans_protein</span><span class="o">.</span><span class="n">labels_</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[43]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># reorder colors to be consistent</span>
+<span class="n">order_clusters_protein</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">protein</span><span class="p">[</span><span class="s1">&#39;cluster_protein&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">())</span>
+<span class="n">protein</span><span class="p">[</span><span class="s1">&#39;cluster_protein_order&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">protein</span><span class="p">[</span><span class="s1">&#39;cluster_protein&#39;</span><span class="p">]</span>
+<span class="n">index1</span> <span class="o">=</span> <span class="n">protein</span><span class="p">[</span><span class="n">protein</span><span class="p">[</span><span class="s1">&#39;cluster_protein_order&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;1&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">index</span>
+<span class="n">index2</span> <span class="o">=</span> <span class="n">protein</span><span class="p">[</span><span class="n">protein</span><span class="p">[</span><span class="s1">&#39;cluster_protein_order&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;9&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">index</span>
+<span class="n">protein</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">index1</span><span class="p">,</span> <span class="s1">&#39;cluster_protein_order&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;9&#39;</span>
+<span class="n">protein</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">index2</span><span class="p">,</span> <span class="s1">&#39;cluster_protein_order&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;1&#39;</span>
+
+<span class="n">index3</span> <span class="o">=</span> <span class="n">protein</span><span class="p">[</span><span class="n">protein</span><span class="p">[</span><span class="s1">&#39;cluster_protein_order&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;7&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">index</span>
+<span class="n">index4</span> <span class="o">=</span> <span class="n">protein</span><span class="p">[</span><span class="n">protein</span><span class="p">[</span><span class="s1">&#39;cluster_protein_order&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;2&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">index</span>
+<span class="n">protein</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">index3</span><span class="p">,</span> <span class="s1">&#39;cluster_protein_order&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;2&#39;</span>
+<span class="n">protein</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">index4</span><span class="p">,</span> <span class="s1">&#39;cluster_protein_order&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;7&#39;</span>
+
+<span class="n">index5</span> <span class="o">=</span> <span class="n">protein</span><span class="p">[</span><span class="n">protein</span><span class="p">[</span><span class="s1">&#39;cluster_protein_order&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;0&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">index</span>
+<span class="n">index6</span> <span class="o">=</span> <span class="n">protein</span><span class="p">[</span><span class="n">protein</span><span class="p">[</span><span class="s1">&#39;cluster_protein_order&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;5&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">index</span>
+<span class="n">protein</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">index5</span><span class="p">,</span> <span class="s1">&#39;cluster_protein_order&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;5&#39;</span>
+<span class="n">protein</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">index6</span><span class="p">,</span> <span class="s1">&#39;cluster_protein_order&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;0&#39;</span>
+
+<span class="n">index7</span> <span class="o">=</span> <span class="n">protein</span><span class="p">[</span><span class="n">protein</span><span class="p">[</span><span class="s1">&#39;cluster_protein_order&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;2&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">index</span>
+<span class="n">index8</span> <span class="o">=</span> <span class="n">protein</span><span class="p">[</span><span class="n">protein</span><span class="p">[</span><span class="s1">&#39;cluster_protein_order&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;9&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">index</span>
+<span class="n">protein</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">index7</span><span class="p">,</span> <span class="s1">&#39;cluster_protein_order&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;9&#39;</span>
+<span class="n">protein</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">index8</span><span class="p">,</span> <span class="s1">&#39;cluster_protein_order&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;2&#39;</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[44]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">scatterplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">protein</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s2">&quot;centroid_x&quot;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">&quot;centroid_y&quot;</span><span class="p">,</span> <span class="n">hue</span><span class="o">=</span><span class="s2">&quot;cluster_protein_order&quot;</span><span class="p">,</span>
+                <span class="n">hue_order</span><span class="o">=</span><span class="n">order_clusters_protein</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">rasterized</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="c1">#,</span>
+                <span class="c1">#palette=&quot;bright&quot;)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">labelsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="n">labelsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Centroid x&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Centroid y&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
+
+<span class="n">legend</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="s1">&#39;upper left&#39;</span><span class="p">)</span>
+<span class="n">legend</span><span class="o">.</span><span class="n">get_title</span><span class="p">()</span><span class="o">.</span><span class="n">set_fontsize</span><span class="p">(</span><span class="s1">&#39;0&#39;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">label</span> <span class="ow">in</span> <span class="n">legend</span><span class="o">.</span><span class="n">get_texts</span><span class="p">():</span>
+    <span class="n">label</span><span class="o">.</span><span class="n">set_fontsize</span><span class="p">(</span><span class="mf">12.5</span><span class="p">)</span>
+
+<span class="c1">#plt.savefig(&#39;../figures/tonsil/tonsil_avgprotein_order.png&#39;)</span>
+<span class="c1">#plt.savefig(&#39;../figures/tonsil/tonsil_avgprotein_order.svg&#39;, dpi=300)</span>
+<span class="c1">#plt.show()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/notebooks_tutorials_MESA_tutorial_multiomics_69_0.png" src="../../_images/notebooks_tutorials_MESA_tutorial_multiomics_69_0.png" />
+</div>
+</div>
+</section>
+<section id="MESA's-Local-Average-mRNA-Expression-based-Neighborhoods">
+<h2>MESA’s Local Average mRNA Expression-based Neighborhoods<a class="headerlink" href="#MESA's-Local-Average-mRNA-Expression-based-Neighborhoods" title="Link to this heading"></a></h2>
+<p>We first load the integration results.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[46]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_rna_match</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;../../../../../tonsil/tonsil_codex_rna.csv&#39;</span><span class="p">)</span>
+<span class="n">df_rna_match</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;rna&#39;</span><span class="p">,</span> <span class="s1">&#39;protein&#39;</span><span class="p">,</span> <span class="s1">&#39;score&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[47]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">rna_adata</span> <span class="o">=</span> <span class="n">ad</span><span class="o">.</span><span class="n">AnnData</span><span class="p">(</span>
+    <span class="n">rna</span><span class="o">.</span><span class="n">tocsr</span><span class="p">(),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span>
+<span class="p">)</span>
+<span class="n">rna_adata</span><span class="o">.</span><span class="n">var_names</span> <span class="o">=</span> <span class="n">rna_names</span>
+
+<span class="n">sc</span><span class="o">.</span><span class="n">pp</span><span class="o">.</span><span class="n">normalize_total</span><span class="p">(</span><span class="n">rna_adata</span><span class="p">)</span>
+<span class="n">sc</span><span class="o">.</span><span class="n">pp</span><span class="o">.</span><span class="n">log1p</span><span class="p">(</span><span class="n">rna_adata</span><span class="p">)</span>
+<span class="n">sc</span><span class="o">.</span><span class="n">pp</span><span class="o">.</span><span class="n">highly_variable_genes</span><span class="p">(</span><span class="n">rna_adata</span><span class="p">,</span> <span class="n">n_top_genes</span><span class="o">=</span><span class="mi">2000</span><span class="p">)</span>
+<span class="n">rna_adata</span> <span class="o">=</span> <span class="n">rna_adata</span><span class="p">[:,</span> <span class="n">rna_adata</span><span class="o">.</span><span class="n">var</span><span class="o">.</span><span class="n">highly_variable</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+
+<span class="n">rna_exp</span> <span class="o">=</span> <span class="n">rna_adata</span><span class="o">.</span><span class="n">X</span><span class="o">.</span><span class="n">toarray</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[49]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># assign in-silico matched rna expression to cells in CODEX data</span>
+<span class="n">rna_matched</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">tqdm</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">protein</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="n">total</span><span class="o">=</span><span class="n">protein</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">desc</span><span class="o">=</span><span class="s1">&#39;Assigning rna expression&#39;</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">df_rna_match</span><span class="p">[</span><span class="s1">&#39;protein&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">:</span>
+        <span class="n">rna_idx</span> <span class="o">=</span> <span class="n">df_rna_match</span><span class="p">[</span><span class="n">df_rna_match</span><span class="p">[</span><span class="s1">&#39;protein&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">i</span><span class="p">][</span><span class="s1">&#39;rna&#39;</span><span class="p">]</span>
+        <span class="n">rna_exp_each</span> <span class="o">=</span> <span class="n">rna_exp</span><span class="p">[</span><span class="n">rna_idx</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">rna_matched</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">rna_exp_each</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">rna_matched</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="n">rna_exp</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+Assigning rna expression: 100%|██████████| 178919/178919 [00:33&lt;00:00, 5271.49it/s]
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[50]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">rna_matched_protein_order</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">stack</span><span class="p">(</span><span class="n">rna_matched</span><span class="p">)</span>
+<span class="n">rna_matched_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">rna_matched_protein_order</span><span class="p">)</span>
+
+<span class="c1"># calculate the average rna expression based on rna_matched_protein_order for each cluster</span>
+<span class="n">avg_exp_rna</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">get_avg_expression_neighbors</span><span class="p">(</span><span class="n">rna_matched_df</span><span class="p">,</span> <span class="n">spatial_knn_indices</span><span class="p">)</span>
+<span class="n">avg_exp_rna_df</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">stack</span><span class="p">(</span><span class="n">avg_exp_rna</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+Computing avg expression: 100%|██████████| 178919/178919 [00:49&lt;00:00, 3588.70it/s]
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[51]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">n_cluster</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="n">kmeans_rna</span> <span class="o">=</span> <span class="n">KMeans</span><span class="p">(</span><span class="n">n_clusters</span><span class="o">=</span><span class="n">n_cluster</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">avg_exp_rna_df</span><span class="p">)</span>
+<span class="n">protein</span><span class="p">[</span><span class="s1">&#39;cluster_rna&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">kmeans_rna</span><span class="o">.</span><span class="n">labels_</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[52]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># reorder colors to be consistent</span>
+<span class="n">order_clusters_rna</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">protein</span><span class="p">[</span><span class="s1">&#39;cluster_rna&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">())</span>
+<span class="n">protein</span><span class="p">[</span><span class="s1">&#39;cluster_rna_order&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">protein</span><span class="p">[</span><span class="s1">&#39;cluster_rna&#39;</span><span class="p">]</span>
+
+<span class="n">index1</span> <span class="o">=</span> <span class="n">protein</span><span class="p">[</span><span class="n">protein</span><span class="p">[</span><span class="s1">&#39;cluster_rna_order&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;1&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">index</span>
+<span class="n">index2</span> <span class="o">=</span> <span class="n">protein</span><span class="p">[</span><span class="n">protein</span><span class="p">[</span><span class="s1">&#39;cluster_rna_order&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;8&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">index</span>
+<span class="n">protein</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">index1</span><span class="p">,</span> <span class="s1">&#39;cluster_rna_order&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;8&#39;</span>
+<span class="n">protein</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">index2</span><span class="p">,</span> <span class="s1">&#39;cluster_rna_order&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;1&#39;</span>
+<span class="n">index3</span> <span class="o">=</span> <span class="n">protein</span><span class="p">[</span><span class="n">protein</span><span class="p">[</span><span class="s1">&#39;cluster_rna_order&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;2&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">index</span>
+<span class="n">index4</span> <span class="o">=</span> <span class="n">protein</span><span class="p">[</span><span class="n">protein</span><span class="p">[</span><span class="s1">&#39;cluster_rna_order&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;3&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">index</span>
+<span class="n">protein</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">index3</span><span class="p">,</span> <span class="s1">&#39;cluster_rna_order&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;3&#39;</span>
+<span class="n">protein</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">index4</span><span class="p">,</span> <span class="s1">&#39;cluster_rna_order&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;2&#39;</span>
+<span class="n">index5</span> <span class="o">=</span> <span class="n">protein</span><span class="p">[</span><span class="n">protein</span><span class="p">[</span><span class="s1">&#39;cluster_rna_order&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;2&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">index</span>
+<span class="n">index6</span> <span class="o">=</span> <span class="n">protein</span><span class="p">[</span><span class="n">protein</span><span class="p">[</span><span class="s1">&#39;cluster_rna_order&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;4&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">index</span>
+<span class="n">protein</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">index5</span><span class="p">,</span> <span class="s1">&#39;cluster_rna_order&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;4&#39;</span>
+<span class="n">protein</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">index6</span><span class="p">,</span> <span class="s1">&#39;cluster_rna_order&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;2&#39;</span>
+<span class="n">index7</span> <span class="o">=</span> <span class="n">protein</span><span class="p">[</span><span class="n">protein</span><span class="p">[</span><span class="s1">&#39;cluster_rna_order&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;5&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">index</span>
+<span class="n">index8</span> <span class="o">=</span> <span class="n">protein</span><span class="p">[</span><span class="n">protein</span><span class="p">[</span><span class="s1">&#39;cluster_rna_order&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;0&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">index</span>
+<span class="n">protein</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">index7</span><span class="p">,</span> <span class="s1">&#39;cluster_rna_order&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;0&#39;</span>
+<span class="n">protein</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">index8</span><span class="p">,</span> <span class="s1">&#39;cluster_rna_order&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;5&#39;</span>
+<span class="n">index9</span> <span class="o">=</span> <span class="n">protein</span><span class="p">[</span><span class="n">protein</span><span class="p">[</span><span class="s1">&#39;cluster_rna_order&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;4&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">index</span>
+<span class="n">index10</span> <span class="o">=</span> <span class="n">protein</span><span class="p">[</span><span class="n">protein</span><span class="p">[</span><span class="s1">&#39;cluster_rna_order&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;8&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">index</span>
+<span class="n">protein</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">index9</span><span class="p">,</span> <span class="s1">&#39;cluster_rna_order&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;8&#39;</span>
+<span class="n">protein</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">index10</span><span class="p">,</span> <span class="s1">&#39;cluster_rna_order&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;4&#39;</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[53]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">scatterplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">protein</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s2">&quot;centroid_x&quot;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">&quot;centroid_y&quot;</span><span class="p">,</span> <span class="n">hue</span><span class="o">=</span><span class="s2">&quot;cluster_rna_order&quot;</span><span class="p">,</span>
+                <span class="n">hue_order</span><span class="o">=</span><span class="n">order_clusters_protein</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">rasterized</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">labelsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="n">labelsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Centroid x&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Centroid y&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
+
+<span class="n">legend</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="s1">&#39;upper left&#39;</span><span class="p">)</span>
+<span class="n">legend</span><span class="o">.</span><span class="n">get_title</span><span class="p">()</span><span class="o">.</span><span class="n">set_fontsize</span><span class="p">(</span><span class="s1">&#39;0&#39;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">label</span> <span class="ow">in</span> <span class="n">legend</span><span class="o">.</span><span class="n">get_texts</span><span class="p">():</span>
+    <span class="n">label</span><span class="o">.</span><span class="n">set_fontsize</span><span class="p">(</span><span class="mf">12.5</span><span class="p">)</span>
+
+<span class="c1">#plt.savefig(&#39;../figures/tonsil/tonsil_avgrna_order.png&#39;)</span>
+<span class="c1">#plt.savefig(&#39;../figures/tonsil/tonsil_avgrna_order.svg&#39;, dpi=300)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/notebooks_tutorials_MESA_tutorial_multiomics_77_0.png" src="../../_images/notebooks_tutorials_MESA_tutorial_multiomics_77_0.png" />
+</div>
+</div>
+</section>
+<section id="Neighborhood-Heatmap">
+<h2>Neighborhood Heatmap<a class="headerlink" href="#Neighborhood-Heatmap" title="Link to this heading"></a></h2>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[54]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># calculate the average protein expression for each cluster</span>
+<span class="n">protein</span><span class="p">[</span><span class="s1">&#39;all_protein&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">protein_exp</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+<span class="n">cluster_avg_exp</span> <span class="o">=</span> <span class="n">protein</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;cluster_protein_order&#39;</span><span class="p">)[</span><span class="s1">&#39;all_protein&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">tolist</span><span class="p">(),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span>
+<span class="n">cluster_avg_exp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">stack</span><span class="p">(</span><span class="n">cluster_avg_exp</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+<span class="n">cluster_avg_exp</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">cluster_avg_exp</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">protein_features</span><span class="p">)</span>
+
+<span class="c1"># calculate the average cellular composition based on cell_nbhd for each cluster</span>
+<span class="n">protein</span><span class="p">[</span><span class="s1">&#39;composition&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">cell_nbhd</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+<span class="n">cluster_composition</span> <span class="o">=</span> <span class="n">protein</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;cluster_protein_order&#39;</span><span class="p">)[</span><span class="s1">&#39;composition&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">tolist</span><span class="p">(),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span>
+<span class="n">cluster_composition</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">stack</span><span class="p">(</span><span class="n">cluster_composition</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+<span class="n">cluster_composition</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">cluster_composition</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">feature_labels</span><span class="p">)))</span>
+
+<span class="c1"># scale RNA expression to 0-1 to be comparable with protein expression</span>
+<span class="n">scaler</span> <span class="o">=</span> <span class="n">MinMaxScaler</span><span class="p">()</span>
+<span class="n">rna_matched_protein_order_scale</span> <span class="o">=</span> <span class="n">scaler</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">rna_matched_protein_order</span><span class="p">)</span>
+<span class="n">rna_matched_protein_order_scale</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">rna_matched_protein_order_scale</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">rna_adata</span><span class="o">.</span><span class="n">var_names</span><span class="p">)</span>
+
+<span class="c1"># calculate the average RNA expression for each cluster</span>
+<span class="n">protein</span><span class="p">[</span><span class="s1">&#39;all_rna&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">rna_matched_protein_order_scale</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+<span class="n">cluster_avg_exp_rna</span> <span class="o">=</span> <span class="n">protein</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;cluster_protein_order&#39;</span><span class="p">)[</span><span class="s1">&#39;all_rna&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">tolist</span><span class="p">(),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span>
+<span class="n">cluster_avg_exp_rna</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">stack</span><span class="p">(</span><span class="n">cluster_avg_exp_rna</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+<span class="n">cluster_avg_exp_rna</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">cluster_avg_exp_rna</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">rna_matched_protein_order_scale</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
+
+<span class="c1"># select highly variable RNAs</span>
+<span class="n">var_rna</span> <span class="o">=</span> <span class="n">cluster_avg_exp_rna</span><span class="o">.</span><span class="n">var</span><span class="p">()</span>
+<span class="n">top_variance_columns</span> <span class="o">=</span> <span class="n">var_rna</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">50</span><span class="p">)</span>
+<span class="n">top_variance_column_names</span> <span class="o">=</span> <span class="n">top_variance_columns</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+<span class="n">cluster_avg_exp_rna_variable</span> <span class="o">=</span> <span class="n">cluster_avg_exp_rna</span><span class="p">[</span><span class="n">top_variance_column_names</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[55]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">comb_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">cluster_composition</span><span class="p">,</span> <span class="n">cluster_avg_exp</span><span class="p">,</span> <span class="n">cluster_avg_exp_rna_variable</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="n">fg</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">clustermap</span><span class="p">(</span><span class="n">comb_df</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;Blues&#39;</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">22</span><span class="p">,</span><span class="mi">10</span><span class="p">),</span>
+                    <span class="n">row_cluster</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+                    <span class="n">col_cluster</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                    <span class="n">xticklabels</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                    <span class="n">yticklabels</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="n">fg</span><span class="o">.</span><span class="n">cax</span><span class="o">.</span><span class="n">yaxis</span><span class="o">.</span><span class="n">set_tick_params</span><span class="p">(</span><span class="n">labelsize</span><span class="o">=</span><span class="mf">12.5</span><span class="p">)</span>
+
+<span class="n">fg</span><span class="o">.</span><span class="n">ax_heatmap</span><span class="o">.</span><span class="n">set_yticklabels</span><span class="p">(</span><span class="n">fg</span><span class="o">.</span><span class="n">ax_heatmap</span><span class="o">.</span><span class="n">get_yticklabels</span><span class="p">(),</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">18</span><span class="p">)</span>
+<span class="n">fg</span><span class="o">.</span><span class="n">ax_heatmap</span><span class="o">.</span><span class="n">set_xticklabels</span><span class="p">(</span><span class="n">fg</span><span class="o">.</span><span class="n">ax_heatmap</span><span class="o">.</span><span class="n">get_xticklabels</span><span class="p">(),</span> <span class="n">fontsize</span><span class="o">=</span><span class="mf">12.5</span><span class="p">)</span>
+
+<span class="c1">#plt.savefig(&#39;../figures/tonsil/tonsil_protein_neighborhood_heatmap.png&#39;)</span>
+<span class="c1">#plt.savefig(&#39;../figures/tonsil/tonsil_protein_neighborhood_heatmap.svg&#39;, dpi=300)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/notebooks_tutorials_MESA_tutorial_multiomics_80_0.png" src="../../_images/notebooks_tutorials_MESA_tutorial_multiomics_80_0.png" />
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="MESA_tutorial_ecospatial.html" class="btn btn-neutral float-left" title="MESA Ecospatial Tutorials" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="MESA_in_R.html" class="btn btn-neutral float-right" title="Using MESA in R" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Daisy Yi Ding, Zeyu Tang, Bokai Zhu.</p>
+  </div>
+
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
