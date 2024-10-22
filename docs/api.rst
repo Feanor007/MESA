@@ -14,6 +14,7 @@ Multiomics
     :toctree: api
 
     multiomics.multiomics_spatial.get_spatial_knn_indices
+    multiomics.multiomics_spatial.get_neighborhood_composition
     multiomics.multiomics_spatial.get_global_neighborhood_composition
     multiomics.multiomics_spatial.get_avg_expression_neighbors
 
