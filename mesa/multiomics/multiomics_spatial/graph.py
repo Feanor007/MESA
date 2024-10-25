@@ -8,24 +8,25 @@ from sklearn.neighbors import NearestNeighbors
 from mesa.multiomics.multiomics_spatial import utils
 
 
-def get_spatial_knn_indices(locations, n_neighbors=15, method='kd_tree'):
+def get_spatial_knn_indices(locations, n_neighbors=15, method='kd_tree')-> np.ndarray:
     """
-    Compute k-nearest neighbors of locations.
+    Compute the k-nearest neighbors (k-NN) of each location in a given data matrix.
 
     Parameters
     ----------
-    locations: np.ndarray of shape (n_samples, 2)
-        Data matrix
-    n_neighbors: int
-        Number of nearest neighbors
-    method: str, default='kd_tree'
-        Method to use when computing the nearest neighbors, one of ['ball_tree', 'kd_tree', 'brute']
+    locations : :class:`numpy.ndarray` of shape (n_samples, 2)
+        The data matrix representing locations where each row corresponds to a point in 2D space.
+    n_neighbors : int, optional
+        The number of nearest neighbors to identify for each location. Default is 15.
+    method : str, optional
+        The method used to compute the nearest neighbors. Options include 'ball_tree', 'kd_tree', and 'brute'. Default is 'kd_tree'.
 
     Returns
     -------
-    knn_indices: np.ndarray of shape (n_samples, n_neighbors)
-        Each row represents the knn of that sample
+    :class:`numpy.ndarray` of shape (n_samples, n_neighbors)
+        An array where each row represents the indices of the nearest neighbors for that sample, ordered by proximity.
     """
+    
     locations = np.array(locations)
     assert n_neighbors <= locations.shape[0]
     # k-NN indices, may be asymmetric

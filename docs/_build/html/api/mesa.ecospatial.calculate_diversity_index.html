@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>mesa.ecospatial.calculate_diversity_index &mdash; MESA 0.0.8 documentation</title>
+  <title>mesa.ecospatial.calculate_diversity_index &mdash; MESA 0.0.9 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
@@ -16,7 +16,7 @@
   
         <script src="../_static/jquery.js?v=5d32c60e"></script>
         <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../_static/documentation_options.js?v=53b53b71"></script>
+        <script src="../_static/documentation_options.js?v=f7cdbf68"></script>
         <script src="../_static/doctools.js?v=888ff710"></script>
         <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
         <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -41,7 +41,7 @@
             MESA
           </a>
               <div class="version">
-                0.0.8
+                0.0.9
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
@@ -108,27 +108,26 @@
 <dl class="py function">
 <dt class="sig sig-object py" id="mesa.ecospatial.calculate_diversity_index">
 <span class="sig-prename descclassname"><span class="pre">mesa.ecospatial.</span></span><span class="sig-name descname"><span class="pre">calculate_diversity_index</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">spatial_data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">library_key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">library_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spatial_key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">patches</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cluster_key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metric</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Shannon</span> <span class="pre">Diversity'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_comp</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mesa.ecospatial.calculate_diversity_index" title="Link to this definition"></a></dt>
-<dd><p>Calculate the heterogeneity index for a set of patches.</p>
+<dd><p>Calculate the heterogeneity index for a set of patches using specified metrics.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>spatial_data</strong> (<em>Union</em><em>[</em><em>ad.AnnData</em><em>, </em><em>pd.DataFrame</em><em>]</em>) – The spatial data to be used.</p></li>
-<li><p><strong>library_key</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a>) – The key to access the library data.</p></li>
-<li><p><strong>library_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a>) – The identifier of the library.</p></li>
-<li><p><strong>spatial_key</strong> (<em>Union</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a><em>, </em><em>List</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a><em>]</em><em>]</em>) – The key or list of keys to access the spatial data.</p></li>
-<li><p><strong>patches</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><em>list</em></a>) – The list of patches to be analyzed.</p></li>
-<li><p><strong>cluster_key</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a>) – The key to access the cluster data.</p></li>
-<li><p><strong>metric</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a>) – The metric to be used for the heterogeneity index calculation.</p></li>
-<li><p><strong>return_comp</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><em>bool</em></a><em>, </em><em>optional</em>) – If True, return a comprehensive object with additional details
-beyond the heterogeneity indices. Defaults to False.</p></li>
+<li><p><strong>spatial_data</strong> (Union[<code class="xref py py-class docutils literal notranslate"><span class="pre">ad.AnnData</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">pd.DataFrame</span></code>]) – The spatial data to be analyzed. This can be either an AnnData object or a DataFrame.</p></li>
+<li><p><strong>library_key</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a>) – Key to access the library data within <cite>spatial_data</cite>.</p></li>
+<li><p><strong>library_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a>) – Identifier for the library to analyze within <cite>spatial_data</cite>.</p></li>
+<li><p><strong>spatial_key</strong> (<em>Union</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a><em>, </em><em>List</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a><em>]</em><em>]</em>) – Key(s) to access spatial coordinates or related data in <cite>spatial_data</cite>.</p></li>
+<li><p><strong>patches</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><em>list</em></a>) – List of spatial regions or patches to compute the diversity index for.</p></li>
+<li><p><strong>cluster_key</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a>) – Key to access clustering data, defining groups within patches.</p></li>
+<li><p><strong>metric</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a><em>, </em><em>optional</em>) – The diversity metric to use, e.g., ‘Shannon Diversity’. Default is ‘Shannon Diversity’.</p></li>
+<li><p><strong>return_comp</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><em>bool</em></a><em>, </em><em>optional</em>) – If <cite>True</cite>, returns a comprehensive result object containing additional details along with the heterogeneity indices. Default is <cite>False</cite>.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>A series of heterogeneity indices, or if <cite>return_comp</cite> is True,
-a more comprehensive object with additional details.</p>
+<dd class="field-even"><p>If <cite>return_comp</cite> is <cite>False</cite>, returns a <code class="xref py py-class docutils literal notranslate"><span class="pre">pd.Series</span></code> with heterogeneity indices for each patch.
+If <cite>return_comp</cite> is <cite>True</cite>, returns an additional <code class="xref py py-class docutils literal notranslate"><span class="pre">pd.Series</span></code> with cell compositions.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.Series.html#pandas.Series" title="(in pandas v2.2.3)">pandas.Series</a></p>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">pd.Series</span></code></p>
 </dd>
 </dl>
 </dd></dl>

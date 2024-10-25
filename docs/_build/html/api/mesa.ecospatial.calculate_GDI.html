@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>mesa.ecospatial.calculate_GDI &mdash; MESA 0.0.8 documentation</title>
+  <title>mesa.ecospatial.calculate_GDI &mdash; MESA 0.0.9 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
@@ -16,7 +16,7 @@
   
         <script src="../_static/jquery.js?v=5d32c60e"></script>
         <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../_static/documentation_options.js?v=53b53b71"></script>
+        <script src="../_static/documentation_options.js?v=f7cdbf68"></script>
         <script src="../_static/doctools.js?v=888ff710"></script>
         <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
         <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -41,7 +41,7 @@
             MESA
           </a>
               <div class="version">
-                0.0.8
+                0.0.9
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
@@ -108,32 +108,29 @@
 <dl class="py function">
 <dt class="sig sig-object py" id="mesa.ecospatial.calculate_GDI">
 <span class="sig-prename descclassname"><span class="pre">mesa.ecospatial.</span></span><span class="sig-name descname"><span class="pre">calculate_GDI</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">spatial_data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scale</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">library_key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">library_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spatial_key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cluster_key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hotspot</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">whole_tissue</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">p_value</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.01</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">restricted</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'MoranI'</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mesa.ecospatial.calculate_GDI" title="Link to this definition"></a></dt>
-<dd><p>Calculates a generalized diversity index (GDI) for specified libraries within spatial data.
-The function processes each specified library, calculates diversity indices, and assesses
-spatial statistics to determine GDI values under the specified mode of analysis.</p>
+<dd><p>Calculate a Global Diversity Index (GDI) for specified samples within spatial data, incorporating spatial statistics under chosen analysis modes.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>spatial_data</strong> (<em>Union</em><em>[</em><em>ad.AnnData</em><em>, </em><em>pd.DataFrame</em><em>]</em>) – The spatial data containing library and clustering information.</p></li>
-<li><p><strong>scale</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><em>float</em></a>) – The scaling factor to adjust spatial coordinates.</p></li>
-<li><p><strong>library_key</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a>) – The key associated with the library information in <cite>spatial_data</cite>.</p></li>
-<li><p><strong>library_id</strong> (<em>Union</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.13)"><em>tuple</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><em>list</em></a><em>]</em>) – The identifiers for libraries to be analyzed.</p></li>
-<li><p><strong>spatial_key</strong> (<em>Union</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a><em>, </em><em>List</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a><em>]</em><em>]</em>) – The key(s) identifying the spatial coordinates in <cite>spatial_data</cite>.</p></li>
-<li><p><strong>cluster_key</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a>) – The key used to access cluster information within <cite>spatial_data</cite>.</p></li>
-<li><p><strong>hotspot</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><em>bool</em></a><em>, </em><em>optional</em>) – If True, analyzes spatial hotspots; otherwise, analyzes coldspots. Defaults to True.</p></li>
-<li><p><strong>whole_tissue</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><em>bool</em></a><em>, </em><em>optional</em>) – If True, analyzes the whole tissue instead of specific regions. Defaults to False.</p></li>
-<li><p><strong>p_value</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><em>float</em></a><em>, </em><em>optional</em>) – The p-value threshold for statistical significance in spatial analysis. Defaults to 0.01.</p></li>
-<li><p><strong>restricted</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><em>bool</em></a><em>, </em><em>optional</em>) – If True, the analysis is restricted to specified conditions, typically specific tissue types. Defaults to False.</p></li>
-<li><p><strong>mode</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a><em>, </em><em>optional</em>) – The mode of spatial statistics to apply (e.g., ‘MoranI’). Defaults to ‘MoranI’.</p></li>
-<li><p><strong>**kwargs</strong> – Additional keyword arguments for further customization and specific parameters in underlying functions.</p></li>
+<li><p><strong>spatial_data</strong> (Union[<code class="xref py py-class docutils literal notranslate"><span class="pre">ad.AnnData</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">pd.DataFrame</span></code>]) – The spatial data containing library and clustering information for analysis.</p></li>
+<li><p><strong>scale</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><em>float</em></a>) – The scaling factor to adjust spatial coordinates for analysis.</p></li>
+<li><p><strong>library_key</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a>) – Key associated with the library information in <cite>spatial_data</cite>.</p></li>
+<li><p><strong>library_id</strong> (<em>Union</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.13)"><em>tuple</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><em>list</em></a><em>]</em>) – Identifiers for the libraries to be analyzed.</p></li>
+<li><p><strong>spatial_key</strong> (<em>Union</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a><em>, </em><em>List</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a><em>]</em><em>]</em>) – Key(s) identifying the spatial coordinates within <cite>spatial_data</cite>.</p></li>
+<li><p><strong>cluster_key</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a>) – Key used to access cluster information within <cite>spatial_data</cite>.</p></li>
+<li><p><strong>hotspot</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><em>bool</em></a><em>, </em><em>optional</em>) – Determines whether to analyze spatial hotspots or coldspots. Default is True.</p></li>
+<li><p><strong>whole_tissue</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><em>bool</em></a><em>, </em><em>optional</em>) – Specifies whether to analyze the entire tissue or specific regions. Default is False.</p></li>
+<li><p><strong>p_value</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><em>float</em></a><em>, </em><em>optional</em>) – The p-value threshold for determining statistical significance in spatial analysis. Default is 0.01.</p></li>
+<li><p><strong>restricted</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><em>bool</em></a><em>, </em><em>optional</em>) – Restricts the analysis to specified conditions or tissue types. Default is False.</p></li>
+<li><p><strong>mode</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a><em>, </em><em>optional</em>) – The mode of spatial statistics used in the analysis, such as ‘MoranI’. Default is ‘MoranI’.</p></li>
+<li><p><strong>**kwargs</strong> – Additional keyword arguments for customization and specific parameters in underlying functions.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>A DataFrame with indices representing library identifiers and a single column ‘GDI’
-containing the calculated Global Diversity Index for each sample.</p>
+<dd class="field-even"><p>A DataFrame with indices representing library identifiers and a single column ‘GDI’ containing the calculated Global Diversity Index for each sample.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>pd.DataFrame</p>
+<dd class="field-odd"><p><a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v2.2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a></p>
 </dd>
 </dl>
 </dd></dl>

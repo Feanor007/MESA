@@ -15,8 +15,6 @@ from sklearn.cluster import MiniBatchKMeans
 from sklearn.decomposition import PCA
 from tqdm import tqdm
 
-#import graph
-
 def set_seed(seed=0):
     torch.manual_seed(seed)
     random.seed(seed)
@@ -25,7 +23,6 @@ def set_seed(seed=0):
 
 def center_scale(arr):
     return (arr - arr.mean(axis=0)) / arr.std(axis=0)
-
 
 def drop_zero_variability_columns(arr, tol=1e-8):
     """
@@ -40,6 +37,7 @@ def drop_zero_variability_columns(arr, tol=1e-8):
     -------
     np.ndarray where no column has zero standard deviation
     """
+    
     bad_columns = set()
     curr_std = np.std(arr, axis=0)
     for col in np.nonzero(np.abs(curr_std) < tol)[0]:
@@ -48,21 +46,23 @@ def drop_zero_variability_columns(arr, tol=1e-8):
     return arr[:, good_columns]
 
 
-def get_neighborhood_composition(knn_indices, labels):
+def get_neighborhood_composition(knn_indices, labels)-> np.ndarray:
     """
-    Compute the composition of neighbors for each sample.
+    Compute the composition of neighbors for each sample based on k-nearest neighbors (k-NN) indices and cluster labels, determining the proportion of each cluster within the neighbors of each sample.
+
     Parameters
     ----------
-    knn_indices: np.ndarray of shape (n_samples, n_neighbors)
-        Each row represents the knn of that sample
-    labels: np.ndarray of shape (n_samples, )
-        Cluster labels
+    knn_indices : :class:`numpy.ndarray` of shape (n_samples, n_neighbors)
+        An array where each row represents the k-nearest neighbors' indices for that sample, indicating the nearest neighbors.
+    labels : :class:`numpy.ndarray` of shape (n_samples,)
+        An array of cluster labels for each sample, used to determine the composition of the neighborhood.
 
     Returns
     -------
-    comp: np.ndarray of shape (n_samples, n_neighbors)
-        The composition (in proportion) of neighbors for each sample.
+    :class:`numpy.ndarray` of shape (n_samples, n_neighbors)
+        An array where each row represents the composition (in proportion) of neighbors for each sample based on the cluster labels.
     """
+    
     labels = list(labels)
     n, k = knn_indices.shape
     unique_clusters = np.unique(labels)
@@ -77,25 +77,27 @@ def get_neighborhood_composition(knn_indices, labels):
 
     return (comp.T / comp.sum(axis=1)).T
 
-def get_global_neighborhood_composition(knn_indices, labels, all_labels, percentage=True):
+def get_global_neighborhood_composition(knn_indices, labels, all_labels, percentage=True)-> np.ndarray:
     """
-    Compute the composition of neighbors for each sample.
+    Compute the global composition of neighbors for each sample, either in percentage or count form, based on k-nearest neighbors (k-NN) indices and specific cluster labels.
+
     Parameters
     ----------
-    knn_indices: np.ndarray of shape (n_samples, n_neighbors)
-        Each row represents the knn of that sample
-    labels: np.ndarray of shape (n_samples, )
-        Cluster labels that appear in this particular region
-    all_labels: np.ndarray
-        All unique cluster labels across the whole dataset
-    percentage: bool, default=True
-        whether return cell-type percenrage or cell-type count
+    knn_indices : :class:`numpy.ndarray` of shape (n_samples, n_neighbors)
+        An array where each row represents the k-nearest neighbors' indices for that sample, indicating the nearest neighbors.
+    labels : :class:`numpy.ndarray` of shape (n_samples,)
+        Cluster labels for each sample that appear in this particular region, used to determine neighborhood composition.
+    all_labels : :class:`numpy.ndarray`
+        All unique cluster labels across the entire dataset, used for reference in composition calculations.
+    percentage : bool, optional
+        Specifies whether to return the composition as a percentage of the total or as a raw count. Default is True.
 
     Returns
     -------
-    comp: np.ndarray of shape (n_samples, n_neighbors)
-        The composition (in proportion) of neighbors for each sample.
+    :class:`numpy.ndarray` of shape (n_samples, len(all_labels))
+        An array where each row represents the composition of neighbors for each sample, either as a percentage or a count, based on the cluster labels.
     """
+    
     labels = list(labels)
     n, k = knn_indices.shape
     n_clusters = len(all_labels)
@@ -218,6 +220,7 @@ def get_pca_expression_neighbors(exp_df: pd.DataFrame, spatial_knn_indices: np.n
         #print(len(concat_df))
         concat_exp_all.append(concat_df)
         #print(len(concat_exp_all))
+    
     # Convert list to np array
     concat_exp_all = np.array(concat_exp_all)
     #print(concat_exp_all.shape)
@@ -231,6 +234,7 @@ def get_pca_expression_neighbors(exp_df: pd.DataFrame, spatial_knn_indices: np.n
 def get_avg_expression_neighbors(exp_df: pd.DataFrame, spatial_knn_indices: np.ndarray):
     """
     Calculate the average expression values over the neighbors of each data point.
+    
     Parameters
     ----------
     exp_df : pd.DataFrame
@@ -244,6 +248,7 @@ def get_avg_expression_neighbors(exp_df: pd.DataFrame, spatial_knn_indices: np.n
         The resulting np.ndarray represents the average expression values over the neighbors 
         of a data point.
     """
+    
     knn_indices_df = pd.DataFrame(spatial_knn_indices)
     avg_exp_all = []
     for neighbors in tqdm(knn_indices_df.values, total=knn_indices_df.shape[0], desc='Computing avg expression'):

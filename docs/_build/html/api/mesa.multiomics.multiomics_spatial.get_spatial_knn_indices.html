@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>mesa.multiomics.multiomics_spatial.get_spatial_knn_indices &mdash; MESA 0.0.8 documentation</title>
+  <title>mesa.multiomics.multiomics_spatial.get_spatial_knn_indices &mdash; MESA 0.0.9 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
@@ -16,7 +16,7 @@
   
         <script src="../_static/jquery.js?v=5d32c60e"></script>
         <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../_static/documentation_options.js?v=53b53b71"></script>
+        <script src="../_static/documentation_options.js?v=f7cdbf68"></script>
         <script src="../_static/doctools.js?v=888ff710"></script>
         <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
         <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -41,7 +41,7 @@
             MESA
           </a>
               <div class="version">
-                0.0.8
+                0.0.9
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
@@ -102,20 +102,20 @@
 <dl class="py function">
 <dt class="sig sig-object py" id="mesa.multiomics.multiomics_spatial.get_spatial_knn_indices">
 <span class="sig-prename descclassname"><span class="pre">mesa.multiomics.multiomics_spatial.</span></span><span class="sig-name descname"><span class="pre">get_spatial_knn_indices</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">locations</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_neighbors</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">15</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'kd_tree'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mesa.multiomics.multiomics_spatial.get_spatial_knn_indices" title="Link to this definition"></a></dt>
-<dd><p>Compute k-nearest neighbors of locations.</p>
+<dd><p>Compute the k-nearest neighbors (k-NN) of each location in a given data matrix.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>locations</strong> (<em>np.ndarray</em><em> of </em><em>shape</em><em> (</em><em>n_samples</em><em>, </em><em>2</em><em>)</em>) – Data matrix</p></li>
-<li><p><strong>n_neighbors</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><em>int</em></a>) – Number of nearest neighbors</p></li>
-<li><p><strong>method</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a><em>, </em><em>default='kd_tree'</em>) – Method to use when computing the nearest neighbors, one of [‘ball_tree’, ‘kd_tree’, ‘brute’]</p></li>
+<li><p><strong>locations</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a> of shape (n_samples, 2)) – The data matrix representing locations where each row corresponds to a point in 2D space.</p></li>
+<li><p><strong>n_neighbors</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><em>int</em></a><em>, </em><em>optional</em>) – The number of nearest neighbors to identify for each location. Default is 15.</p></li>
+<li><p><strong>method</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a><em>, </em><em>optional</em>) – The method used to compute the nearest neighbors. Options include ‘ball_tree’, ‘kd_tree’, and ‘brute’. Default is ‘kd_tree’.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>knn_indices</strong> – Each row represents the knn of that sample</p>
+<dd class="field-even"><p>An array where each row represents the indices of the nearest neighbors for that sample, ordered by proximity.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>np.ndarray of shape (n_samples, n_neighbors)</p>
+<dd class="field-odd"><p><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a> of shape (n_samples, n_neighbors)</p>
 </dd>
 </dl>
 </dd></dl>

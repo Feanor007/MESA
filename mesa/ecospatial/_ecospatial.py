@@ -1,6 +1,6 @@
 import math
 import time
-from typing import Union, List, Optional
+from typing import Union, List, Optional, Tuple
 from itertools import combinations
 from collections import defaultdict
 
@@ -28,19 +28,19 @@ from mesa.ecospatial._utils import (
 )
 
 
-def calculate_shannon_entropy(counts:np.ndarray):
+def calculate_shannon_entropy(counts: np.ndarray) -> float:
     """
     Calculate the Shannon entropy of a set of counts.
 
     Parameters
     ----------
-    counts : numpy.ndarray
-        An array of counts.
+    counts : :class:`numpy.ndarray`
+        An array of counts from which to calculate the entropy. Each count represents the frequency of a distinct event in the dataset.
 
     Returns
     -------
-    float
-        The Shannon entropy of the counts.
+    :class:`float`
+        The Shannon entropy calculated from the counts.
     """
     
     N = np.sum(counts)
@@ -61,7 +61,7 @@ def calculate_simpson_index(counts:np.ndarray):
         An array of counts.
         
     Returns:
-    float
+    :class:`float`
         The Simpson index of the counts.
     """
     counts = np.array(counts)
@@ -82,7 +82,7 @@ def calculate_simpsonDiversity_index(counts:np.ndarray):
         An array of counts.
         
     Returns:
-    float
+    :class:`float`
         The Simpson diversity index of the counts.
     """
         
@@ -149,27 +149,27 @@ def map_spots_back_to_grid(spots, original_grid, masked_grid, fill_value=-1):
                 
     return mapped_spots
     
-def global_spatial_stats(grid:np.ndarray, mode='MoranI', tissue_only=False, plot_weights=False):
+def global_spatial_stats(grid:np.ndarray, mode='MoranI', tissue_only=False, plot_weights=False)-> Tuple[float, float]:
     """
-    Perform global spatial autocorrelation analysis.
+    Perform global spatial autocorrelation analysis on a 2D grid of diversity indices.
 
     Parameters
     ----------
-    grid : numpy.ndarray
-        The 2D grid of diversity indices to be analyzed.
-    mode : str, optional (default='MoranI')
-        The spatial statistic to use. One of {'MoranI', 'GearyC', 'GetisOrdG'}.
-    tissue_only : bool, optional (default=False)
-        If True, the analysis is restricted to tissue regions.
-    plot_weights : bool, optional (default=False)
-        If True, visualize the spatial weights matrix.
+    grid : :class:`numpy.ndarray`
+        The 2D grid containing diversity indices for spatial autocorrelation analysis.
+    mode : str, optional
+        The spatial statistic method to be used, options include 'MoranI', 'GearyC', and 'GetisOrdG'. Default is 'MoranI'.
+    tissue_only : bool, optional
+        If set to True, the analysis is restricted to only tissue regions, excluding non-tissue areas. Default is False.
+    plot_weights : bool, optional
+        If set to True, visualizes the spatial weights matrix to help in understanding spatial relationships. Default is False.
 
     Returns
     -------
-    stats : float
-        The spatial statistic.
-    p : float
-        The p-value for the test.
+    :class:`float`
+        The calculated spatial statistic indicating the degree of autocorrelation.
+    :class:`float`
+        The p-value associated with the spatial statistic test, indicating statistical significance.
     """
     
     # Get dimensions
@@ -241,34 +241,34 @@ def global_spatial_stats(grid:np.ndarray, mode='MoranI', tissue_only=False, plot
     else:
         return None
 
-def local_spatial_stats(grid:np.ndarray, mode='MoranI', tissue_only=False, p_value=0.01, seed=42, plot_weights=False, return_stats=False):
+def local_spatial_stats(grid:np.ndarray, mode='MoranI', tissue_only=False, p_value=0.01, seed=42, plot_weights=False, return_stats=False)-> Tuple[np.ndarray, np.ndarray]:
     """
-    Compute local indicators of spatial association (LISA) for local spatial autocorrelation,
-    and return significant hotspots and coldspots.
+    Compute local indicators of spatial association (LISA) for local spatial autocorrelation on a 2D grid of diversity indices,
+    identifying significant hotspots and coldspots based on the chosen statistical method.
 
     Parameters
     ----------
-    grid : numpy.ndarray
-        The 2D grid of diversity indices to be analyzed.
-    mode : str, optional (default='MoranI')
-        The spatial statistic to use. One of {'MoranI', 'GearyC', 'GetisOrdG'}.
-    tissue_only : bool, optional (default=False)
-        If True, the analysis is restricted to tissue regions.
-    p_value : float, optional (default=0.01)
-        The p-value cutoff for significance.
-    seed : int, optional (default=42)
-        Random seed for reproducibility.
-    plot_weights : bool, optional (default=False)
-        If True, visualize the spatial weights matrix.
-    return_stats : bool, optional (default=False)
-        If True, return LISA alongwith hot/cold spots
+    grid : :class:`numpy.ndarray`
+        The 2D grid containing diversity indices for local spatial autocorrelation analysis.
+    mode : str, optional
+        The spatial statistic method to be used, options include 'MoranI', 'GearyC', and 'GetisOrdG'. Default is 'MoranI'.
+    tissue_only : bool, optional
+        If set to True, restricts the analysis to tissue regions only. Default is False.
+    p_value : float, optional
+        The p-value cutoff for determining significance of hotspots and coldspots. Default is 0.01.
+    seed : int, optional
+        Random seed for ensuring reproducibility of the analysis. Default is 42.
+    plot_weights : bool, optional
+        If set to True, visualizes the spatial weights matrix to aid in understanding spatial relationships. Default is False.
+    return_stats : bool, optional
+        If True, returns the local indicators of spatial association (LISA) along with identified hotspots and coldspots. Default is False.
 
     Returns
     -------
-    hotspots : numpy.ndarray
-        Boolean array indicating hotspots (high value surrounded by high values).
-    coldspots : numpy.ndarray
-        Boolean array indicating coldspots (low value surrounded by low values).
+    :class:`numpy.ndarray`
+        A boolean array indicating locations identified as hotspots (high value surrounded by high values).
+    :class:`numpy.ndarray`
+        A boolean array indicating locations identified as coldspots (low value surrounded by low values).
     """
     
     # Get dimensions
@@ -374,31 +374,33 @@ def compute_proximity_index(arr, rook=True):
     
     return proximity_index
 
-def generate_patches(spatial_data: Union[ad.AnnData, pd.DataFrame], 
-                     library_key: str, 
-                     library_id: str, 
-                     scaling_factor: Union[int, float], 
-                     spatial_key: Union[str, List[str]]):
+def generate_patches(
+    spatial_data: Union[ad.AnnData, pd.DataFrame],
+    library_key: str,
+    library_id: str,
+    scaling_factor: Union[int, float],
+    spatial_key: Union[str, List[str]]
+) -> list:
     """
-    Generate a list of patches from a spatial data object.
-    
+    Generate a list of patches from a spatial data object, scaling them according to a given factor.
+
     Parameters
     ----------
-    spatial_data : Union[ad.AnnData, pd.DataFrame]
-        The spatial data from which to generate patches.
+    spatial_data : Union[:class:`ad.AnnData`, :class:`pd.DataFrame`]
+        The spatial data from which to generate patches. This can be either an AnnData object or a DataFrame.
     library_key : str
-        The key identifying the library within the spatial data.
+        Key to identify the specific library within the `spatial_data`.
     library_id : str
-        The identifier for the library within the spatial data.
+        Identifier for the specific library, used to segregate or identify the data subset.
     scaling_factor : Union[int, float]
-        The scaling factor to determine the size of the patches.
+        Factor by which the spatial dimensions are scaled to determine the size of each patch.
     spatial_key : Union[str, List[str]]
-        The key or list of keys to access the spatial data.
+        Key(s) to access specific spatial information within `spatial_data`.
 
     Returns
     -------
-    list
-        A list of patches.
+    :class:`list`
+        A list of spatially defined patches derived from the `spatial_data`.
     """
     
     if isinstance(spatial_data, ad.AnnData):
@@ -438,35 +440,44 @@ def generate_patches(spatial_data: Union[ad.AnnData, pd.DataFrame],
             patches.append((x0, y0, x1, y1))
     return patches
 
-def generate_patches_randomly(spatial_data: Union[ad.AnnData, pd.DataFrame], 
-                              library_key:str, 
-                              library_id:str, 
-                              scaling_factor:Union[int,float], 
-                              spatial_key:Union[str,List[str]], 
-                              max_overlap=0.0, 
-                              random_seed=None, 
-                              min_points=2):
+def generate_patches_randomly(
+    spatial_data: Union[ad.AnnData, pd.DataFrame],
+    library_key: str,
+    library_id: str,
+    scaling_factor: Union[int, float],
+    spatial_key: Union[str, List[str]],
+    max_overlap: float = 0.0,
+    random_seed: Optional[int] = None,
+    min_points: int = 2
+) -> list:
     """
-    This function generates a list of patches from a spatial data object in a random manner.
-    
-    Parameters:
-    spatial_data: anndata.AnnData or pandas.DataFrame
-        The spatial data from which to generate patches.
-    scaling_factor: int or float
-        The scaling factor to determine the size of the patches.
-    spatial_key: str or list
-        The key or list of keys to access the spatial data.
-    max_overlap: float, default=0.0
-        The maximum allowable overlap ratio for a new patch.
-    random_seed: int or None, default=None
-        The seed for the random number generator.
-    min_points: int, default=0.0
-        The minimum number of points that the patch should contain.
-        
-    Returns:
-    list
-        A list of patches.
+    Generate a list of patches from a spatial data object in a random manner, ensuring specified constraints on overlap and point count.
+
+    Parameters
+    ----------
+    spatial_data : Union[:class:`ad.AnnData`, :class:`pd.DataFrame`]
+        The spatial data from which to generate patches. This can be either an AnnData object or a DataFrame.
+    library_key : str
+        Key to identify the specific library within the `spatial_data`.
+    library_id : str
+        Identifier for the specific library, used to segregate or identify the data subset.
+    scaling_factor : Union[int, float]
+        Factor by which the spatial dimensions are scaled to determine the size of each patch.
+    spatial_key : Union[str, List[str]]
+        Key(s) to access specific spatial information within `spatial_data`.
+    max_overlap : float, optional
+        The maximum allowable overlap ratio between any two patches. Default is 0.0.
+    random_seed : Optional[int]
+        The seed for the random number generator, if reproducibility is desired. Default is None.
+    min_points : int
+        The minimum number of points a patch must contain to be considered valid. Default is 2.
+
+    Returns
+    -------
+    :class:`list`
+        A list of spatially defined patches, generated randomly based on the specified parameters.
     """
+
     rng = np.random.default_rng(random_seed)
 
     # Filter the spatial data for the given library_id
@@ -598,42 +609,43 @@ def display_patches(spatial_data: Union[ad.AnnData, pd.DataFrame],
     plt.show()
     
 
-def calculate_diversity_index(spatial_data: Union[ad.AnnData, pd.DataFrame], 
-                              library_key: str,
-                              library_id: str, 
-                              spatial_key: Union[str, List[str]],
-                              patches: list,
-                              cluster_key: str,
-                              metric: str = 'Shannon Diversity',
-                              return_comp=False):
+def calculate_diversity_index(
+    spatial_data: Union[ad.AnnData, pd.DataFrame],
+    library_key: str,
+    library_id: str,
+    spatial_key: Union[str, List[str]],
+    patches: list,
+    cluster_key: str,
+    metric: str = 'Shannon Diversity',
+    return_comp: bool = False
+) -> Union[pd.Series, object]:
     """
-    Calculate the heterogeneity index for a set of patches.
+    Calculate the heterogeneity index for a set of patches using specified metrics.
 
     Parameters
     ----------
-    spatial_data : Union[ad.AnnData, pd.DataFrame]
-        The spatial data to be used.
+    spatial_data : Union[:class:`ad.AnnData`, :class:`pd.DataFrame`]
+        The spatial data to be analyzed. This can be either an AnnData object or a DataFrame.
     library_key : str
-        The key to access the library data.
+        Key to access the library data within `spatial_data`.
     library_id : str
-        The identifier of the library.
+        Identifier for the library to analyze within `spatial_data`.
     spatial_key : Union[str, List[str]]
-        The key or list of keys to access the spatial data.
+        Key(s) to access spatial coordinates or related data in `spatial_data`.
     patches : list
-        The list of patches to be analyzed.
+        List of spatial regions or patches to compute the diversity index for.
     cluster_key : str
-        The key to access the cluster data.
-    metric : str
-        The metric to be used for the heterogeneity index calculation.
+        Key to access clustering data, defining groups within patches.
+    metric : str, optional
+        The diversity metric to use, e.g., 'Shannon Diversity'. Default is 'Shannon Diversity'.
     return_comp : bool, optional
-        If True, return a comprehensive object with additional details
-        beyond the heterogeneity indices. Defaults to False.
+        If `True`, returns a comprehensive result object containing additional details along with the heterogeneity indices. Default is `False`.
 
     Returns
     -------
-    pandas.Series
-        A series of heterogeneity indices, or if `return_comp` is True,
-        a more comprehensive object with additional details.
+    :class:`pd.Series`
+        If `return_comp` is `False`, returns a :class:`pd.Series` with heterogeneity indices for each patch.
+        If `return_comp` is `True`, returns an additional :class:`pd.Series` with cell compositions.
     """
 
     METRIC_FUNCTIONS = {
@@ -714,39 +726,39 @@ def calculate_MDI(spatial_data: Union[ad.AnnData, pd.DataFrame],
                   plotfigs=False, 
                   savefigs=False,
                   patch_kwargs={},  
-                  other_kwargs={}):
+                  other_kwargs={})-> pd.DataFrame:
     """
-    Calculate the multiscale diversity index (MDI).
+    Calculate the multiscale diversity index (MDI) for spatial data.
 
     Parameters
     ----------
-    spatial_data : Union[ad.AnnData, pd.DataFrame]
-        The spatial data to be used.
+    spatial_data : Union[:class:`ad.AnnData`, :class:`pd.DataFrame`]
+        The spatial data to be used for calculating the diversity indices.
     scales : Union[tuple, list]
-        The scales to be used for the analysis.
+        The scales at which the diversity index is to be calculated.
     library_key : str
-        The key to access the library data.
+        The key to access the library data within `spatial_data`.
     library_id : Union[tuple, list]
-        The identifiers of the libraries.
+        The identifiers of the libraries involved in the analysis.
     spatial_key : Union[str, List[str]]
-        The key or list of keys to access the spatial data.
+        Key(s) used to access the spatial data from `spatial_data`.
     cluster_key : str
-        The key to access the cluster data.
+        The key to access the cluster data which categorizes the spatial entities.
     random_patch : bool, optional
-        Whether to generate patches in a random manner. Defaults to False.
+        Specifies whether patches should be generated in a random manner. Default is False.
     plotfigs : bool, optional
-        Whether to plot the figures. Defaults to False.
+        Whether to plot figures during the analysis. Default is False.
     savefigs : bool, optional
-        Whether to save the figures. Defaults to False.
+        Whether to save the generated figures to disk. Default is False.
     patch_kwargs : dict, optional
-        Additional keyword arguments for the patch generation. Defaults to an empty dict.
+        Additional keyword arguments used for patch generation. Defaults to an empty dictionary.
     other_kwargs : dict, optional
-        Other keyword arguments. Defaults to an empty dict.
+        Other keyword arguments that may influence the analysis. Defaults to an empty dictionary.
 
     Returns
     -------
-    pandas.DataFrame
-        A dataframe of diversity value at each scale and MDI.
+    :class:`pandas.DataFrame`
+        A DataFrame containing the diversity value at each scale and the overall multiscale diversity index (MDI).
     """
     
     # Prepare to store the results
@@ -855,47 +867,43 @@ def calculate_GDI(spatial_data: Union[ad.AnnData, pd.DataFrame],
                   p_value: float = 0.01,
                   restricted: bool = False,
                   mode: str = 'MoranI',
-                  **kwargs):
+                  **kwargs)-> pd.DataFrame:
     """
-    Calculates a generalized diversity index (GDI) for specified libraries within spatial data. 
-    The function processes each specified library, calculates diversity indices, and assesses
-    spatial statistics to determine GDI values under the specified mode of analysis.
+    Calculate a Global Diversity Index (GDI) for specified samples within spatial data, incorporating spatial statistics under chosen analysis modes.
 
     Parameters
     ----------
-    spatial_data : Union[ad.AnnData, pd.DataFrame]
-        The spatial data containing library and clustering information.
+    spatial_data : Union[:class:`ad.AnnData`, :class:`pd.DataFrame`]
+        The spatial data containing library and clustering information for analysis.
     scale : float
-        The scaling factor to adjust spatial coordinates.
+        The scaling factor to adjust spatial coordinates for analysis.
     library_key : str
-        The key associated with the library information in `spatial_data`.
+        Key associated with the library information in `spatial_data`.
     library_id : Union[tuple, list]
-        The identifiers for libraries to be analyzed.
+        Identifiers for the libraries to be analyzed.
     spatial_key : Union[str, List[str]]
-        The key(s) identifying the spatial coordinates in `spatial_data`.
+        Key(s) identifying the spatial coordinates within `spatial_data`.
     cluster_key : str
-        The key used to access cluster information within `spatial_data`.
+        Key used to access cluster information within `spatial_data`.
     hotspot : bool, optional
-        If True, analyzes spatial hotspots; otherwise, analyzes coldspots. Defaults to True.
+        Determines whether to analyze spatial hotspots or coldspots. Default is True.
     whole_tissue : bool, optional
-        If True, analyzes the whole tissue instead of specific regions. Defaults to False.
+        Specifies whether to analyze the entire tissue or specific regions. Default is False.
     p_value : float, optional
-        The p-value threshold for statistical significance in spatial analysis. Defaults to 0.01.
+        The p-value threshold for determining statistical significance in spatial analysis. Default is 0.01.
     restricted : bool, optional
-        If True, the analysis is restricted to specified conditions, typically specific tissue types. Defaults to False.
+        Restricts the analysis to specified conditions or tissue types. Default is False.
     mode : str, optional
-        The mode of spatial statistics to apply (e.g., 'MoranI'). Defaults to 'MoranI'.
+        The mode of spatial statistics used in the analysis, such as 'MoranI'. Default is 'MoranI'.
     **kwargs
-        Additional keyword arguments for further customization and specific parameters in underlying functions.
+        Additional keyword arguments for customization and specific parameters in underlying functions.
 
     Returns
     -------
-    pd.DataFrame
-        A DataFrame with indices representing library identifiers and a single column 'GDI' 
-        containing the calculated Global Diversity Index for each sample.
+    :class:`pandas.DataFrame`
+        A DataFrame with indices representing library identifiers and a single column 'GDI' containing the calculated Global Diversity Index for each sample.
     """
 
-    
     global_stats = {sample_id: [] for sample_id in library_id}
     
     for sample_id in library_id:
@@ -932,49 +940,52 @@ def calculate_GDI(spatial_data: Union[ad.AnnData, pd.DataFrame],
         
     return pd.DataFrame(global_stats, index=['GDI']).T
 
-def calculate_DPI(spatial_data:Union[ad.AnnData,pd.DataFrame], 
-                  scale:float, 
-                  library_key:str,
-                  library_id:Union[tuple, list], 
-                  spatial_key:Union[str,List[str]],
-                  cluster_key:str,
-                  hotspot=True,
-                  p_value=0.01,
-                  mode='MoranI',
-                  restricted=False,
-                  **kwargs):
+def calculate_DPI(
+    spatial_data: Union[ad.AnnData, pd.DataFrame],
+    scale: float,
+    library_key: str,
+    library_id: Union[tuple, list],
+    spatial_key: Union[str, List[str]],
+    cluster_key: str,
+    hotspot: bool = True,
+    p_value: float = 0.01,
+    mode: str = 'MoranI',
+    restricted: bool = False,
+    **kwargs
+) -> pd.DataFrame:
     """
-    Calculate the proximity index for spatial data regions, identifying hotspots or coldspots 
-    based on diversity indices.
+    Calculate the Diversity Proximity Index (DPI) for specified samples within spatial data.
 
     Parameters
     ----------
-    spatial_data : Union[ad.AnnData, pd.DataFrame]
-        The spatial data to be analyzed. Can be an AnnData object or a pandas DataFrame.
+    spatial_data : Union[:class:`ad.AnnData`, :class:`pd.DataFrame`]
+        The spatial data to be analyzed. This can be an AnnData object or a pandas DataFrame.
     scale : float
         The scale factor used for generating patches within the spatial regions.
     library_key : str
-        The key in `spatial_data` that corresponds to the library identifiers.
+        Key in `spatial_data` that corresponds to library identifiers.
     library_id : Union[tuple, list]
-        A tuple or list of library identifiers to be processed.
+        A tuple or list of identifiers for the libraries to be processed.
     spatial_key : Union[str, List[str]]
-        The key(s) in `spatial_data` used to determine spatial coordinates.
+        Key(s) in `spatial_data` used to determine spatial coordinates.
     cluster_key : str
-        The key in `spatial_data` used to identify different clusters or types.
+        Key used to identify different clusters or types within `spatial_data`.
     hotspot : bool, optional
-        If True, identifies diversity hotspots; if False, identifies coldspots. Defaults to True.
+        Specifies whether to identify diversity hotspots (True) or coldspots (False). Default is True.
     p_value : float, optional
-        The significance level used for identifying hotspots or coldspots. Defaults to 0.01.
+        The significance level used for hotspot or coldspot identification. Default is 0.01.
+    mode : str, optional
+        Specifies the mode of spatial statistics to be used, such as 'MoranI'. Default is 'MoranI'.
     restricted : bool, optional
-        If True, only tissue regions are considered in the analysis. Defaults to False.
-    **kwargs : dict
-        Additional keyword arguments to pass to diversity calculation functions.
+        If set to True, restricts analysis to specific tissue regions. Default is False.
+    **kwargs
+        Additional keyword arguments for further customization of the diversity calculations.
 
     Returns
     -------
-    pd.DataFrame
-        A dictionary where each key is a library_id and the value is a list containing 
-        the proximity index for that region.
+    :class:`pandas.DataFrame`
+        A DataFrame where each index represents a library_id and the columns contain the calculated 
+        DPI for each sample.
     """
     
     PX = {sample_id: [] for sample_id in library_id}
@@ -1104,42 +1115,38 @@ def diversity_heatmap(spatial_data: Union[ad.AnnData, pd.DataFrame],
                       heterogeneity_indices, 
                       tissue_only=False,
                       plot=True,
-                      return_fig=False):
+                      return_fig=False) -> Union[np.ndarray, Optional[plt.Figure]]:
     """
-    This function visualizes the heterogeneity indices as a heatmap on the original spatial data.
+    Visualize the diversity indices as a heatmap on the original spatial data, optionally returning the plot figure for further customization.
 
     Parameters
     ----------
-    spatial_data : Union[ad.AnnData, pd.DataFrame]
-        The spatial data to be used for visualization.
+    spatial_data : Union[:class:`ad.AnnData`, :class:`pd.DataFrame`]
+        The spatial data to be used for visualization. This can be either an AnnData object or a DataFrame.
     library_key : str
-        The key associated with the library in the `spatial_data`.
+        The key associated with the library in `spatial_data`, used to access library-specific data.
     library_id : str
         The identifier for the library to be used in the analysis.
     spatial_key : Union[str, List[str]]
-        The key(s) identifying the spatial information within `spatial_data`.
+        Key(s) identifying the spatial information within `spatial_data`.
     patches : list
-        The list of patches to be analyzed. Each patch should correspond to a specific region in the spatial data.
-    heterogeneity_indices : pandas.Series
-        The heterogeneity indices to be visualized. Each value in this series corresponds to a patch, indicating its heterogeneity level.
+        The list of patches to be analyzed. Each patch corresponds to a specific region in the spatial data.
+    heterogeneity_indices : :class:`pandas.Series`
+        The heterogeneity indices to be visualized. Each index value corresponds to a patch, indicating its heterogeneity level.
     tissue_only : bool, optional
-        If True, only tissue regions are considered in the analysis. Defaults to False.
+        If True, only tissue regions are included in the analysis. Default is False.
     plot : bool, optional
-        If True, a heatmap is plotted. Defaults to True.
+        If True, a heatmap is plotted to visualize the indices. Default is True.
     return_fig : bool, optional
-        If True, the matplotlib figure is returned. This is useful for further customization of the plot. Defaults to False.
+        If True, the :class:`matplotlib.figure.Figure` is returned for further customization. Default is False.
 
     Returns
     -------
-    numpy.ndarray
-        A grid where each cell represents the heterogeneity index for a corresponding patch.
-    matplotlib.figure.Figure, optional
-        The matplotlib figure object if `return_fig` is True and `plot` is True; otherwise, this is not returned.
-
-    Notes
-    -----
-    This function requires that the spatial data is properly formatted and that the heterogeneity indices have been previously calculated. 
-    """  
+    :class:`numpy.ndarray`
+        A grid where each cell represents the diversity index for a corresponding patch.
+    :class:`matplotlib.figure.Figure`, optional
+        The matplotlib figure object, returned if both `return_fig` is True and `plot` is True.
+    """
 
     if isinstance(spatial_data, ad.AnnData):
         spatial_data_filtered = spatial_data[spatial_data.obs[library_key] == library_id]
@@ -1202,52 +1209,47 @@ def spot_cellfreq(spatial_data: Union[ad.AnnData, pd.DataFrame],
                   selected_comb: Optional[list] = None,
                   mode: str = 'MoranI',
                   restricted: bool = False,
-                  **kwargs):
+                  **kwargs)-> Tuple[pd.DataFrame, pd.DataFrame]:
     """
-    This function analyzes cell frequency and co-occurrence across different spots in spatial data 
-    based on specified library IDs and clustering keys, applying spatial statistics methods. It processes 
-    each specified region, calculates diversity indices, and evaluates the presence of hotspots, coldspots, 
-    or overall diversity based on the specified mode.
+    Analyze cell frequency and co-occurrence across different spots in spatial data.
 
     Parameters
     ----------
-    spatial_data : Union[ad.AnnData, pd.DataFrame]
-        The spatial data containing library information and spatial coordinates.
+    spatial_data : Union[:class:`ad.AnnData`, :class:`pd.DataFrame`]
+        The spatial data containing library information and spatial coordinates for analysis.
     scale : float
-        The scaling factor for adjusting the spatial coordinates.
+        The scaling factor for adjusting the spatial coordinates in the analysis.
     library_key : str
-        The key associated with the library information in `spatial_data`.
+        Key associated with the library information in `spatial_data`.
     library_id : Union[tuple, list]
-        The identifiers for libraries to be used in the analysis.
+        Identifiers for the libraries to be used in the analysis.
     spatial_key : Union[str, List[str]]
-        The key(s) identifying the spatial coordinates in `spatial_data`.
+        Key(s) identifying the spatial coordinates within `spatial_data`.
     cluster_key : str
-        The key used to access cluster information within `spatial_data`.
+        Key used to access cluster information within `spatial_data`.
     spots : str, optional
-        Type of spots to analyze ('hot', 'cold', or 'global'). Defaults to 'hot'.
+        Specifies the type of spots to analyze ('hot', 'cold', or 'global'). Default is 'hot'.
     p_value : float, optional
-        The p-value threshold for significance in spatial statistics testing. Defaults to 0.01.
+        The p-value threshold for significance in spatial statistics testing. Default is 0.01.
     combination : int, optional
-        The number of top combinations to consider for analyzing frequency. Defaults to 2.
+        The number of top combinations to consider for analyzing frequency and co-occurrence. Default is 2.
     top : int, optional
-        The number of top results to return. Defaults to 15.
-    selected_comb : list, optional
-        Specific combinations of clusters to analyze. If None, the top combinations are used.
+        The number of top results to return for each combination. Default is 15.
+    selected_comb : Optional[list], optional
+        Specific combinations of clusters to analyze; if None, the top combinations are used. Default is None.
     mode : str, optional
-        The mode of spatial statistics to apply (e.g., 'MoranI'). Defaults to 'MoranI'.
+        The mode of spatial statistics to apply (e.g., 'MoranI'). Default is 'MoranI'.
     restricted : bool, optional
-        If True, the analysis is restricted to specified conditions. Defaults to False.
+        If set to True, restricts the analysis to specified conditions or regions. Default is False.
     **kwargs
-        Additional keyword arguments for other specific parameters or configurations.
+        Additional keyword arguments for further customization and specific parameters in underlying functions.
 
     Returns
     -------
-    pd.DataFrame
-        A DataFrame containing the normalized cell frequencies for each cluster across the specified regions,
-        or across the entire tissue if 'global' is specified.
-    pd.DataFrame
-        A transposed DataFrame containing the frequency of specific cluster combinations in each region, 
-        sorted by the top specified combinations if `selected_comb` is None.
+    :class:`pandas.DataFrame`
+        A DataFrame containing normalized cell frequencies for each cluster across specified regions, or across the entire tissue if 'global' is selected.
+    :class:`pandas.DataFrame`
+        A transposed DataFrame showing the frequency of specific cluster combinations in each region, sorted by the top specified combinations if `selected_comb` is None.
     """
     
     if spots=='global':

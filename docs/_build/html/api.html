@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>API &mdash; MESA 0.0.8 documentation</title>
+  <title>API &mdash; MESA 0.0.9 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
@@ -16,7 +16,7 @@
   
         <script src="_static/jquery.js?v=5d32c60e"></script>
         <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="_static/documentation_options.js?v=53b53b71"></script>
+        <script src="_static/documentation_options.js?v=f7cdbf68"></script>
         <script src="_static/doctools.js?v=888ff710"></script>
         <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
         <script src="_static/clipboard.min.js?v=a7894cd8"></script>
@@ -41,7 +41,7 @@
             MESA
           </a>
               <div class="version">
-                0.0.8
+                0.0.9
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -116,16 +116,16 @@
 <table class="autosummary longtable docutils align-default">
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="api/mesa.multiomics.multiomics_spatial.get_spatial_knn_indices.html#mesa.multiomics.multiomics_spatial.get_spatial_knn_indices" title="mesa.multiomics.multiomics_spatial.get_spatial_knn_indices"><code class="xref py py-obj docutils literal notranslate"><span class="pre">multiomics.multiomics_spatial.get_spatial_knn_indices</span></code></a>(...)</p></td>
-<td><p>Compute k-nearest neighbors of locations.</p></td>
+<td><p>Compute the k-nearest neighbors (k-NN) of each location in a given data matrix.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="api/mesa.multiomics.multiomics_spatial.get_neighborhood_composition.html#mesa.multiomics.multiomics_spatial.get_neighborhood_composition" title="mesa.multiomics.multiomics_spatial.get_neighborhood_composition"><code class="xref py py-obj docutils literal notranslate"><span class="pre">multiomics.multiomics_spatial.get_neighborhood_composition</span></code></a>(...)</p></td>
-<td><p>Compute the composition of neighbors for each sample.</p></td>
+<td><p>Compute the composition of neighbors for each sample based on k-nearest neighbors (k-NN) indices and cluster labels, determining the proportion of each cluster within the neighbors of each sample.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="api/mesa.multiomics.multiomics_spatial.get_global_neighborhood_composition.html#mesa.multiomics.multiomics_spatial.get_global_neighborhood_composition" title="mesa.multiomics.multiomics_spatial.get_global_neighborhood_composition"><code class="xref py py-obj docutils literal notranslate"><span class="pre">multiomics.multiomics_spatial.get_global_neighborhood_composition</span></code></a>(...)</p></td>
-<td><p>Compute the composition of neighbors for each sample.</p></td>
+<td><p>Compute the global composition of neighbors for each sample, either in percentage or count form, based on k-nearest neighbors (k-NN) indices and specific cluster labels.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="api/mesa.multiomics.multiomics_spatial.get_avg_expression_neighbors.html#mesa.multiomics.multiomics_spatial.get_avg_expression_neighbors" title="mesa.multiomics.multiomics_spatial.get_avg_expression_neighbors"><code class="xref py py-obj docutils literal notranslate"><span class="pre">multiomics.multiomics_spatial.get_avg_expression_neighbors</span></code></a>(...)</p></td>
-<td><p>Calculate the average expression values over the neighbors of each data point. :type exp_df: <span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v2.2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">DataFrame</span></code></a></span> :param exp_df: The DataFrame to process. Each row represents a data point (e.g., a cell in single-cell data),                and each column represents an attribute of the data points (e.g., gene expression values). :type exp_df: pd.DataFrame :type spatial_knn_indices: <span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a></span> :param spatial_knn_indices: The indices that represent the k-nearest neighbors for each data point in a spatial data structure. :type spatial_knn_indices: np.ndarray.</p></td>
+<td><p>Calculate the average expression values over the neighbors of each data point.</p></td>
 </tr>
 </tbody>
 </table>
@@ -135,34 +135,34 @@
 <table class="autosummary longtable docutils align-default">
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="api/mesa.ecospatial.generate_patches.html#mesa.ecospatial.generate_patches" title="mesa.ecospatial.generate_patches"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ecospatial.generate_patches</span></code></a>(spatial_data, ...)</p></td>
-<td><p>Generate a list of patches from a spatial data object.</p></td>
+<td><p>Generate a list of patches from a spatial data object, scaling them according to a given factor.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="api/mesa.ecospatial.calculate_shannon_entropy.html#mesa.ecospatial.calculate_shannon_entropy" title="mesa.ecospatial.calculate_shannon_entropy"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ecospatial.calculate_shannon_entropy</span></code></a>(counts)</p></td>
 <td><p>Calculate the Shannon entropy of a set of counts.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="api/mesa.ecospatial.calculate_diversity_index.html#mesa.ecospatial.calculate_diversity_index" title="mesa.ecospatial.calculate_diversity_index"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ecospatial.calculate_diversity_index</span></code></a>(...[, ...])</p></td>
-<td><p>Calculate the heterogeneity index for a set of patches.</p></td>
+<td><p>Calculate the heterogeneity index for a set of patches using specified metrics.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="api/mesa.ecospatial.diversity_heatmap.html#mesa.ecospatial.diversity_heatmap" title="mesa.ecospatial.diversity_heatmap"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ecospatial.diversity_heatmap</span></code></a>(spatial_data, ...)</p></td>
-<td><p>This function visualizes the heterogeneity indices as a heatmap on the original spatial data.</p></td>
+<td><p>Visualize the diversity indices as a heatmap on the original spatial data, optionally returning the plot figure for further customization.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="api/mesa.ecospatial.global_spatial_stats.html#mesa.ecospatial.global_spatial_stats" title="mesa.ecospatial.global_spatial_stats"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ecospatial.global_spatial_stats</span></code></a>(grid[, ...])</p></td>
-<td><p>Perform global spatial autocorrelation analysis.</p></td>
+<td><p>Perform global spatial autocorrelation analysis on a 2D grid of diversity indices.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="api/mesa.ecospatial.local_spatial_stats.html#mesa.ecospatial.local_spatial_stats" title="mesa.ecospatial.local_spatial_stats"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ecospatial.local_spatial_stats</span></code></a>(grid[, mode, ...])</p></td>
-<td><p>Compute local indicators of spatial association (LISA) for local spatial autocorrelation, and return significant hotspots and coldspots.</p></td>
+<td><p>Compute local indicators of spatial association (LISA) for local spatial autocorrelation on a 2D grid of diversity indices, identifying significant hotspots and coldspots based on the chosen statistical method.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="api/mesa.ecospatial.calculate_MDI.html#mesa.ecospatial.calculate_MDI" title="mesa.ecospatial.calculate_MDI"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ecospatial.calculate_MDI</span></code></a>(spatial_data, ...)</p></td>
-<td><p>Calculate the multiscale diversity index (MDI).</p></td>
+<td><p>Calculate the multiscale diversity index (MDI) for spatial data.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="api/mesa.ecospatial.calculate_GDI.html#mesa.ecospatial.calculate_GDI" title="mesa.ecospatial.calculate_GDI"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ecospatial.calculate_GDI</span></code></a>(spatial_data, ...)</p></td>
-<td><p>Calculates a generalized diversity index (GDI) for specified libraries within spatial data.</p></td>
+<td><p>Calculate a Global Diversity Index (GDI) for specified samples within spatial data, incorporating spatial statistics under chosen analysis modes.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="api/mesa.ecospatial.calculate_DPI.html#mesa.ecospatial.calculate_DPI" title="mesa.ecospatial.calculate_DPI"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ecospatial.calculate_DPI</span></code></a>(spatial_data, ...)</p></td>
-<td><p>Calculate the proximity index for spatial data regions, identifying hotspots or coldspots based on diversity indices.</p></td>
+<td><p>Calculate the Diversity Proximity Index (DPI) for specified samples within spatial data.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="api/mesa.ecospatial.spot_cellfreq.html#mesa.ecospatial.spot_cellfreq" title="mesa.ecospatial.spot_cellfreq"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ecospatial.spot_cellfreq</span></code></a>(spatial_data, ...)</p></td>
-<td><p>This function analyzes cell frequency and co-occurrence across different spots in spatial data based on specified library IDs and clustering keys, applying spatial statistics methods.</p></td>
+<td><p>Analyze cell frequency and co-occurrence across different spots in spatial data.</p></td>
 </tr>
 </tbody>
 </table>

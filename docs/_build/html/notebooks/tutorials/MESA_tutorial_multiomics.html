@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Prepare Data for Multiomics Integration &mdash; MESA 0.0.8 documentation</title>
+  <title>MESA Multiomics Tutorials &mdash; MESA 0.0.9 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
@@ -17,7 +17,7 @@
   
         <script src="../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../../_static/documentation_options.js?v=53b53b71"></script>
+        <script src="../../_static/documentation_options.js?v=f7cdbf68"></script>
         <script src="../../_static/doctools.js?v=888ff710"></script>
         <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
         <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -44,7 +44,7 @@
             MESA
           </a>
               <div class="version">
-                0.0.8
+                0.0.9
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
@@ -60,19 +60,22 @@
 <li class="toctree-l1"><a class="reference internal" href="../../api.html">API</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../../tutorials.html">Tutorials</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="MESA_tutorial_ecospatial.html">MESA Ecospatial Tutorials</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">Prepare Data for Multiomics Integration</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#Multiomics-Integration">Multiomics Integration</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#Step-I:-preparations">Step I: preparations</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#Step-II:-finding-initial-pivots">Step II: finding initial pivots</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#Step-III:-finding-refined-pivots">Step III: finding refined pivots</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#Step-IV:-propagation">Step IV: propagation</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">MESA Multiomics Tutorials</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Prepare-Data-for-Multiomics-Integration">Prepare Data for Multiomics Integration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Multiomics-Integration">Multiomics Integration</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#Step-I:-preparations">Step I: preparations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Step-II:-finding-initial-pivots">Step II: finding initial pivots</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Step-III:-finding-refined-pivots">Step III: finding refined pivots</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Step-IV:-propagation">Step IV: propagation</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#Neighborhood-Characterization">Neighborhood Characterization</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#Cellular-Composition-based-Neighborhoods">Cellular Composition-based Neighborhoods</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#MESA's-Local-Average-Protein-Expression-based-Neighborhoods">MESA’s Local Average Protein Expression-based Neighborhoods</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#MESA's-Local-Average-mRNA-Expression-based-Neighborhoods">MESA’s Local Average mRNA Expression-based Neighborhoods</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#Neighborhood-Heatmap">Neighborhood Heatmap</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Neighborhood-Characterization">Neighborhood Characterization</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#Cellular-Composition-based-Neighborhoods">Cellular Composition-based Neighborhoods</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#MESA's-Local-Average-Protein-Expression-based-Neighborhoods">MESA’s Local Average Protein Expression-based Neighborhoods</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#MESA's-Local-Average-mRNA-Expression-based-Neighborhoods">MESA’s Local Average mRNA Expression-based Neighborhoods</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Neighborhood-Heatmap">Neighborhood Heatmap</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="MESA_in_R.html">Using MESA in R</a></li>
@@ -96,7 +99,7 @@
   <ul class="wy-breadcrumbs">
       <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="../../tutorials.html">Tutorials</a></li>
-      <li class="breadcrumb-item active">Prepare Data for Multiomics Integration</li>
+      <li class="breadcrumb-item active">MESA Multiomics Tutorials</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../../_sources/notebooks/tutorials/MESA_tutorial_multiomics.ipynb.txt" rel="nofollow"> View page source</a>
       </li>
@@ -106,8 +109,10 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+  <section id="MESA-Multiomics-Tutorials">
+<h1>MESA Multiomics Tutorials<a class="headerlink" href="#MESA-Multiomics-Tutorials" title="Link to this heading"></a></h1>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
@@ -133,10 +138,10 @@
 </div>
 </div>
 <section id="Prepare-Data-for-Multiomics-Integration">
-<h1>Prepare Data for Multiomics Integration<a class="headerlink" href="#Prepare-Data-for-Multiomics-Integration" title="Link to this heading"></a></h1>
+<h2>Prepare Data for Multiomics Integration<a class="headerlink" href="#Prepare-Data-for-Multiomics-Integration" title="Link to this heading"></a></h2>
 <p>We begin by reading in CODEX and scRNASeq data.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># read in CODEX data</span>
@@ -167,11 +172,11 @@
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../../_images/notebooks_tutorials_MESA_tutorial_multiomics_5_1.png" src="../../_images/notebooks_tutorials_MESA_tutorial_multiomics_5_1.png" />
+<img alt="../../_images/notebooks_tutorials_MESA_tutorial_multiomics_6_1.png" src="../../_images/notebooks_tutorials_MESA_tutorial_multiomics_6_1.png" />
 </div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># input csv contains meta info, take only protein features</span>
@@ -191,7 +196,7 @@
 </div>
 <p>Then we read in the scRNASeq data and convert to <code class="docutils literal notranslate"><span class="pre">adata</span></code> format too.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># read in RNA data</span>
@@ -206,7 +211,7 @@
 </div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">rna_adata_raw</span> <span class="o">=</span> <span class="n">rna_adata</span>
@@ -215,7 +220,7 @@
 </div>
 <p>Here we are integrating protein and RNA data, and most of the time there are name differences between protein (antibody) and their corresponding gene names. To construct the feature correspondence in straight forward way, we prepared a <code class="docutils literal notranslate"><span class="pre">.csv</span></code> file containing most of the antibody name (seen in cite-seq or codex antibody names etc) and their corresponding gene names:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">correspondence</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;../../../../../tonsil/protein_gene_conversion.csv&#39;</span><span class="p">)</span>
@@ -224,7 +229,7 @@
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
 </pre></div>
 </div>
 <div class="output_area rendered_html docutils container">
@@ -282,7 +287,7 @@
 </div>
 <p>But of course this files does contain all names including custom names in new assays. If a certain correspondence is not found, either it is missing in the other modality, or you should customly add the name conversion to this <code class="docutils literal notranslate"><span class="pre">.csv</span></code> file.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">rna_protein_correspondence</span> <span class="o">=</span> <span class="p">[]</span>
@@ -303,7 +308,7 @@
 </div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Columns rna_shared and protein_shared are matched.</span>
@@ -315,7 +320,7 @@
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Make sure no column is static</span>
@@ -339,7 +344,7 @@
 </div>
 <p>We apply standard Scanpy preprocessing steps to <code class="docutils literal notranslate"><span class="pre">rna_shared</span></code>. We skipped the processing steps for <code class="docutils literal notranslate"><span class="pre">protein_shared</span></code> because the input CODEX data was already normalized et.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># process rna_shared</span>
@@ -351,7 +356,7 @@
 </div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">protein_shared</span> <span class="o">=</span> <span class="n">protein_shared</span><span class="o">.</span><span class="n">X</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
@@ -360,7 +365,7 @@
 </div>
 <p>We again apply standard Scanpy preprocessing steps to <strong>all available RNA measurements and protein measurements</strong> (not just the shared ones) to get two arrays, <code class="docutils literal notranslate"><span class="pre">rna_active</span></code> and <code class="docutils literal notranslate"><span class="pre">protein_active</span></code>, which are used for iterative refinement. Again if the input data is already processed, these steps can be skipped.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># process all RNA features</span>
@@ -374,7 +379,7 @@
 </div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># make sure no feature is static</span>
@@ -387,15 +392,18 @@
 </div>
 </section>
 <section id="Multiomics-Integration">
-<h1>Multiomics Integration<a class="headerlink" href="#Multiomics-Integration" title="Link to this heading"></a></h1>
-<p>While we are using the MaxFuse method for multiomics integration in MESA, other integration methods can also be implemented. For more detailed documentation of MaxFuse, please check out: <a class="reference external" href="https://maxfuse.readthedocs.io/en/latest/index.html">https://maxfuse.readthedocs.io/en/latest/index.html</a>.</p>
+<h2>Multiomics Integration<a class="headerlink" href="#Multiomics-Integration" title="Link to this heading"></a></h2>
+<p>In this illustration, we are utilizing the MaxFuse method for multiomics integration. To proceed, you’ll need to install the <code class="docutils literal notranslate"><span class="pre">maxfuse</span></code> package and follow the steps outlined below. While we are using the MaxFuse method for multiomics integration in MESA, other integration methods can also be implemented. For more detailed documentation of MaxFuse, please check out: <a class="reference external" href="https://maxfuse.readthedocs.io/en/latest/index.html">https://maxfuse.readthedocs.io/en/latest/index.html</a>.</p>
+<p>You can also directly load the multiomics integration results and skip ahead to the neighborhood characterization step.</p>
 <section id="Step-I:-preparations">
-<h2>Step I: preparations<a class="headerlink" href="#Step-I:-preparations" title="Link to this heading"></a></h2>
+<h3>Step I: preparations<a class="headerlink" href="#Step-I:-preparations" title="Link to this heading"></a></h3>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># call constructor for Fusor object</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">maxfuse</span> <span class="k">as</span> <span class="nn">mf</span>
+
+<span class="c1"># call constructor for Fusor object</span>
 <span class="c1"># which is the main object for running MaxFuse pipeline</span>
 <span class="n">fusor</span> <span class="o">=</span> <span class="n">mf</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">Fusor</span><span class="p">(</span>
     <span class="n">shared_arr1</span><span class="o">=</span><span class="n">rna_shared</span><span class="p">,</span>
@@ -460,7 +468,7 @@ Batch to batch correspondence is:
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../../_images/notebooks_tutorials_MESA_tutorial_multiomics_28_1.png" src="../../_images/notebooks_tutorials_MESA_tutorial_multiomics_28_1.png" />
+<img alt="../../_images/notebooks_tutorials_MESA_tutorial_multiomics_29_1.png" src="../../_images/notebooks_tutorials_MESA_tutorial_multiomics_29_1.png" />
 </div>
 </div>
 <div class="nbinput docutils container">
@@ -489,7 +497,7 @@ Batch to batch correspondence is:
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../../_images/notebooks_tutorials_MESA_tutorial_multiomics_29_1.png" src="../../_images/notebooks_tutorials_MESA_tutorial_multiomics_29_1.png" />
+<img alt="../../_images/notebooks_tutorials_MESA_tutorial_multiomics_30_1.png" src="../../_images/notebooks_tutorials_MESA_tutorial_multiomics_30_1.png" />
 </div>
 </div>
 <p>Inspecting the “elbows”, we choose the number of PCs to be <strong>40</strong> for both RNA and <strong>15</strong> for protein active data. We then call <code class="docutils literal notranslate"><span class="pre">construct_graphs</span></code> to compute nearest-neighbor graphs as needed.</p>
@@ -548,7 +556,7 @@ Graph clustering finished!
 </div>
 </section>
 <section id="Step-II:-finding-initial-pivots">
-<h2>Step II: finding initial pivots<a class="headerlink" href="#Step-II:-finding-initial-pivots" title="Link to this heading"></a></h2>
+<h3>Step II: finding initial pivots<a class="headerlink" href="#Step-II:-finding-initial-pivots" title="Link to this heading"></a></h3>
 <p>We then use shared arrays whose columns are matched to find initial pivots. Before we do so, we plot top singular values of two shared arrays to determine how many PCs to use.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[24]:
@@ -576,7 +584,7 @@ Graph clustering finished!
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../../_images/notebooks_tutorials_MESA_tutorial_multiomics_34_1.png" src="../../_images/notebooks_tutorials_MESA_tutorial_multiomics_34_1.png" />
+<img alt="../../_images/notebooks_tutorials_MESA_tutorial_multiomics_35_1.png" src="../../_images/notebooks_tutorials_MESA_tutorial_multiomics_35_1.png" />
 </div>
 </div>
 <div class="nbinput docutils container">
@@ -605,7 +613,7 @@ Graph clustering finished!
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../../_images/notebooks_tutorials_MESA_tutorial_multiomics_35_1.png" src="../../_images/notebooks_tutorials_MESA_tutorial_multiomics_35_1.png" />
+<img alt="../../_images/notebooks_tutorials_MESA_tutorial_multiomics_36_1.png" src="../../_images/notebooks_tutorials_MESA_tutorial_multiomics_36_1.png" />
 </div>
 </div>
 <p>We choose to use <strong>25</strong> PCs for <code class="docutils literal notranslate"><span class="pre">rna_shared</span></code> and <strong>20</strong> PCs for <code class="docutils literal notranslate"><span class="pre">protein_shared</span></code>. We then call <code class="docutils literal notranslate"><span class="pre">find_initial_pivots</span></code> to compute initial set of matched pairs.</p>
@@ -636,7 +644,7 @@ Done!
 <p>Now, we have a set of <em>initial pivots</em> that store the matched pairs when only the information in the shared arrays is used. The information on initial pivots are stored in the internal field <code class="docutils literal notranslate"><span class="pre">fusor._init_matching</span></code> that is invisible to users.</p>
 </section>
 <section id="Step-III:-finding-refined-pivots">
-<h2>Step III: finding refined pivots<a class="headerlink" href="#Step-III:-finding-refined-pivots" title="Link to this heading"></a></h2>
+<h3>Step III: finding refined pivots<a class="headerlink" href="#Step-III:-finding-refined-pivots" title="Link to this heading"></a></h3>
 <p>We now use the information in active arrays to iteratively refine initial pivots. We plot the top canonical correlations to choose the best number of components in canonical correlation analysis (CCA).</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[27]:
@@ -665,7 +673,7 @@ Done!
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../../_images/notebooks_tutorials_MESA_tutorial_multiomics_41_1.png" src="../../_images/notebooks_tutorials_MESA_tutorial_multiomics_41_1.png" />
+<img alt="../../_images/notebooks_tutorials_MESA_tutorial_multiomics_42_1.png" src="../../_images/notebooks_tutorials_MESA_tutorial_multiomics_42_1.png" />
 </div>
 </div>
 <p>A quick check on the previous plot gives a rough guide on what the <code class="docutils literal notranslate"><span class="pre">refine_pivots</span></code> parameters should be picked.</p>
@@ -729,7 +737,7 @@ Done!
 </div>
 </section>
 <section id="Step-IV:-propagation">
-<h2>Step IV: propagation<a class="headerlink" href="#Step-IV:-propagation" title="Link to this heading"></a></h2>
+<h3>Step IV: propagation<a class="headerlink" href="#Step-IV:-propagation" title="Link to this heading"></a></h3>
 <p>Refined pivots can only give us a pivot matching that captures a subset of cells. In order to get a <em>full</em> matching that involves all cells during input, we need to call <code class="docutils literal notranslate"><span class="pre">propagate</span></code>.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[30]:
@@ -940,9 +948,9 @@ first modality.</p>
 </section>
 </section>
 <section id="Neighborhood-Characterization">
-<h1>Neighborhood Characterization<a class="headerlink" href="#Neighborhood-Characterization" title="Link to this heading"></a></h1>
+<h2>Neighborhood Characterization<a class="headerlink" href="#Neighborhood-Characterization" title="Link to this heading"></a></h2>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># protein expression in protein</span>
@@ -957,9 +965,9 @@ first modality.</p>
 </div>
 </div>
 <section id="Cellular-Composition-based-Neighborhoods">
-<h2>Cellular Composition-based Neighborhoods<a class="headerlink" href="#Cellular-Composition-based-Neighborhoods" title="Link to this heading"></a></h2>
+<h3>Cellular Composition-based Neighborhoods<a class="headerlink" href="#Cellular-Composition-based-Neighborhoods" title="Link to this heading"></a></h3>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Get neighborhood composition</span>
@@ -967,12 +975,12 @@ first modality.</p>
 <span class="n">locations</span> <span class="o">=</span> <span class="n">protein</span><span class="p">[[</span><span class="s1">&#39;centroid_x&#39;</span><span class="p">,</span> <span class="s1">&#39;centroid_y&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">values</span>
 <span class="n">feature_labels</span> <span class="o">=</span> <span class="n">protein</span><span class="p">[</span><span class="s1">&#39;cluster.term&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
 <span class="n">spatial_knn_indices</span> <span class="o">=</span> <span class="n">multiomics</span><span class="o">.</span><span class="n">multiomics_spatial</span><span class="o">.</span><span class="n">get_spatial_knn_indices</span><span class="p">(</span><span class="n">locations</span><span class="o">=</span><span class="n">locations</span><span class="p">,</span> <span class="n">n_neighbors</span><span class="o">=</span><span class="n">ks</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;kd_tree&#39;</span><span class="p">)</span>
-<span class="n">cell_nbhd</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">get_neighborhood_composition</span><span class="p">(</span><span class="n">knn_indices</span><span class="o">=</span><span class="n">spatial_knn_indices</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="n">feature_labels</span><span class="p">)</span>
+<span class="n">cell_nbhd</span> <span class="o">=</span> <span class="n">multiomics</span><span class="o">.</span><span class="n">multiomics_spatial</span><span class="o">.</span><span class="n">get_neighborhood_composition</span><span class="p">(</span><span class="n">knn_indices</span><span class="o">=</span><span class="n">spatial_knn_indices</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="n">feature_labels</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">n_cluster</span> <span class="o">=</span> <span class="mi">10</span>
@@ -982,38 +990,8 @@ first modality.</p>
 </pre></div>
 </div>
 </div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area stderr docutils container">
-<div class="highlight"><pre>
-/Users/daisyding/opt/miniconda3/envs/omics/lib/python3.9/site-packages/sklearn/cluster/_kmeans.py:870: FutureWarning: The default value of `n_init` will change from 10 to &#39;auto&#39; in 1.4. Set the value of `n_init` explicitly to suppress the warning
-  warnings.warn(
-</pre></div></div>
-</div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">order_clusters_composition</span>
-</pre></div>
-</div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-<span class="ansi-red-fg">---------------------------------------------------------------------------</span>
-<span class="ansi-red-fg">NameError</span>                                 Traceback (most recent call last)
-Cell <span class="ansi-green-fg">In[13], line 1</span>
-<span class="ansi-green-fg">----&gt; 1</span> <span class="ansi-yellow-bg">order_clusters_composition</span>
-
-<span class="ansi-red-fg">NameError</span>: name &#39;order_clusters_composition&#39; is not defined
-</pre></div></div>
-</div>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cell_type_order</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">protein</span><span class="p">[</span><span class="s1">&#39;cluster.term&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">())</span>
@@ -1049,12 +1027,13 @@ Cell <span class="ansi-green-fg">In[13], line 1</span>
 </div>
 </section>
 <section id="MESA's-Local-Average-Protein-Expression-based-Neighborhoods">
-<h2>MESA’s Local Average Protein Expression-based Neighborhoods<a class="headerlink" href="#MESA's-Local-Average-Protein-Expression-based-Neighborhoods" title="Link to this heading"></a></h2>
+<h3>MESA’s Local Average Protein Expression-based Neighborhoods<a class="headerlink" href="#MESA's-Local-Average-Protein-Expression-based-Neighborhoods" title="Link to this heading"></a></h3>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[41]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">avg_exp</span> <span class="o">=</span> <span class="n">mesa</span><span class="o">.</span><span class="n">multiomics</span><span class="o">.</span><span class="n">multiomics_spatial</span><span class="o">.</span><span class="n">get_avg_expression_neighbors</span><span class="p">(</span><span class="n">protein_exp</span><span class="p">,</span> <span class="n">spatial_knn_indices</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Get average protein expression of local neighborhoods</span>
+<span class="n">avg_exp</span> <span class="o">=</span> <span class="n">multiomics</span><span class="o">.</span><span class="n">multiomics_spatial</span><span class="o">.</span><span class="n">get_avg_expression_neighbors</span><span class="p">(</span><span class="n">protein_exp</span><span class="p">,</span> <span class="n">spatial_knn_indices</span><span class="p">)</span>
 <span class="n">avg_exp_df</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">stack</span><span class="p">(</span><span class="n">avg_exp</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -1064,11 +1043,11 @@ Cell <span class="ansi-green-fg">In[13], line 1</span>
 </div>
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
-Computing avg expression: 100%|██████████| 178919/178919 [00:21&lt;00:00, 8293.29it/s]
+Computing avg expression: 100%|██████████| 178919/178919 [00:30&lt;00:00, 5944.59it/s]
 </pre></div></div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[42]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">n_cluster</span> <span class="o">=</span> <span class="mi">10</span>
@@ -1078,7 +1057,7 @@ Computing avg expression: 100%|██████████| 178919/178919 [00
 </div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[43]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[24]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># reorder colors to be consistent</span>
@@ -1107,7 +1086,7 @@ Computing avg expression: 100%|██████████| 178919/178919 [00
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[44]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[25]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
@@ -1141,10 +1120,10 @@ Computing avg expression: 100%|██████████| 178919/178919 [00
 </div>
 </section>
 <section id="MESA's-Local-Average-mRNA-Expression-based-Neighborhoods">
-<h2>MESA’s Local Average mRNA Expression-based Neighborhoods<a class="headerlink" href="#MESA's-Local-Average-mRNA-Expression-based-Neighborhoods" title="Link to this heading"></a></h2>
-<p>We first load the integration results.</p>
+<h3>MESA’s Local Average mRNA Expression-based Neighborhoods<a class="headerlink" href="#MESA's-Local-Average-mRNA-Expression-based-Neighborhoods" title="Link to this heading"></a></h3>
+<p>We first load the in-silico multiomics integration results.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[46]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[26]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_rna_match</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;../../../../../tonsil/tonsil_codex_rna.csv&#39;</span><span class="p">)</span>
@@ -1153,7 +1132,7 @@ Computing avg expression: 100%|██████████| 178919/178919 [00
 </div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[47]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[27]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">rna_adata</span> <span class="o">=</span> <span class="n">ad</span><span class="o">.</span><span class="n">AnnData</span><span class="p">(</span>
@@ -1171,10 +1150,10 @@ Computing avg expression: 100%|██████████| 178919/178919 [00
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[49]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[28]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># assign in-silico matched rna expression to cells in CODEX data</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># assign in-silico matched mRNA expression to cells in CODEX data</span>
 <span class="n">rna_matched</span> <span class="o">=</span> <span class="p">[]</span>
 <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">tqdm</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">protein</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="n">total</span><span class="o">=</span><span class="n">protein</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">desc</span><span class="o">=</span><span class="s1">&#39;Assigning rna expression&#39;</span><span class="p">):</span>
     <span class="k">if</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">df_rna_match</span><span class="p">[</span><span class="s1">&#39;protein&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">:</span>
@@ -1191,17 +1170,17 @@ Computing avg expression: 100%|██████████| 178919/178919 [00
 </div>
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
-Assigning rna expression: 100%|██████████| 178919/178919 [00:33&lt;00:00, 5271.49it/s]
+Assigning rna expression: 100%|██████████| 178919/178919 [00:31&lt;00:00, 5625.78it/s]
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[50]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[29]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">rna_matched_protein_order</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">stack</span><span class="p">(</span><span class="n">rna_matched</span><span class="p">)</span>
 <span class="n">rna_matched_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">rna_matched_protein_order</span><span class="p">)</span>
 
-<span class="c1"># calculate the average rna expression based on rna_matched_protein_order for each cluster</span>
+<span class="c1"># Calculate the average mRNA expression of local neighborhoods</span>
 <span class="n">avg_exp_rna</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">get_avg_expression_neighbors</span><span class="p">(</span><span class="n">rna_matched_df</span><span class="p">,</span> <span class="n">spatial_knn_indices</span><span class="p">)</span>
 <span class="n">avg_exp_rna_df</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">stack</span><span class="p">(</span><span class="n">avg_exp_rna</span><span class="p">)</span>
 </pre></div>
@@ -1212,11 +1191,11 @@ Assigning rna expression: 100%|██████████| 178919/178919 [00
 </div>
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
-Computing avg expression: 100%|██████████| 178919/178919 [00:49&lt;00:00, 3588.70it/s]
+Computing avg expression: 100%|██████████| 178919/178919 [00:45&lt;00:00, 3908.42it/s]
 </pre></div></div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[51]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[30]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">n_cluster</span> <span class="o">=</span> <span class="mi">10</span>
@@ -1226,7 +1205,7 @@ Computing avg expression: 100%|██████████| 178919/178919 [00
 </div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[52]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[31]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># reorder colors to be consistent</span>
@@ -1257,7 +1236,7 @@ Computing avg expression: 100%|██████████| 178919/178919 [00
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[53]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[32]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
@@ -1290,9 +1269,10 @@ Computing avg expression: 100%|██████████| 178919/178919 [00
 </div>
 </section>
 <section id="Neighborhood-Heatmap">
-<h2>Neighborhood Heatmap<a class="headerlink" href="#Neighborhood-Heatmap" title="Link to this heading"></a></h2>
+<h3>Neighborhood Heatmap<a class="headerlink" href="#Neighborhood-Heatmap" title="Link to this heading"></a></h3>
+<p>Here we visualize the cellular composition, protein, and mRNA expression across each neighborhood using a heatmap.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[54]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[33]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># calculate the average protein expression for each cluster</span>
@@ -1326,8 +1306,10 @@ Computing avg expression: 100%|██████████| 178919/178919 [00
 </pre></div>
 </div>
 </div>
+<p>All 46 protein markers available in the CODEX data were included in the heatmap, along with the top 50 most variable mRNA genes. This visualization revealed that despite similar cellular compositions across neighborhoods, there are discernible differences in protein and RNA expression levels. Taking Neighborhoods 1, 0, and 3 as focal points, we observed comparable heatmap intensities for cellular makeup; however, the expression levels of proteins such as Ki67, CD21, CD22, and mRNAs CD74 and
+TUBA1B were different between these neighborhoods. These variations in expression are consistent with known markers indicative of distinct B cell subpopulations in germinal centers</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[55]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[34]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">comb_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">cluster_composition</span><span class="p">,</span> <span class="n">cluster_avg_exp</span><span class="p">,</span> <span class="n">cluster_avg_exp_rna_variable</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
@@ -1353,7 +1335,7 @@ Computing avg expression: 100%|██████████| 178919/178919 [00
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../../_images/notebooks_tutorials_MESA_tutorial_multiomics_80_0.png" src="../../_images/notebooks_tutorials_MESA_tutorial_multiomics_80_0.png" />
+<img alt="../../_images/notebooks_tutorials_MESA_tutorial_multiomics_81_0.png" src="../../_images/notebooks_tutorials_MESA_tutorial_multiomics_81_0.png" />
 </div>
 </div>
 <div class="nbinput nblast docutils container">
@@ -1364,6 +1346,7 @@ Computing avg expression: 100%|██████████| 178919/178919 [00
 </pre></div>
 </div>
 </div>
+</section>
 </section>
 </section>
 
