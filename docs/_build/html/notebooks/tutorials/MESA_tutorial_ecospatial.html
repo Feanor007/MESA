@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>MESA Ecospatial Tutorials &mdash; MESA 0.0.9 documentation</title>
+  <title>MESA Ecospatial Tutorials &mdash; MESA 0.1.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
@@ -17,7 +17,7 @@
   
         <script src="../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../../_static/documentation_options.js?v=f7cdbf68"></script>
+        <script src="../../_static/documentation_options.js?v=01f34227"></script>
         <script src="../../_static/doctools.js?v=888ff710"></script>
         <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
         <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -44,7 +44,7 @@
             MESA
           </a>
               <div class="version">
-                0.0.9
+                0.1.0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
@@ -62,9 +62,13 @@
 <li class="toctree-l2 current"><a class="current reference internal" href="#">MESA Ecospatial Tutorials</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#Read-Data">Read Data</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#Customise-color-palette">Customise color palette</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#Perform-Ecospatial-Analysis-on-one-sample">Perform Ecospatial Analysis on one sample</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#Perform-Ecospatial-Analysis-on-all-samples">Perform Ecospatial Analysis on all samples</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Perform-Ecospatial-Analysis-on-one-sample">Perform Ecospatial Analysis on one sample</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#Calculate-MDI">Calculate MDI</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Diversity-Heatmap-Related-Analysis">Diversity Heatmap Related Analysis</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#Perform-Ecospatial-Analysis-on-all-samples">Perform Ecospatial Analysis on all samples</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id1">Calculate MDI</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#Calculate-GDI">Calculate GDI</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#Calculate-DPI">Calculate DPI</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#Calculate-Global-Cell-Frequency-&amp;-Cell-Co-Occurrence">Calculate Global Cell Frequency &amp; Cell Co-Occurrence</a></li>
@@ -133,10 +137,8 @@
 </div>
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
-/opt/miniconda3/envs/mesa/lib/python3.11/site-packages/geopandas/_compat.py:106: UserWarning: The Shapely GEOS version (3.8.0-CAPI-1.13.1) is incompatible with the GEOS version PyGEOS was compiled with (3.10.4-CAPI-1.16.2). Conversions between both will be slow.
-  warnings.warn(
-OMP: Info #276: omp_set_nested routine deprecated, please use omp_set_max_active_levels instead.
-/opt/miniconda3/envs/mesa/lib/python3.11/site-packages/spaghetti/network.py:41: FutureWarning: The next major release of pysal/spaghetti (2.0.0) will drop support for all ``libpysal.cg`` geometries. This change is a first step in refactoring ``spaghetti`` that is expected to result in dramatically reduced runtimes for network instantiation and operations. Users currently requiring network and point pattern input as ``libpysal.cg`` geometries should prepare for this simply by converting to ``shapely`` geometries.
+OMP: Info #270: omp_set_nested routine deprecated, please use omp_set_max_active_levels instead.
+/opt/miniconda3/envs/mesa_test/lib/python3.10/site-packages/spaghetti/network.py:42: FutureWarning: The next major release of pysal/spaghetti (2.0.0) will drop support for all ``libpysal.cg`` geometries. This change is a first step in refactoring ``spaghetti`` that is expected to result in dramatically reduced runtimes for network instantiation and operations. Users currently requiring network and point pattern input as ``libpysal.cg`` geometries should prepare for this simply by converting to ``shapely`` geometries.
   warnings.warn(dep_msg, FutureWarning, stacklevel=1)
 </pre></div></div>
 </div>
@@ -242,22 +244,24 @@ OMP: Info #276: omp_set_nested routine deprecated, please use omp_set_max_active
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Define sample</span>
 <span class="n">sample_id</span> <span class="o">=</span> <span class="s1">&#39;MRL-8&#39;</span>
+<span class="n">scale</span> <span class="o">=</span> <span class="mf">64.</span>
 
 <span class="c1"># Generate Quardrats</span>
 <span class="n">patches_coordinates</span> <span class="o">=</span> <span class="n">eco</span><span class="o">.</span><span class="n">generate_patches</span><span class="p">(</span><span class="n">spatial_data</span><span class="o">=</span><span class="n">adata</span><span class="p">,</span>
                                            <span class="n">library_key</span><span class="o">=</span><span class="s1">&#39;sample&#39;</span><span class="p">,</span>
                                            <span class="n">library_id</span><span class="o">=</span><span class="n">sample_id</span><span class="p">,</span>
-                                           <span class="n">scaling_factor</span><span class="o">=</span><span class="mf">64.</span><span class="p">,</span>
+                                           <span class="n">scaling_factor</span><span class="o">=</span><span class="n">scale</span><span class="p">,</span>
                                            <span class="n">spatial_key</span><span class="o">=</span><span class="s1">&#39;spatial&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
+<section id="Calculate-MDI">
+<h3>Calculate MDI<a class="headerlink" href="#Calculate-MDI" title="Link to this heading"></a></h3>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Calculate MDI</span>
-<span class="c1">## Define the sequence of scales</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Define the sequence of scales</span>
 <span class="n">scales</span> <span class="o">=</span> <span class="p">[</span><span class="mf">1.</span><span class="p">,</span> <span class="mf">2.</span><span class="p">,</span> <span class="mf">4.</span><span class="p">,</span> <span class="mf">8.</span><span class="p">,</span> <span class="mf">16.</span><span class="p">,</span> <span class="mf">32.</span><span class="p">,</span> <span class="mf">64.</span><span class="p">]</span>
 
 <span class="n">df_results</span> <span class="o">=</span> <span class="n">eco</span><span class="o">.</span><span class="n">calculate_MDI</span><span class="p">(</span><span class="n">spatial_data</span><span class="o">=</span><span class="n">adata</span><span class="p">,</span>
@@ -325,6 +329,9 @@ MRL-8 at scale 64.0 diversity is 1.8713334691757577
 MDI: 3.466
 </pre></div></div>
 </div>
+</section>
+<section id="Diversity-Heatmap-Related-Analysis">
+<h3>Diversity Heatmap Related Analysis<a class="headerlink" href="#Diversity-Heatmap-Related-Analysis" title="Link to this heading"></a></h3>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
 </pre></div>
@@ -364,14 +371,14 @@ MDI: 3.466
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../../_images/notebooks_tutorials_MESA_tutorial_ecospatial_14_1.png" src="../../_images/notebooks_tutorials_MESA_tutorial_ecospatial_14_1.png" />
+<img alt="../../_images/notebooks_tutorials_MESA_tutorial_ecospatial_16_1.png" src="../../_images/notebooks_tutorials_MESA_tutorial_ecospatial_16_1.png" />
 </div>
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Calculate GDI by applying global moran&#39;s I on the Diversity Heatmap</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Calculate GDI</span>
 <span class="n">GDI</span><span class="p">,</span> <span class="n">p_sim</span> <span class="o">=</span> <span class="n">eco</span><span class="o">.</span><span class="n">global_spatial_stats</span><span class="p">(</span><span class="n">grid</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;MoranI&#39;</span><span class="p">,</span> <span class="n">tissue_only</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">plot_weights</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;GDI: </span><span class="si">{</span><span class="n">GDI</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">, p-value: </span><span class="si">{</span><span class="n">p_sim</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </pre></div>
@@ -422,14 +429,14 @@ Using MoranI
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../../_images/notebooks_tutorials_MESA_tutorial_ecospatial_16_1.png" src="../../_images/notebooks_tutorials_MESA_tutorial_ecospatial_16_1.png" />
+<img alt="../../_images/notebooks_tutorials_MESA_tutorial_ecospatial_18_1.png" src="../../_images/notebooks_tutorials_MESA_tutorial_ecospatial_18_1.png" />
 </div>
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Calculate LDI and find hot/coldspots by applying local moran&#39;s I on the Diversity Heatmap</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Calculate LDI and find hot/coldspots</span>
 <span class="n">hotspots</span><span class="p">,</span> <span class="n">coldspots</span> <span class="o">=</span> <span class="n">eco</span><span class="o">.</span><span class="n">local_spatial_stats</span><span class="p">(</span><span class="n">grid</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;MoranI&#39;</span><span class="p">,</span> <span class="n">p_value</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span> <span class="n">tissue_only</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -446,7 +453,7 @@ Using MoranI
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Visualise hot/coldspot</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Visualise hot/coldspots</span>
 <span class="n">combined_spots</span> <span class="o">=</span> <span class="p">(</span><span class="n">hotspots</span> <span class="o">*</span> <span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="n">coldspots</span> <span class="o">*</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
 <span class="n">seismic</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">seismic</span>
 <span class="n">colors</span> <span class="o">=</span> <span class="p">[</span><span class="n">seismic</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="s2">&quot;white&quot;</span><span class="p">,</span> <span class="n">seismic</span><span class="p">(</span><span class="mf">0.999</span><span class="p">)]</span>
@@ -490,14 +497,14 @@ width: 1768.140, height: 1704.784
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-&lt;matplotlib.image.AxesImage at 0x15239be50&gt;
+&lt;matplotlib.image.AxesImage at 0x12581f790&gt;
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../../_images/notebooks_tutorials_MESA_tutorial_ecospatial_18_2.png" src="../../_images/notebooks_tutorials_MESA_tutorial_ecospatial_18_2.png" />
+<img alt="../../_images/notebooks_tutorials_MESA_tutorial_ecospatial_20_2.png" src="../../_images/notebooks_tutorials_MESA_tutorial_ecospatial_20_2.png" />
 </div>
 </div>
 <div class="nbinput docutils container">
@@ -505,7 +512,7 @@ width: 1768.140, height: 1704.784
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Calculate DPI for hotspots</span>
-<span class="n">Hot</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="n">Hot</span> <span class="o">=</span> <span class="kc">True</span> <span class="c1"># Set True to investigate hot islands</span>
 <span class="n">proximity_I</span> <span class="o">=</span> <span class="n">eco</span><span class="o">.</span><span class="n">calculate_DPI</span><span class="p">(</span><span class="n">spatial_data</span><span class="o">=</span><span class="n">adata</span><span class="p">,</span>
                                 <span class="n">scale</span><span class="o">=</span><span class="mf">64.0</span><span class="p">,</span>
                                 <span class="n">library_key</span><span class="o">=</span><span class="s1">&#39;sample&#39;</span><span class="p">,</span>
@@ -705,7 +712,98 @@ Aggregating hot islands composition
 </div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Visualise labelled islands (hot islands in red; cold islands in blue)</span>
+<span class="kn">from</span> <span class="nn">scipy.ndimage</span> <span class="kn">import</span> <span class="n">center_of_mass</span>
+<span class="n">combined_spots</span> <span class="o">=</span> <span class="p">(</span><span class="n">hotspots</span> <span class="o">*</span> <span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="n">coldspots</span> <span class="o">*</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">seismic</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">seismic</span>
+<span class="n">colors</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;white&#39;</span><span class="p">,</span> <span class="s1">&#39;grey&#39;</span><span class="p">]</span>
+<span class="n">cmap</span> <span class="o">=</span> <span class="n">mcolors</span><span class="o">.</span><span class="n">LinearSegmentedColormap</span><span class="o">.</span><span class="n">from_list</span><span class="p">(</span><span class="s2">&quot;single_color_map&quot;</span><span class="p">,</span> <span class="n">colors</span><span class="p">)</span>
+
+<span class="n">labelled_hot</span><span class="p">,</span> <span class="n">num_hot_islands</span> <span class="o">=</span> <span class="n">eco</span><span class="o">.</span><span class="n">_utils</span><span class="o">.</span><span class="n">_label_islands</span><span class="p">(</span><span class="n">hotspots</span><span class="p">,</span> <span class="n">rook</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">labelled_cold</span><span class="p">,</span> <span class="n">num_cold_islands</span> <span class="o">=</span> <span class="n">eco</span><span class="o">.</span><span class="n">_utils</span><span class="o">.</span><span class="n">_label_islands</span><span class="p">(</span><span class="n">coldspots</span><span class="p">,</span> <span class="n">rook</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="n">min_x</span><span class="p">,</span> <span class="n">min_y</span> <span class="o">=</span> <span class="n">spatial_value</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)[</span><span class="mi">0</span><span class="p">],</span> <span class="n">spatial_value</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">max_x</span><span class="p">,</span> <span class="n">max_y</span> <span class="o">=</span> <span class="n">spatial_value</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)[</span><span class="mi">0</span><span class="p">],</span> <span class="n">spatial_value</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">width</span> <span class="o">=</span> <span class="n">max_x</span> <span class="o">-</span> <span class="n">min_x</span>
+<span class="n">height</span> <span class="o">=</span> <span class="n">max_y</span> <span class="o">-</span> <span class="n">min_y</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">)</span>
+<span class="n">w</span><span class="p">,</span> <span class="n">h</span> <span class="o">=</span> <span class="n">figaspect</span><span class="p">(</span><span class="n">height</span><span class="o">/</span><span class="n">width</span><span class="p">)</span>
+
+<span class="n">spot_fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="n">h</span><span class="p">))</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">spot_fig</span><span class="o">.</span><span class="n">add_axes</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+
+<span class="c1"># Create a 2D grid</span>
+<span class="n">grid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="nb">int</span><span class="p">(</span><span class="n">max_y</span> <span class="o">-</span> <span class="n">min_y</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span> <span class="nb">int</span><span class="p">(</span><span class="n">max_x</span> <span class="o">-</span> <span class="n">min_x</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)))</span>
+
+<span class="c1"># Fill the grid with diversity indices</span>
+<span class="k">for</span> <span class="n">patch</span><span class="p">,</span> <span class="n">diversity_index</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">combined_spots</span><span class="o">.</span><span class="n">flatten</span><span class="p">()):</span>
+    <span class="n">x0</span><span class="p">,</span> <span class="n">y0</span><span class="p">,</span> <span class="n">x1</span><span class="p">,</span> <span class="n">y1</span> <span class="o">=</span> <span class="n">patches_coordinates</span><span class="p">[</span><span class="n">patch</span><span class="p">]</span>
+    <span class="n">grid</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">y0</span><span class="o">-</span><span class="n">min_y</span><span class="p">):</span><span class="nb">int</span><span class="p">(</span><span class="n">y1</span><span class="o">-</span><span class="n">min_y</span><span class="o">+</span><span class="mi">1</span><span class="p">),</span> <span class="nb">int</span><span class="p">(</span><span class="n">x0</span><span class="o">-</span><span class="n">min_x</span><span class="p">):</span><span class="nb">int</span><span class="p">(</span><span class="n">x1</span><span class="o">-</span><span class="n">min_x</span><span class="o">+</span><span class="mi">1</span><span class="p">)]</span> <span class="o">=</span> <span class="n">diversity_index</span>
+
+<span class="c1"># Calculate centroids of hot/cold islands and label them</span>
+<span class="k">for</span> <span class="n">label</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">num_hot_islands</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+    <span class="n">positions</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">labelled_hot</span> <span class="o">==</span> <span class="n">label</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">positions</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">size</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">centroid</span> <span class="o">=</span> <span class="n">center_of_mass</span><span class="p">(</span><span class="n">labelled_hot</span> <span class="o">==</span> <span class="n">label</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">centroid</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="n">width</span><span class="o">/</span><span class="n">scale</span><span class="p">,</span>
+                <span class="n">centroid</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="n">width</span><span class="o">/</span><span class="n">scale</span><span class="p">,</span>
+                <span class="nb">str</span><span class="p">(</span><span class="n">label</span><span class="p">),</span>
+                <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span>
+                <span class="n">fontweight</span><span class="o">=</span><span class="s1">&#39;semibold&#39;</span><span class="p">,</span>
+                <span class="n">color</span><span class="o">=</span><span class="n">seismic</span><span class="p">(</span><span class="mf">0.999</span><span class="p">),</span>
+                <span class="n">alpha</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+                <span class="n">ha</span><span class="o">=</span><span class="s1">&#39;center&#39;</span><span class="p">,</span>
+                <span class="n">va</span><span class="o">=</span><span class="s1">&#39;bottom&#39;</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">label</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">num_cold_islands</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+    <span class="n">positions</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">labelled_cold</span> <span class="o">==</span> <span class="n">label</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">positions</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">size</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">centroid</span> <span class="o">=</span> <span class="n">center_of_mass</span><span class="p">(</span><span class="n">labelled_cold</span> <span class="o">==</span> <span class="n">label</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">centroid</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="n">width</span><span class="o">/</span><span class="n">scale</span><span class="p">,</span>
+                <span class="n">centroid</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="n">width</span><span class="o">/</span><span class="n">scale</span><span class="p">,</span>
+                <span class="nb">str</span><span class="p">(</span><span class="n">label</span><span class="p">),</span>
+                <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span>
+                <span class="n">fontweight</span><span class="o">=</span><span class="s1">&#39;semibold&#39;</span><span class="p">,</span>
+                <span class="n">color</span><span class="o">=</span><span class="n">seismic</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span>
+                <span class="n">alpha</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+                <span class="n">ha</span><span class="o">=</span><span class="s1">&#39;center&#39;</span><span class="p">,</span>
+                <span class="n">va</span><span class="o">=</span><span class="s1">&#39;bottom&#39;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;X Coordinates&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Y Coordinates&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">grid</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">cmap</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.75</span><span class="p">,</span> <span class="n">interpolation</span><span class="o">=</span><span class="s1">&#39;none&#39;</span><span class="p">,</span> <span class="n">vmin</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+1768.1399999999999 1704.784
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&lt;matplotlib.image.AxesImage at 0x124d323e0&gt;
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/notebooks_tutorials_MESA_tutorial_ecospatial_23_2.png" src="../../_images/notebooks_tutorials_MESA_tutorial_ecospatial_23_2.png" />
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">colors</span> <span class="o">=</span> <span class="p">[</span><span class="n">color_dict</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">island_comp</span><span class="o">.</span><span class="n">columns</span><span class="p">]</span>
@@ -730,11 +828,11 @@ Aggregating hot islands composition
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../../_images/notebooks_tutorials_MESA_tutorial_ecospatial_21_0.png" src="../../_images/notebooks_tutorials_MESA_tutorial_ecospatial_21_0.png" />
+<img alt="../../_images/notebooks_tutorials_MESA_tutorial_ecospatial_24_0.png" src="../../_images/notebooks_tutorials_MESA_tutorial_ecospatial_24_0.png" />
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">island_comp</span> <span class="o">=</span> <span class="n">island_comp</span><span class="o">.</span><span class="n">div</span><span class="p">(</span><span class="n">island_comp</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
@@ -773,9 +871,10 @@ Aggregating hot islands composition
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../../_images/notebooks_tutorials_MESA_tutorial_ecospatial_22_0.png" src="../../_images/notebooks_tutorials_MESA_tutorial_ecospatial_22_0.png" />
+<img alt="../../_images/notebooks_tutorials_MESA_tutorial_ecospatial_25_0.png" src="../../_images/notebooks_tutorials_MESA_tutorial_ecospatial_25_0.png" />
 </div>
 </div>
+</section>
 </section>
 <section id="Perform-Ecospatial-Analysis-on-all-samples">
 <h2>Perform Ecospatial Analysis on all samples<a class="headerlink" href="#Perform-Ecospatial-Analysis-on-all-samples" title="Link to this heading"></a></h2>
@@ -787,8 +886,8 @@ Aggregating hot islands composition
 </pre></div>
 </div>
 </div>
-<section id="Calculate-MDI">
-<h3>Calculate MDI<a class="headerlink" href="#Calculate-MDI" title="Link to this heading"></a></h3>
+<section id="id1">
+<h3>Calculate MDI<a class="headerlink" href="#id1" title="Link to this heading"></a></h3>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
 </pre></div>
@@ -1880,7 +1979,7 @@ plasma cells has p value = 0.299
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../../_images/notebooks_tutorials_MESA_tutorial_ecospatial_37_1.png" src="../../_images/notebooks_tutorials_MESA_tutorial_ecospatial_37_1.png" />
+<img alt="../../_images/notebooks_tutorials_MESA_tutorial_ecospatial_40_1.png" src="../../_images/notebooks_tutorials_MESA_tutorial_ecospatial_40_1.png" />
 </div>
 </div>
 </section>
@@ -2096,7 +2195,7 @@ plasma cells in hot spots has p value = 0.484
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../../_images/notebooks_tutorials_MESA_tutorial_ecospatial_42_1.png" src="../../_images/notebooks_tutorials_MESA_tutorial_ecospatial_42_1.png" />
+<img alt="../../_images/notebooks_tutorials_MESA_tutorial_ecospatial_45_1.png" src="../../_images/notebooks_tutorials_MESA_tutorial_ecospatial_45_1.png" />
 </div>
 </div>
 </section>
@@ -2560,7 +2659,7 @@ erythroblasts&amp;plasma cells has p value = 0.610
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../../_images/notebooks_tutorials_MESA_tutorial_ecospatial_47_3.png" src="../../_images/notebooks_tutorials_MESA_tutorial_ecospatial_47_3.png" />
+<img alt="../../_images/notebooks_tutorials_MESA_tutorial_ecospatial_50_3.png" src="../../_images/notebooks_tutorials_MESA_tutorial_ecospatial_50_3.png" />
 </div>
 </div>
 <div class="nbinput docutils container">
@@ -3037,7 +3136,7 @@ erythroblasts&amp;plasma cells in hot spots has p value = 0.719
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../../_images/notebooks_tutorials_MESA_tutorial_ecospatial_49_3.png" src="../../_images/notebooks_tutorials_MESA_tutorial_ecospatial_49_3.png" />
+<img alt="../../_images/notebooks_tutorials_MESA_tutorial_ecospatial_52_3.png" src="../../_images/notebooks_tutorials_MESA_tutorial_ecospatial_52_3.png" />
 </div>
 </div>
 </section>
@@ -3650,7 +3749,7 @@ erythroblasts&amp;plasma cells in hot spots has p value = 0.719
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../../_images/notebooks_tutorials_MESA_tutorial_ecospatial_54_0.png" src="../../_images/notebooks_tutorials_MESA_tutorial_ecospatial_54_0.png" />
+<img alt="../../_images/notebooks_tutorials_MESA_tutorial_ecospatial_57_0.png" src="../../_images/notebooks_tutorials_MESA_tutorial_ecospatial_57_0.png" />
 </div>
 </div>
 <div class="nbinput nblast docutils container">

@@ -45,39 +45,7 @@ def drop_zero_variability_columns(arr, tol=1e-8):
     good_columns = [i for i in range(arr.shape[1]) if i not in bad_columns]
     return arr[:, good_columns]
 
-
-def get_neighborhood_composition(knn_indices, labels)-> np.ndarray:
-    """
-    Compute the composition of neighbors for each sample based on k-nearest neighbors (k-NN) indices and cluster labels, determining the proportion of each cluster within the neighbors of each sample.
-
-    Parameters
-    ----------
-    knn_indices : :class:`numpy.ndarray` of shape (n_samples, n_neighbors)
-        An array where each row represents the k-nearest neighbors' indices for that sample, indicating the nearest neighbors.
-    labels : :class:`numpy.ndarray` of shape (n_samples,)
-        An array of cluster labels for each sample, used to determine the composition of the neighborhood.
-
-    Returns
-    -------
-    :class:`numpy.ndarray` of shape (n_samples, n_neighbors)
-        An array where each row represents the composition (in proportion) of neighbors for each sample based on the cluster labels.
-    """
-    
-    labels = list(labels)
-    n, k = knn_indices.shape
-    unique_clusters = np.unique(labels)
-    n_clusters = len(unique_clusters)
-    label_to_clust_idx = {label: i for i, label in enumerate(unique_clusters)}
-    
-    comp = np.zeros((n, n_clusters))
-    for i, neighbors in enumerate(knn_indices):
-        good_neighbors = [nb for nb in neighbors if nb != -1]
-        for nb in good_neighbors:
-            comp[i, label_to_clust_idx[labels[nb]]] += 1
-
-    return (comp.T / comp.sum(axis=1)).T
-
-def get_global_neighborhood_composition(knn_indices, labels, all_labels, percentage=True)-> np.ndarray:
+def get_neighborhood_composition(knn_indices, labels, all_labels, percentage=True)-> np.ndarray:
     """
     Compute the global composition of neighbors for each sample, either in percentage or count form, based on k-nearest neighbors (k-NN) indices and specific cluster labels.
 

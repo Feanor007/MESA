@@ -13,8 +13,8 @@ sys.path.insert(0, str("./_ext"))
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
 project = 'MESA'
-version = '0.0.9'
-release = '0.0.9'
+version = '0.1.0'
+release = '0.1.0'
 copyright = '2024, Daisy Yi Ding, Zeyu Tang, Bokai Zhu'
 author = 'Daisy Yi Ding, Zeyu Tang, Bokai Zhu'
 

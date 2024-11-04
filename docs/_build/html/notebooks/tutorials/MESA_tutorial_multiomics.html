@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>MESA Multiomics Tutorials &mdash; MESA 0.0.9 documentation</title>
+  <title>MESA Multiomics Tutorials &mdash; MESA 0.1.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
@@ -17,7 +17,7 @@
   
         <script src="../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../../_static/documentation_options.js?v=f7cdbf68"></script>
+        <script src="../../_static/documentation_options.js?v=01f34227"></script>
         <script src="../../_static/doctools.js?v=888ff710"></script>
         <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
         <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -44,7 +44,7 @@
             MESA
           </a>
               <div class="version">
-                0.0.9
+                0.1.0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
@@ -111,8 +111,8 @@
              
   <section id="MESA-Multiomics-Tutorials">
 <h1>MESA Multiomics Tutorials<a class="headerlink" href="#MESA-Multiomics-Tutorials" title="Link to this heading"></a></h1>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
@@ -124,7 +124,6 @@
 <span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
 <span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">from</span> <span class="nn">sklearn.cluster</span> <span class="kn">import</span> <span class="n">KMeans</span>
-<span class="kn">import</span> <span class="nn">utils</span>
 <span class="kn">from</span> <span class="nn">tqdm</span> <span class="kn">import</span> <span class="n">tqdm</span>
 <span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">MinMaxScaler</span>
 
@@ -137,15 +136,27 @@
 </pre></div>
 </div>
 </div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+/opt/miniconda3/envs/mesa/lib/python3.11/site-packages/geopandas/_compat.py:106: UserWarning: The Shapely GEOS version (3.8.0-CAPI-1.13.1) is incompatible with the GEOS version PyGEOS was compiled with (3.10.4-CAPI-1.16.2). Conversions between both will be slow.
+  warnings.warn(
+OMP: Info #276: omp_set_nested routine deprecated, please use omp_set_max_active_levels instead.
+/opt/miniconda3/envs/mesa/lib/python3.11/site-packages/spaghetti/network.py:41: FutureWarning: The next major release of pysal/spaghetti (2.0.0) will drop support for all ``libpysal.cg`` geometries. This change is a first step in refactoring ``spaghetti`` that is expected to result in dramatically reduced runtimes for network instantiation and operations. Users currently requiring network and point pattern input as ``libpysal.cg`` geometries should prepare for this simply by converting to ``shapely`` geometries.
+  warnings.warn(dep_msg, FutureWarning, stacklevel=1)
+</pre></div></div>
+</div>
 <section id="Prepare-Data-for-Multiomics-Integration">
 <h2>Prepare Data for Multiomics Integration<a class="headerlink" href="#Prepare-Data-for-Multiomics-Integration" title="Link to this heading"></a></h2>
 <p>We begin by reading in CODEX and scRNASeq data.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># read in CODEX data</span>
-<span class="n">data_dir</span> <span class="o">=</span> <span class="s1">&#39;../../../../../tonsil/&#39;</span>
+<span class="n">data_dir</span> <span class="o">=</span> <span class="s1">&#39;/Users/Emrys/Downloads/tonsil/&#39;</span> <span class="c1"># &#39;../../../../../tonsil/&#39;</span>
 <span class="n">protein</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">data_dir</span><span class="p">,</span> <span class="s1">&#39;tonsil_codex.csv&#39;</span><span class="p">))</span>
 </pre></div>
 </div>
@@ -950,7 +961,7 @@ first modality.</p>
 <section id="Neighborhood-Characterization">
 <h2>Neighborhood Characterization<a class="headerlink" href="#Neighborhood-Characterization" title="Link to this heading"></a></h2>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># protein expression in protein</span>
@@ -967,15 +978,16 @@ first modality.</p>
 <section id="Cellular-Composition-based-Neighborhoods">
 <h3>Cellular Composition-based Neighborhoods<a class="headerlink" href="#Cellular-Composition-based-Neighborhoods" title="Link to this heading"></a></h3>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Get neighborhood composition</span>
 <span class="n">ks</span> <span class="o">=</span> <span class="mi">20</span>
 <span class="n">locations</span> <span class="o">=</span> <span class="n">protein</span><span class="p">[[</span><span class="s1">&#39;centroid_x&#39;</span><span class="p">,</span> <span class="s1">&#39;centroid_y&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">values</span>
 <span class="n">feature_labels</span> <span class="o">=</span> <span class="n">protein</span><span class="p">[</span><span class="s1">&#39;cluster.term&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+<span class="n">unique_feature_labels</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">protein</span><span class="p">[</span><span class="s1">&#39;cluster.term&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">())</span>
 <span class="n">spatial_knn_indices</span> <span class="o">=</span> <span class="n">multiomics</span><span class="o">.</span><span class="n">multiomics_spatial</span><span class="o">.</span><span class="n">get_spatial_knn_indices</span><span class="p">(</span><span class="n">locations</span><span class="o">=</span><span class="n">locations</span><span class="p">,</span> <span class="n">n_neighbors</span><span class="o">=</span><span class="n">ks</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;kd_tree&#39;</span><span class="p">)</span>
-<span class="n">cell_nbhd</span> <span class="o">=</span> <span class="n">multiomics</span><span class="o">.</span><span class="n">multiomics_spatial</span><span class="o">.</span><span class="n">get_neighborhood_composition</span><span class="p">(</span><span class="n">knn_indices</span><span class="o">=</span><span class="n">spatial_knn_indices</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="n">feature_labels</span><span class="p">)</span>
+<span class="n">cell_nbhd</span> <span class="o">=</span> <span class="n">multiomics</span><span class="o">.</span><span class="n">multiomics_spatial</span><span class="o">.</span><span class="n">get_neighborhood_composition</span><span class="p">(</span><span class="n">knn_indices</span><span class="o">=</span><span class="n">spatial_knn_indices</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="n">feature_labels</span><span class="p">,</span> <span class="n">all_labels</span><span class="o">=</span><span class="n">unique_feature_labels</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>

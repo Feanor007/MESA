@@ -4,14 +4,15 @@ build-backend = "hatchling.build"
 
 [project]
 name = "mesa-py"
-version = "0.0.9"
+version = "0.1.0"
 authors = [
-  { name="Daisy Yi Ding", email="dingd@stanford.edu" },
-  { name="Zeyu Tang", email="feanortang@gmail.com" },
-  { name="Bokai Zhu", email="bkzhu@stanford.edu" },
+  {name="Daisy Yi Ding", email="dingd@stanford.edu" },
+  {name="Zeyu Tang", email="feanortang@gmail.com" },
+  {name="Bokai Zhu", email="bkzhu@stanford.edu" },
 ]
 maintainers = [
     {name = "Zeyu Tang", email = "feanortang@gmail.com"},
+    {name="Daisy Yi Ding", email="dingd@stanford.edu" }
 ]
 description = "Multiomics and Ecological Spatial Analysis for Quantitative Decoding of Cellular Neighborhoods and Tissue Compartments"
 readme = "README.md"
