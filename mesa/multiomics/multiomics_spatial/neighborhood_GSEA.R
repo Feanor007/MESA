@@ -71,24 +71,6 @@ C2 = msigdbr(species = 'Homo sapiens', category = 'C2')
 
 C5 = msigdbr(species = 'Homo sapiens', category = 'C5')
 
-# Define significant genes
-#sigif = de_results_3_9_rna$table %>% filter(FDR < 0.2)
-
-# enrich_H = enricher(gene = rownames(sigif), TERM2GENE = H.select)
-# head(enrich_H@result)
-# enrich_H_res = enrich_H@result
-# enrich_H_df = enrich_H@result %>% 
-#   separate(BgRatio, into=c("size.term", "size.category"), sep='/') %>%
-#   separate(GeneRatio, into=c("size.overlap.term", "size.overlap.category"), sep='/') %>%
-#   mutate_at(vars("size.term", "size.category", "size.overlap.term", "size.overlap.category"), as.numeric) %>%
-#   mutate("k.K" = size.overlap.term/size.term)
-# enrich_H_df %>%
-#   filter(p.adjust <= 0.2) %>%
-#   ggplot(aes(x = reorder(Description, -p.adjust), y = p.adjust)) + 
-#   geom_col() + 
-#   theme_classic() +
-#   coord_flip()
-
 get_gsea = function(gene_set, de_res){
   gene_sets_list = split(gene_set$gene_symbol, gene_set$gs_name)
   gene_ranks = de_res$table$logFC 
