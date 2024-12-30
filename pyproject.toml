@@ -4,15 +4,14 @@ build-backend = "hatchling.build"
 
 [project]
 name = "mesa-py"
-version = "0.1.0"
+version = "0.1.1"
 authors = [
   {name="Daisy Yi Ding", email="dingd@stanford.edu" },
   {name="Zeyu Tang", email="feanortang@gmail.com" },
   {name="Bokai Zhu", email="bkzhu@stanford.edu" },
 ]
 maintainers = [
-    {name = "Zeyu Tang", email = "feanortang@gmail.com"},
-    {name="Daisy Yi Ding", email="dingd@stanford.edu" }
+    {name = "Zeyu Tang", email = "feanortang@gmail.com"}
 ]
 description = "Multiomics and Ecological Spatial Analysis for Quantitative Decoding of Cellular Neighborhoods and Tissue Compartments"
 readme = "README.md"
@@ -43,6 +42,11 @@ docs = [
 [project.urls]
 Homepage = "https://github.com/feanor007/mesa"
 Issues = "https://github.com/feanor007/mesa/issues"
+
+[tool.hatch.build.targets.sdist]
+exclude = [
+  "/docs",
+]
 
 [tool.hatch.build.targets.wheel]
 packages = ["mesa"] 

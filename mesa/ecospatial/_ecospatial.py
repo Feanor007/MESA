@@ -716,12 +716,15 @@ def calculate_diversity_index(
     return pd.Series(patch_indices)
         
 
+
+
 def calculate_MDI(spatial_data: Union[ad.AnnData, pd.DataFrame], 
                   scales: Union[tuple, list], 
                   library_key: str,
                   library_id: Union[tuple, list],  
                   spatial_key: Union[str, List[str]],
                   cluster_key: str,
+                  selecting_scale=False,
                   random_patch=False,
                   plotfigs=False, 
                   savefigs=False,
@@ -744,6 +747,8 @@ def calculate_MDI(spatial_data: Union[ad.AnnData, pd.DataFrame],
         Key(s) used to access the spatial data from `spatial_data`.
     cluster_key : str
         The key to access the cluster data which categorizes the spatial entities.
+    selecting_scale : bool, optional
+        Specifies whether to run GDI at each scale to help decide the finest scale.
     random_patch : bool, optional
         Specifies whether patches should be generated in a random manner. Default is False.
     plotfigs : bool, optional
@@ -812,7 +817,19 @@ def calculate_MDI(spatial_data: Union[ad.AnnData, pd.DataFrame],
             print(f"{sample_id} at scale {scale} diversity is {count}", flush=True)
             
             # Store the result
-            results.loc[scale,sample_id] = count
+            if not selecting_scale:
+                results.loc[scale,sample_id] = count
+            else:
+                # Calculate Moran's I
+                grid = diversity_heatmap(spatial_data=spatial_data,
+                                         library_key=library_key,
+                                         library_id=sample_id,
+                                         spatial_key=spatial_key,
+                                         patches=patches, 
+                                         heterogeneity_indices=indices,
+                                         plot=False)
+                moranI, moranI_p =  global_spatial_stats(grid) 
+                results.loc[scale,sample_id] = moranI
             
     scales = np.log2(np.reciprocal(scales))
     if plotfigs:
@@ -1252,9 +1269,16 @@ def spot_cellfreq(spatial_data: Union[ad.AnnData, pd.DataFrame],
         A transposed DataFrame showing the frequency of specific cluster combinations in each region, sorted by the top specified combinations if `selected_comb` is None.
     """
     
-    if spots=='global':
-        spatial_df = spatial_data.obs[[library_key, cluster_key]]
-        global_cell_count = spatial_df.groupby([library_key, cluster_key], observed=False).size().unstack(fill_value=0)
+    if spots == 'global':
+        # Check the type of spatial_data
+        if isinstance(spatial_data, ad.AnnData):
+            spatial_df = spatial_data.obs[[library_key, cluster_key]]
+        elif isinstance(spatial_data, pd.DataFrame):
+            spatial_df = spatial_data[[library_key, cluster_key]]
+        else:
+            raise TypeError("spatial_data must be either an AnnData object or a pandas DataFrame.")
+        
+        global_cell_count = spatial_df.groupby([library_key, cluster_key]).size().unstack(fill_value=0)
         cellfreq_df = global_cell_count.div(global_cell_count.sum(axis=1), axis=0)
     else:
         cellfreq_df = pd.DataFrame() 
@@ -1290,7 +1314,7 @@ def spot_cellfreq(spatial_data: Union[ad.AnnData, pd.DataFrame],
                                  tissue_only=restricted,
                                  plot=False)
         
-        hotspots, coldspots= local_spatial_stats(grid, tissue_only=restricted, mode=mode, p_value = p_value)
+        hotspots, coldspots= local_spatial_stats(grid, tissue_only=restricted, mode=mode, p_value=p_value)
         
         if spots == 'hot':
             print(f'Region {library_id} contains {sum(hotspots.flatten())} diversity hotspots', flush=True)
@@ -1302,19 +1326,22 @@ def spot_cellfreq(spatial_data: Union[ad.AnnData, pd.DataFrame],
             print('Considering whole tissue')
             filtered_patches_comp = patches_comp 
         else:
-            print(f'Your chosen {mode} is not supported; Please choose one from hot, cold and global')
+            print(f'Your chosen {spots} is not supported; Please choose one from hot, cold and global')
         
         if filtered_patches_comp and not all(item is None for item in filtered_patches_comp):
-            merged_series = pd.concat(filtered_patches_comp, axis=1).sum(axis=1)
-            if mode != 'global':
+            merged_series = pd.concat(filtered_patches_comp, axis=1).sum(axis=1) 
+            if spots != 'global':
                 cellfreq_df = _append_series_to_df(cellfreq_df, (merged_series/merged_series.sum(axis=0)), library_id)
                 
             comb_freq = combination_freq(filtered_patches_comp, n=combination, top=top, cell_type_combinations=selected_comb)
             co_occurrence_df = _append_series_to_df(co_occurrence_df, comb_freq, library_id)
         else:
             print(f"Region {library_id} has no diversity hot/cold spot since length of filterd_patch_comp is either {len(filtered_patches_comp)} or hot/cold spots contain no cells")
-    
-    return cellfreq_df, co_occurrence_df.T # sample id as columns (row index)
+            
+    if spots == 'global':
+        return cellfreq_df, co_occurrence_df.fillna(0.0).T # sample id as columns (row index)
+    else:
+        return cellfreq_df.fillna(0.0).T, co_occurrence_df.fillna(0.0).T
     
 def signif_heatmap(spatial_data:Union[ad.AnnData,pd.DataFrame], 
                    library_key:str,
