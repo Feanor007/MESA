@@ -10,8 +10,8 @@ library(tidyverse)
 library(svglite)
 
 
-df = read.csv('./../results/protein_clustering_result.csv')
-rna_names = read.csv('./rna_variable_2000.csv')
+df = read.csv('./../../../../../neighborhood/results/protein_clustering_result.csv')
+rna_names = read.csv('./../../../../../neighborhood/neighborhood_multiomics/rna_variable_2000.csv')
 
 df_cluster_9 = df[df['cluster_protein'] == 9,]
 df_cluster_3 = df[df['cluster_protein'] == 3,]
@@ -174,11 +174,12 @@ fgseaResTidy %>%
   DT::datatable()
 
 fgsea_H_5_9_plot = ggplot(fgsea_H_5_9, aes(reorder(pathway, NES), NES)) +
-  geom_col(aes(fill=padj < 0.2)) +
+  geom_col(aes(fill=padj < 0.05)) +
   coord_flip() +
   labs(x="Pathway", y="Normalized Enrichment Score",
        title="5 vs 9: Hallmark pathways NES from GSEA") + 
   theme_minimal()
+fgsea_H_5_9_plot
 ggsave(filename = "./gsea_plot/fgsea_H_5_9_plot.png", plot = fgsea_H_5_9_plot, width = 10, height = 9, dpi = 100)
 
 set.seed(9)

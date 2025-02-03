@@ -6,8 +6,8 @@ library(limma)
 library(glmnet)
 library(clusterProfiler)
 
-df = read.csv('./../../../neighborhood/results/protein_clustering_result.csv')
-rna_names = read.csv('./../../../neighborhood/neighborhood_multiomics/rna_variable_2000.csv')
+df = read.csv('./../../../../../neighborhood/results/protein_clustering_result.csv')
+rna_names = read.csv('./../../../../../neighborhood/neighborhood_multiomics/rna_variable_2000.csv')
 
 df_cluster_9 = df[df['cluster_protein'] == 9,]
 df_cluster_3 = df[df['cluster_protein'] == 3,]
@@ -64,7 +64,8 @@ de_neighborhood_rna = function(df1, df2, labels){
 }
 
 de_results_3_9_rna = de_neighborhood_rna(rna_df_3_matrix, rna_df_9_matrix, samples_3_9)
-png("de_plot_3_9.png", width = 1200, height = 800, res = 100)
+svg("./figures_de/de_plot_3_9.svg", width = 12, height = 8)
+png("./figures_de/de_plot_3_9.png", width = 1200, height = 800, res = 100)
 EnhancedVolcano(de_results_3_9_rna$table,
                 lab = rownames(de_results_3_9_rna$table),
                 FCcutoff = 0.1,
@@ -76,13 +77,17 @@ EnhancedVolcano(de_results_3_9_rna$table,
                 ylim=c(0,max(-log(de_results_3_9_rna$table$PValue,10))),
                 drawConnectors = TRUE,
                 widthConnectors = 0.75,
-                title='Differential Expression Cluster 9 vs Cluster 3')
+                title='Differential Expression Cluster 9 vs Cluster 3',
+                gridlines.major = FALSE,
+                gridlines.minor = FALSE)
 dev.off()
 
 samples_3_5 = c(rep('cluster_3', dim(rna_df_3_matrix)[1]), 
                 rep('cluster_5', dim(rna_df_5_matrix)[1]))
 de_results_3_5_rna = de_neighborhood_rna(rna_df_3_matrix, rna_df_5_matrix, samples_3_5)
-png("de_plot_3_5.png", width = 1200, height = 800, res = 100)
+#png("de_plot_3_5.png", width = 1200, height = 800, res = 100)
+#svg("./figures_de/de_plot_3_5.svg", width = 12, height = 8)
+png("./figures_de/de_plot_3_5.png", width = 1200, height = 800, res = 100)
 EnhancedVolcano(de_results_3_5_rna$table,
                 lab = rownames(de_results_3_5_rna$table),
                 FCcutoff = 0.1,
@@ -94,14 +99,16 @@ EnhancedVolcano(de_results_3_5_rna$table,
                 ylim=c(0,max(-log(de_results_3_5_rna$table$PValue,10))),
                 drawConnectors = TRUE,
                 widthConnectors = 0.75,
-                title='Differential Expression Cluster 5 vs Cluster 3')
+                title='Differential Expression Cluster 5 vs Cluster 3',
+                gridlines.major = FALSE,
+                gridlines.minor = FALSE)
 dev.off()
 
 samples_5_9 = c(rep('cluster_5', dim(rna_df_5_matrix)[1]), 
                 rep('cluster_9', dim(rna_df_9_matrix)[1]))
 de_results_5_9_rna = de_neighborhood_rna(rna_df_5_matrix, rna_df_9_matrix, samples_5_9)
 
-png("de_plot_5_9.png", width = 1200, height = 800, res = 100)
+png("./figures_de/de_plot_5_9.png", width = 1200, height = 800, res = 100)
 EnhancedVolcano(de_results_5_9_rna$table,
                 lab = rownames(de_results_5_9_rna$table),
                 FCcutoff = 0.1,
@@ -113,7 +120,9 @@ EnhancedVolcano(de_results_5_9_rna$table,
                 ylim=c(0,max(-log(de_results_5_9_rna$table$PValue,10))),
                 drawConnectors = TRUE,
                 widthConnectors = 0.75,
-                title='Differential Expression Cluster 9 vs Cluster 5')
+                title='Differential Expression Cluster 9 vs Cluster 5',
+                gridlines.major = FALSE,
+                gridlines.minor = FALSE)
 dev.off()
 
 
