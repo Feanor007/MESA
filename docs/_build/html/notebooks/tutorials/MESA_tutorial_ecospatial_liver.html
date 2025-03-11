@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Helper functions &mdash; MESA 0.1.0 documentation</title>
+  <title>MESA Ecospatial Tutorials (hepatocellular carcinoma, CosMx) &mdash; MESA 0.1.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
@@ -61,14 +61,17 @@
 <li class="toctree-l1 current"><a class="reference internal" href="../../tutorials.html">Tutorials</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="MESA_tutorial_ecospatial_murine.html">MESA Ecospatial Tutorials (Murine Spleen, CODEX)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="MESA_tutorial_ecospatial_crc.html">MESA Ecospatial Tutorials (Colorectal Cancer, CODEX)</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">Helper functions</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#Read-Data">Read Data</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#Perform-Ecospatial-Analysis-on-one-sample">Perform Ecospatial Analysis on one sample</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#Perform-Ecospatial-Analysis-on-all-samples">Perform Ecospatial Analysis on all samples</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#Calculate-Global-Cell-Frequency-&amp;-Cell-Co-Occurrence">Calculate Global Cell Frequency &amp; Cell Co-Occurrence</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#Calculate-Cell-Frequency-and-Cell-Co-Occurrence-in-hot/coldspots">Calculate Cell Frequency and Cell Co-Occurrence in hot/coldspots</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#Process-Cell-Co-Occurrence-Dataframe">Process Cell Co-Occurrence Dataframe</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#Cell-Co-Occurrence-Circle-Plot">Cell Co-Occurrence Circle Plot</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">MESA Ecospatial Tutorials (hepatocellular carcinoma, CosMx)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Helper-functions">Helper functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Read-Data">Read Data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Perform-Ecospatial-Analysis-on-one-sample">Perform Ecospatial Analysis on one sample</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Perform-Ecospatial-Analysis-on-all-samples">Perform Ecospatial Analysis on all samples</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#Calculate-Global-Cell-Frequency-&amp;-Cell-Co-Occurrence">Calculate Global Cell Frequency &amp; Cell Co-Occurrence</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Calculate-Cell-Frequency-and-Cell-Co-Occurrence-in-hot/coldspots">Calculate Cell Frequency and Cell Co-Occurrence in hot/coldspots</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Process-Cell-Co-Occurrence-Dataframe">Process Cell Co-Occurrence Dataframe</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Cell-Co-Occurrence-Circle-Plot">Cell Co-Occurrence Circle Plot</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="MESA_tutorial_multiomics.html">MESA Multiomics Tutorials</a></li>
@@ -93,7 +96,7 @@
   <ul class="wy-breadcrumbs">
       <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="../../tutorials.html">Tutorials</a></li>
-      <li class="breadcrumb-item active">Helper functions</li>
+      <li class="breadcrumb-item active">MESA Ecospatial Tutorials (hepatocellular carcinoma, CosMx)</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../../_sources/notebooks/tutorials/MESA_tutorial_ecospatial_liver.ipynb.txt" rel="nofollow"> View page source</a>
       </li>
@@ -103,7 +106,9 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <div class="nbinput docutils container">
+  <section id="MESA-Ecospatial-Tutorials-(hepatocellular-carcinoma,-CosMx)">
+<h1>MESA Ecospatial Tutorials (hepatocellular carcinoma, CosMx)<a class="headerlink" href="#MESA-Ecospatial-Tutorials-(hepatocellular-carcinoma,-CosMx)" title="Link to this heading"></a></h1>
+<div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
 </div>
@@ -144,7 +149,7 @@ OMP: Info #276: omp_set_nested routine deprecated, please use omp_set_max_active
 </div>
 </div>
 <section id="Helper-functions">
-<h1>Helper functions<a class="headerlink" href="#Helper-functions" title="Link to this heading"></a></h1>
+<h2>Helper functions<a class="headerlink" href="#Helper-functions" title="Link to this heading"></a></h2>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
@@ -262,7 +267,7 @@ OMP: Info #276: omp_set_nested routine deprecated, please use omp_set_max_active
 </div>
 </section>
 <section id="Read-Data">
-<h1>Read Data<a class="headerlink" href="#Read-Data" title="Link to this heading"></a></h1>
+<h2>Read Data<a class="headerlink" href="#Read-Data" title="Link to this heading"></a></h2>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
@@ -461,7 +466,7 @@ Total number of patches: 10
 </div>
 </section>
 <section id="Perform-Ecospatial-Analysis-on-one-sample">
-<h1>Perform Ecospatial Analysis on one sample<a class="headerlink" href="#Perform-Ecospatial-Analysis-on-one-sample" title="Link to this heading"></a></h1>
+<h2>Perform Ecospatial Analysis on one sample<a class="headerlink" href="#Perform-Ecospatial-Analysis-on-one-sample" title="Link to this heading"></a></h2>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[43]:
 </pre></div>
@@ -507,7 +512,7 @@ Total number of patches: 10
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../../_images/notebooks_tutorials_MESA_tutorial_ecospatial_liver_9_1.png" src="../../_images/notebooks_tutorials_MESA_tutorial_ecospatial_liver_9_1.png" />
+<img alt="../../_images/notebooks_tutorials_MESA_tutorial_ecospatial_liver_10_1.png" src="../../_images/notebooks_tutorials_MESA_tutorial_ecospatial_liver_10_1.png" />
 </div>
 </div>
 <div class="nbinput docutils container">
@@ -596,7 +601,7 @@ dtype: float64
 </div>
 </section>
 <section id="Perform-Ecospatial-Analysis-on-all-samples">
-<h1>Perform Ecospatial Analysis on all samples<a class="headerlink" href="#Perform-Ecospatial-Analysis-on-all-samples" title="Link to this heading"></a></h1>
+<h2>Perform Ecospatial Analysis on all samples<a class="headerlink" href="#Perform-Ecospatial-Analysis-on-all-samples" title="Link to this heading"></a></h2>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
 </pre></div>
@@ -609,7 +614,7 @@ dtype: float64
 </div>
 </div>
 <section id="Calculate-Global-Cell-Frequency-&amp;-Cell-Co-Occurrence">
-<h2>Calculate Global Cell Frequency &amp; Cell Co-Occurrence<a class="headerlink" href="#Calculate-Global-Cell-Frequency-&-Cell-Co-Occurrence" title="Link to this heading"></a></h2>
+<h3>Calculate Global Cell Frequency &amp; Cell Co-Occurrence<a class="headerlink" href="#Calculate-Global-Cell-Frequency-&-Cell-Co-Occurrence" title="Link to this heading"></a></h3>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
@@ -955,12 +960,12 @@ tumor_2 has p value = 0.004
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../../_images/notebooks_tutorials_MESA_tutorial_ecospatial_liver_20_1.png" src="../../_images/notebooks_tutorials_MESA_tutorial_ecospatial_liver_20_1.png" />
+<img alt="../../_images/notebooks_tutorials_MESA_tutorial_ecospatial_liver_21_1.png" src="../../_images/notebooks_tutorials_MESA_tutorial_ecospatial_liver_21_1.png" />
 </div>
 </div>
 </section>
 <section id="Calculate-Cell-Frequency-and-Cell-Co-Occurrence-in-hot/coldspots">
-<h2>Calculate Cell Frequency and Cell Co-Occurrence in hot/coldspots<a class="headerlink" href="#Calculate-Cell-Frequency-and-Cell-Co-Occurrence-in-hot/coldspots" title="Link to this heading"></a></h2>
+<h3>Calculate Cell Frequency and Cell Co-Occurrence in hot/coldspots<a class="headerlink" href="#Calculate-Cell-Frequency-and-Cell-Co-Occurrence-in-hot/coldspots" title="Link to this heading"></a></h3>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
 </pre></div>
@@ -1398,12 +1403,12 @@ tumor_2 in hot spots has p value = 0.007
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../../_images/notebooks_tutorials_MESA_tutorial_ecospatial_liver_26_1.png" src="../../_images/notebooks_tutorials_MESA_tutorial_ecospatial_liver_26_1.png" />
+<img alt="../../_images/notebooks_tutorials_MESA_tutorial_ecospatial_liver_27_1.png" src="../../_images/notebooks_tutorials_MESA_tutorial_ecospatial_liver_27_1.png" />
 </div>
 </div>
 </section>
 <section id="Process-Cell-Co-Occurrence-Dataframe">
-<h2>Process Cell Co-Occurrence Dataframe<a class="headerlink" href="#Process-Cell-Co-Occurrence-Dataframe" title="Link to this heading"></a></h2>
+<h3>Process Cell Co-Occurrence Dataframe<a class="headerlink" href="#Process-Cell-Co-Occurrence-Dataframe" title="Link to this heading"></a></h3>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[28]:
 </pre></div>
@@ -1800,7 +1805,7 @@ tumor_1&amp;tumor_2 has p value = 0.001
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../../_images/notebooks_tutorials_MESA_tutorial_ecospatial_liver_31_3.png" src="../../_images/notebooks_tutorials_MESA_tutorial_ecospatial_liver_31_3.png" />
+<img alt="../../_images/notebooks_tutorials_MESA_tutorial_ecospatial_liver_32_3.png" src="../../_images/notebooks_tutorials_MESA_tutorial_ecospatial_liver_32_3.png" />
 </div>
 </div>
 <div class="nbinput docutils container">
@@ -2193,12 +2198,12 @@ tumor_1&amp;tumor_2 in hot spots has p value = 0.003
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../../_images/notebooks_tutorials_MESA_tutorial_ecospatial_liver_33_3.png" src="../../_images/notebooks_tutorials_MESA_tutorial_ecospatial_liver_33_3.png" />
+<img alt="../../_images/notebooks_tutorials_MESA_tutorial_ecospatial_liver_34_3.png" src="../../_images/notebooks_tutorials_MESA_tutorial_ecospatial_liver_34_3.png" />
 </div>
 </div>
 </section>
 <section id="Cell-Co-Occurrence-Circle-Plot">
-<h2>Cell Co-Occurrence Circle Plot<a class="headerlink" href="#Cell-Co-Occurrence-Circle-Plot" title="Link to this heading"></a></h2>
+<h3>Cell Co-Occurrence Circle Plot<a class="headerlink" href="#Cell-Co-Occurrence-Circle-Plot" title="Link to this heading"></a></h3>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[34]:
 </pre></div>
@@ -2508,7 +2513,7 @@ tumor_1&amp;tumor_2 in hot spots has p value = 0.003
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../../_images/notebooks_tutorials_MESA_tutorial_ecospatial_liver_37_0.png" src="../../_images/notebooks_tutorials_MESA_tutorial_ecospatial_liver_37_0.png" />
+<img alt="../../_images/notebooks_tutorials_MESA_tutorial_ecospatial_liver_38_0.png" src="../../_images/notebooks_tutorials_MESA_tutorial_ecospatial_liver_38_0.png" />
 </div>
 </div>
 <div class="nbinput docutils container">
@@ -2820,7 +2825,7 @@ tumor_1&amp;tumor_2 in hot spots has p value = 0.003
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../../_images/notebooks_tutorials_MESA_tutorial_ecospatial_liver_40_0.png" src="../../_images/notebooks_tutorials_MESA_tutorial_ecospatial_liver_40_0.png" />
+<img alt="../../_images/notebooks_tutorials_MESA_tutorial_ecospatial_liver_41_0.png" src="../../_images/notebooks_tutorials_MESA_tutorial_ecospatial_liver_41_0.png" />
 </div>
 </div>
 <div class="nbinput nblast docutils container">
@@ -2831,6 +2836,7 @@ tumor_1&amp;tumor_2 in hot spots has p value = 0.003
 </pre></div>
 </div>
 </div>
+</section>
 </section>
 </section>
 
