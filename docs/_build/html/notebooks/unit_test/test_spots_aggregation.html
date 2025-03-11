@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Unit Test for aggregate_spot_compositions &mdash; MESA 0.1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../../_static/nbsphinx-code-cells.css" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../_static/documentation_options.js?v=01f34227"></script>
+        <script src="../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="../../_static/copybutton.js?v=f281be69"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+        <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="prev" title="Unit Test for Calculate_MDI" href="test_Calculate_MDI.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            MESA
+          </a>
+              <div class="version">
+                0.1.0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">General</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api.html">API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials.html">Tutorials</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../unit_test.html">UnitTest</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="test_generate_patches.html">Unit Test for generate_patches</a></li>
+<li class="toctree-l2"><a class="reference internal" href="test_generate_patches_randomly.html">Unit Test for generate_patches_randomly</a></li>
+<li class="toctree-l2"><a class="reference internal" href="test_calculate_diversity_index.html">Unit Test for calculate_diversity_index</a></li>
+<li class="toctree-l2"><a class="reference internal" href="test_Calculate_MDI.html">Unit Test for Calculate_MDI</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Unit Test for aggregate_spot_compositions</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">MESA</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../unit_test.html">UnitTest</a></li>
+      <li class="breadcrumb-item active">Unit Test for aggregate_spot_compositions</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/notebooks/unit_test/test_spots_aggregation.ipynb.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="Unit-Test-for-aggregate_spot_compositions">
+<h1>Unit Test for aggregate_spot_compositions<a class="headerlink" href="#Unit-Test-for-aggregate_spot_compositions" title="Link to this heading"></a></h1>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">unittest</span>
+<span class="kn">from</span> <span class="nn">pandas.testing</span> <span class="kn">import</span> <span class="n">assert_frame_equal</span>
+
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="n">os</span><span class="o">.</span><span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;../../../&#39;</span><span class="p">)</span>
+<span class="kn">from</span> <span class="nn">mesa.ecospatial._utils</span> <span class="kn">import</span> <span class="n">aggregate_spot_compositions</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">TestAggregateSpotCompositions</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">test_basic</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Test a basic scenario with a small 2x2 labelled array.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># labelled: 2x2 array with:</span>
+        <span class="c1">#   - (0,0)=0 (background), (0,1)=1, (1,0)=2, (1,1)=2</span>
+        <span class="n">labelled</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+                             <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">]])</span>
+
+        <span class="n">compositions</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">],</span> <span class="n">index</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;A&#39;</span><span class="p">,</span> <span class="s1">&#39;B&#39;</span><span class="p">]),</span>  <span class="c1"># position (0,0) -&gt; background, ignored</span>
+            <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">([</span><span class="mf">3.0</span><span class="p">,</span> <span class="mf">4.0</span><span class="p">],</span> <span class="n">index</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;A&#39;</span><span class="p">,</span> <span class="s1">&#39;B&#39;</span><span class="p">]),</span>  <span class="c1"># position (0,1) -&gt; Island 1</span>
+            <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">([</span><span class="mf">5.0</span><span class="p">,</span> <span class="mf">6.0</span><span class="p">],</span> <span class="n">index</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;A&#39;</span><span class="p">,</span> <span class="s1">&#39;B&#39;</span><span class="p">]),</span>  <span class="c1"># position (1,0) -&gt; Island 2</span>
+            <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">([</span><span class="mf">7.0</span><span class="p">,</span> <span class="mf">8.0</span><span class="p">],</span> <span class="n">index</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;A&#39;</span><span class="p">,</span> <span class="s1">&#39;B&#39;</span><span class="p">])</span>   <span class="c1"># position (1,1) -&gt; Island 2</span>
+        <span class="p">]</span>
+
+        <span class="c1"># Expected result:</span>
+        <span class="c1"># - Island_1: composition = [3, 4]</span>
+        <span class="c1"># - Island_2: composition = [5+7, 6+8] = [12, 14]</span>
+        <span class="n">expected_data</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;Island_1&#39;</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">([</span><span class="mf">3.0</span><span class="p">,</span> <span class="mf">4.0</span><span class="p">],</span> <span class="n">index</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;A&#39;</span><span class="p">,</span> <span class="s1">&#39;B&#39;</span><span class="p">]),</span>
+            <span class="s1">&#39;Island_2&#39;</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">([</span><span class="mf">12.0</span><span class="p">,</span> <span class="mf">14.0</span><span class="p">],</span> <span class="n">index</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;A&#39;</span><span class="p">,</span> <span class="s1">&#39;B&#39;</span><span class="p">])</span>
+        <span class="p">}</span>
+        <span class="n">expected_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">expected_data</span><span class="p">,</span> <span class="n">orient</span><span class="o">=</span><span class="s1">&#39;index&#39;</span><span class="p">)</span>
+
+        <span class="n">result</span> <span class="o">=</span> <span class="n">aggregate_spot_compositions</span><span class="p">(</span><span class="n">labelled</span><span class="p">,</span> <span class="n">compositions</span><span class="p">)</span>
+        <span class="c1"># Sort the columns for a consistent order before comparing</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">sort_index</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">expected_df</span> <span class="o">=</span> <span class="n">expected_df</span><span class="o">.</span><span class="n">sort_index</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">assert_frame_equal</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">expected_df</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">test_with_none</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Test with some spots having None for composition.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># labelled: 3x3 array with islands 1 and 2</span>
+        <span class="n">labelled</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span>
+            <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+            <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+            <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span>
+        <span class="p">])</span>
+
+        <span class="c1"># There are 9 spots (flattened indices 0-8). We assign:</span>
+        <span class="c1"># - Spots with label 0: indices 0 and 5 -&gt; None.</span>
+        <span class="c1"># - Spots with label 1: indices 1, 2, 6.</span>
+        <span class="c1"># - Spots with label 2: indices 3, 4, 7, 8.</span>
+        <span class="n">comps</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="c1"># index 0: (0,0) label 0 -&gt; None</span>
+        <span class="n">comps</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
+        <span class="c1"># index 1: (0,1) label 1 -&gt; pd.Series({&#39;X&#39;: 1})</span>
+        <span class="n">comps</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">({</span><span class="s1">&#39;X&#39;</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">}))</span>
+        <span class="c1"># index 2: (0,2) label 1 -&gt; pd.Series({&#39;X&#39;: 2, &#39;Y&#39;: 3})</span>
+        <span class="n">comps</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">({</span><span class="s1">&#39;Y&#39;</span><span class="p">:</span> <span class="mf">3.0</span><span class="p">}))</span>
+        <span class="c1"># index 3: (1,0) label 2 -&gt; pd.Series({&#39;Y&#39;: 4})</span>
+        <span class="n">comps</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">({</span><span class="s1">&#39;Y&#39;</span><span class="p">:</span> <span class="mf">4.0</span><span class="p">}))</span>
+        <span class="c1"># index 4: (1,1) label 2 -&gt; None</span>
+        <span class="n">comps</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
+        <span class="c1"># index 5: (1,2) label 0 -&gt; None</span>
+        <span class="n">comps</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
+        <span class="c1"># index 6: (2,0) label 1 -&gt; pd.Series({&#39;Z&#39;: 5})</span>
+        <span class="n">comps</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">({</span><span class="s1">&#39;Z&#39;</span><span class="p">:</span> <span class="mf">5.0</span><span class="p">}))</span>
+        <span class="c1"># index 7: (2,1) label 2 -&gt; pd.Series({&#39;X&#39;: 3, &#39;Z&#39;: 2})</span>
+        <span class="n">comps</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">({</span><span class="s1">&#39;X&#39;</span><span class="p">:</span> <span class="mf">3.0</span><span class="p">,</span> <span class="s1">&#39;Z&#39;</span><span class="p">:</span> <span class="mf">2.0</span><span class="p">}))</span>
+        <span class="c1"># index 8: (2,2) label 2 -&gt; pd.Series({&#39;Y&#39;: 1})</span>
+        <span class="n">comps</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">({</span><span class="s1">&#39;Y&#39;</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">}))</span>
+
+        <span class="c1"># Expected aggregation:</span>
+        <span class="c1"># Island_1 (indices 1, 2, 6):</span>
+        <span class="c1">#   Sum: {&#39;X&#39;: 1} + {&#39;X&#39;: 2, &#39;Y&#39;: 3} + {&#39;Z&#39;: 5} = {&#39;X&#39;: 3, &#39;Y&#39;: 3, &#39;Z&#39;: 5}</span>
+        <span class="c1"># Island_2 (indices 3, 4, 7, 8):</span>
+        <span class="c1">#   Sum: {&#39;Y&#39;: 4} + 0 + {&#39;X&#39;: 3, &#39;Z&#39;: 2} + {&#39;Y&#39;: 1} = {&#39;X&#39;: 3, &#39;Y&#39;: 5, &#39;Z&#39;: 2}</span>
+        <span class="n">expected_data</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;Island_1&#39;</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">({</span><span class="s1">&#39;X&#39;</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">,</span> <span class="s1">&#39;Y&#39;</span><span class="p">:</span> <span class="mf">3.0</span><span class="p">,</span> <span class="s1">&#39;Z&#39;</span><span class="p">:</span> <span class="mf">5.0</span><span class="p">}),</span>
+            <span class="s1">&#39;Island_2&#39;</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">({</span><span class="s1">&#39;X&#39;</span><span class="p">:</span> <span class="mf">3.0</span><span class="p">,</span> <span class="s1">&#39;Y&#39;</span><span class="p">:</span> <span class="mf">5.0</span><span class="p">,</span> <span class="s1">&#39;Z&#39;</span><span class="p">:</span> <span class="mf">2.0</span><span class="p">})</span>
+        <span class="p">}</span>
+        <span class="n">expected_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">expected_data</span><span class="p">,</span> <span class="n">orient</span><span class="o">=</span><span class="s1">&#39;index&#39;</span><span class="p">)</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">aggregate_spot_compositions</span><span class="p">(</span><span class="n">labelled</span><span class="p">,</span> <span class="n">comps</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+        <span class="c1"># Sort columns for consistent ordering</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">sort_index</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">expected_df</span> <span class="o">=</span> <span class="n">expected_df</span><span class="o">.</span><span class="n">sort_index</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">assert_frame_equal</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">expected_df</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">test_all_background</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Test the case where all spots are background (label 0).</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">labelled</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+        <span class="n">compositions</span> <span class="o">=</span> <span class="p">[</span><span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">({</span><span class="s1">&#39;A&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">})</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">)]</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">aggregate_spot_compositions</span><span class="p">(</span><span class="n">labelled</span><span class="p">,</span> <span class="n">compositions</span><span class="p">)</span>
+        <span class="c1"># Expect an empty DataFrame (no islands)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">0</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">test_union_of_keys</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Test that the union of composition keys is maintained across islands,</span>
+<span class="sd">        even if an island does not have a composition for some keys.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Island 1 has only key &#39;A&#39;, while Island 2 has only key &#39;B&#39;.</span>
+        <span class="n">labelled</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]])</span>
+        <span class="n">compositions</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">({</span><span class="s1">&#39;A&#39;</span><span class="p">:</span> <span class="mi">5</span><span class="p">}),</span>  <span class="c1"># For Island_1 (only key &#39;A&#39;)</span>
+            <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">({</span><span class="s1">&#39;B&#39;</span><span class="p">:</span> <span class="mi">7</span><span class="p">})</span>   <span class="c1"># For Island_2 (only key &#39;B&#39;)</span>
+        <span class="p">]</span>
+        <span class="c1"># The expected aggregated DataFrame should include both keys for each island:</span>
+        <span class="n">expected_data</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;Island_1&#39;</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">({</span><span class="s1">&#39;A&#39;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span> <span class="s1">&#39;B&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">}),</span>
+            <span class="s1">&#39;Island_2&#39;</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">({</span><span class="s1">&#39;A&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;B&#39;</span><span class="p">:</span> <span class="mi">7</span><span class="p">})</span>
+        <span class="p">}</span>
+        <span class="n">expected_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">expected_data</span><span class="p">,</span> <span class="n">orient</span><span class="o">=</span><span class="s1">&#39;index&#39;</span><span class="p">)</span>
+        <span class="n">expected_df</span> <span class="o">=</span> <span class="n">expected_df</span><span class="o">.</span><span class="n">sort_index</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+        <span class="n">result</span> <span class="o">=</span> <span class="n">aggregate_spot_compositions</span><span class="p">(</span><span class="n">labelled</span><span class="p">,</span> <span class="n">compositions</span><span class="p">)</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">sort_index</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">assert_frame_equal</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">expected_df</span><span class="p">)</span>
+
+<span class="c1"># Run the tests in Jupyter Notebook</span>
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">unittest</span><span class="o">.</span><span class="n">main</span><span class="p">(</span><span class="n">argv</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;&#39;</span><span class="p">],</span> <span class="n">verbosity</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">exit</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<br/></pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+test_all_background (__main__.TestAggregateSpotCompositions.test_all_background)
+Test the case where all spots are background (label 0). ... ok
+test_basic (__main__.TestAggregateSpotCompositions.test_basic)
+Test a basic scenario with a small 2x2 labelled array. ... ok
+test_union_of_keys (__main__.TestAggregateSpotCompositions.test_union_of_keys)
+Test that the union of composition keys is maintained across islands, ... FAIL
+test_with_none (__main__.TestAggregateSpotCompositions.test_with_none)
+Test with some spots having None for composition. ... ok
+
+======================================================================
+FAIL: test_union_of_keys (__main__.TestAggregateSpotCompositions.test_union_of_keys)
+Test that the union of composition keys is maintained across islands,
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File &#34;/var/folders/7g/phdhh_ld3dlbnrst0t60bwzr0000gn/T/ipykernel_75522/4104004902.py&#34;, line 116, in test_union_of_keys
+    assert_frame_equal(result, expected_df)
+  File &#34;/opt/miniconda3/envs/mesa/lib/python3.11/site-packages/pandas/_testing/asserters.py&#34;, line 1148, in assert_frame_equal
+    raise_assert_detail(
+  File &#34;/opt/miniconda3/envs/mesa/lib/python3.11/site-packages/pandas/_testing/asserters.py&#34;, line 598, in raise_assert_detail
+    raise AssertionError(msg)
+AssertionError: DataFrame are different
+
+DataFrame shape mismatch
+[left]:  (2, 1)
+[right]: (2, 2)
+
+----------------------------------------------------------------------
+Ran 4 tests in 0.097s
+
+FAILED (failures=1)
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+            X    Y    Z
+Island_1  1.0  3.0  5.0
+Island_2  3.0  5.0  2.0
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="test_Calculate_MDI.html" class="btn btn-neutral float-left" title="Unit Test for Calculate_MDI" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Daisy Yi Ding, Zeyu Tang, Bokai Zhu.</p>
+  </div>
+
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

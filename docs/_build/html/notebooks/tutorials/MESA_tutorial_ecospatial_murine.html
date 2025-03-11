@@ -81,6 +81,10 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="MESA_tutorial_ecospatial_crc.html">MESA Ecospatial Tutorials (Colorectal Cancer, CODEX)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="MESA_tutorial_ecospatial_liver.html">Helper functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="MESA_tutorial_ecospatial_liver.html#Read-Data">Read Data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="MESA_tutorial_ecospatial_liver.html#Perform-Ecospatial-Analysis-on-one-sample">Perform Ecospatial Analysis on one sample</a></li>
+<li class="toctree-l2"><a class="reference internal" href="MESA_tutorial_ecospatial_liver.html#Perform-Ecospatial-Analysis-on-all-samples">Perform Ecospatial Analysis on all samples</a></li>
 <li class="toctree-l2"><a class="reference internal" href="MESA_tutorial_multiomics.html">MESA Multiomics Tutorials</a></li>
 <li class="toctree-l2"><a class="reference internal" href="MESA_in_R.html">Using MESA in R</a></li>
 </ul>
@@ -1042,7 +1046,7 @@ MDI: 3.466
 <section id="Diversity-Heatmap-Related-Analysis">
 <h3>Diversity Heatmap Related Analysis<a class="headerlink" href="#Diversity-Heatmap-Related-Analysis" title="Link to this heading"></a></h3>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Caculate Shannon Diversity Index for each quadrat</span>
@@ -1084,7 +1088,7 @@ MDI: 3.466
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Calculate GDI</span>
@@ -1102,7 +1106,7 @@ GDI: 0.379, p-value: 0.001
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">lisa</span> <span class="o">=</span> <span class="n">eco</span><span class="o">.</span><span class="n">local_spatial_stats</span><span class="p">(</span><span class="n">grid</span><span class="o">=</span><span class="n">grid</span><span class="p">,</span>
@@ -1142,7 +1146,7 @@ Using MoranI
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Calculate LDI and find hot/coldspots</span>
@@ -1159,7 +1163,7 @@ Using MoranI
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Visualise hot/coldspots</span>
@@ -1201,12 +1205,12 @@ width: 1768.140, height: 1704.784
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-&lt;matplotlib.image.AxesImage at 0x12581f790&gt;
+&lt;matplotlib.image.AxesImage at 0x1543808d0&gt;
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
@@ -1217,7 +1221,7 @@ width: 1768.140, height: 1704.784
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Calculate DPI for hotspots</span>
@@ -1250,7 +1254,7 @@ DPI: 183.256
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Visualise Islands composition and similarity</span>
@@ -1280,7 +1284,7 @@ Aggregating hot islands composition
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
 </pre></div>
 </div>
 <div class="output_area rendered_html docutils container">
@@ -1301,22 +1305,27 @@ Aggregating hot islands composition
 <table border="1" class="dataframe">
   <thead>
     <tr style="text-align: right;">
-      <th>cell_type</th>
+      <th></th>
       <th>B cells</th>
       <th>B220(+) DN T cells</th>
+      <th>CD106(+)CD16/32(+)CD31(+) stroma</th>
       <th>CD106(+)CD16/32(+)CD31(-)Ly6C(-) stroma</th>
       <th>CD106(+)CD16/32(-)Ly6C(+)CD31(+)</th>
+      <th>CD106(-)CD16/32(+)Ly6C(+)CD31(-)</th>
       <th>CD106(-)CD16/32(-)Ly6C(+)CD31(+) stroma</th>
+      <th>CD11c(+) B cells</th>
+      <th>CD3(+) other markers (-)</th>
       <th>CD31(hi) vascular</th>
-      <th>CD4(+) T cells</th>
-      <th>CD4(+)CD8(-)cDC</th>
-      <th>CD4(+)MHCII(+)</th>
-      <th>CD4(-)CD8(+)cDC</th>
-      <th>CD4(-)CD8(-) cDC</th>
-      <th>CD8(+) T cells</th>
-      <th>ERTR7(+) stroma</th>
+      <th>...</th>
       <th>F4/80(+) mphs</th>
+      <th>FDCs</th>
+      <th>NK cells</th>
+      <th>capsule</th>
       <th>erythroblasts</th>
+      <th>granulocytes</th>
+      <th>marginal zone mphs</th>
+      <th>megakaryocytes</th>
+      <th>noid</th>
       <th>plasma cells</th>
     </tr>
   </thead>
@@ -1325,103 +1334,129 @@ Aggregating hot islands composition
       <th>Island_1</th>
       <td>16.0</td>
       <td>4.0</td>
+      <td>0.0</td>
       <td>18.0</td>
       <td>5.0</td>
+      <td>0.0</td>
       <td>1.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
       <td>4.0</td>
-      <td>11.0</td>
-      <td>23.0</td>
-      <td>2.0</td>
-      <td>2.0</td>
-      <td>5.0</td>
+      <td>...</td>
       <td>3.0</td>
-      <td>15.0</td>
-      <td>3.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
       <td>12.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
       <td>9.0</td>
     </tr>
     <tr>
       <th>Island_2</th>
       <td>2.0</td>
-      <td>NaN</td>
+      <td>0.0</td>
+      <td>1.0</td>
       <td>20.0</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>11.0</td>
-      <td>6.0</td>
-      <td>NaN</td>
-      <td>4.0</td>
+      <td>0.0</td>
       <td>2.0</td>
-      <td>3.0</td>
-      <td>NaN</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>2.0</td>
+      <td>0.0</td>
+      <td>...</td>
       <td>5.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
       <td>14.0</td>
+      <td>4.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
       <td>3.0</td>
     </tr>
     <tr>
       <th>Island_3</th>
       <td>6.0</td>
       <td>11.0</td>
+      <td>3.0</td>
       <td>29.0</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>49.0</td>
-      <td>20.0</td>
-      <td>1.0</td>
-      <td>19.0</td>
-      <td>5.0</td>
-      <td>20.0</td>
-      <td>1.0</td>
+      <td>0.0</td>
+      <td>2.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>...</td>
       <td>4.0</td>
+      <td>0.0</td>
+      <td>2.0</td>
+      <td>0.0</td>
       <td>7.0</td>
+      <td>2.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
       <td>13.0</td>
     </tr>
     <tr>
       <th>Island_4</th>
       <td>28.0</td>
       <td>6.0</td>
+      <td>2.0</td>
       <td>7.0</td>
       <td>15.0</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>23.0</td>
-      <td>3.0</td>
-      <td>NaN</td>
-      <td>4.0</td>
       <td>1.0</td>
-      <td>17.0</td>
-      <td>4.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>8.0</td>
+      <td>0.0</td>
+      <td>...</td>
       <td>12.0</td>
+      <td>0.0</td>
+      <td>5.0</td>
+      <td>0.0</td>
       <td>46.0</td>
-      <td>NaN</td>
+      <td>14.0</td>
+      <td>0.0</td>
+      <td>2.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
     </tr>
     <tr>
       <th>Island_5</th>
       <td>18.0</td>
       <td>5.0</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>...</td>
+      <td>0.0</td>
+      <td>0.0</td>
       <td>3.0</td>
-      <td>4.0</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>1.0</td>
-      <td>5.0</td>
-      <td>1.0</td>
-      <td>NaN</td>
+      <td>0.0</td>
       <td>7.0</td>
-      <td>NaN</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
     </tr>
   </tbody>
 </table>
+<p>5 rows × 27 columns</p>
 </div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Visualise labelled islands (hot islands in red; cold islands in blue)</span>
@@ -1458,28 +1493,28 @@ Aggregating hot islands composition
     <span class="k">if</span> <span class="n">positions</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">size</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
         <span class="n">centroid</span> <span class="o">=</span> <span class="n">center_of_mass</span><span class="p">(</span><span class="n">labelled_hot</span> <span class="o">==</span> <span class="n">label</span><span class="p">)</span>
         <span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">centroid</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="n">width</span><span class="o">/</span><span class="n">scale</span><span class="p">,</span>
-                <span class="n">centroid</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="n">width</span><span class="o">/</span><span class="n">scale</span><span class="p">,</span>
+                <span class="n">centroid</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="n">height</span><span class="o">/</span><span class="n">scale</span><span class="p">,</span>
                 <span class="nb">str</span><span class="p">(</span><span class="n">label</span><span class="p">),</span>
                 <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span>
                 <span class="n">fontweight</span><span class="o">=</span><span class="s1">&#39;semibold&#39;</span><span class="p">,</span>
                 <span class="n">color</span><span class="o">=</span><span class="n">seismic</span><span class="p">(</span><span class="mf">0.999</span><span class="p">),</span>
                 <span class="n">alpha</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
                 <span class="n">ha</span><span class="o">=</span><span class="s1">&#39;center&#39;</span><span class="p">,</span>
-                <span class="n">va</span><span class="o">=</span><span class="s1">&#39;bottom&#39;</span><span class="p">)</span>
+                <span class="n">va</span><span class="o">=</span><span class="s1">&#39;center&#39;</span><span class="p">)</span>
 
 <span class="k">for</span> <span class="n">label</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">num_cold_islands</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
     <span class="n">positions</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">labelled_cold</span> <span class="o">==</span> <span class="n">label</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">positions</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">size</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
         <span class="n">centroid</span> <span class="o">=</span> <span class="n">center_of_mass</span><span class="p">(</span><span class="n">labelled_cold</span> <span class="o">==</span> <span class="n">label</span><span class="p">)</span>
         <span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">centroid</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="n">width</span><span class="o">/</span><span class="n">scale</span><span class="p">,</span>
-                <span class="n">centroid</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="n">width</span><span class="o">/</span><span class="n">scale</span><span class="p">,</span>
+                <span class="n">centroid</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="n">height</span><span class="o">/</span><span class="n">scale</span><span class="p">,</span>
                 <span class="nb">str</span><span class="p">(</span><span class="n">label</span><span class="p">),</span>
                 <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span>
                 <span class="n">fontweight</span><span class="o">=</span><span class="s1">&#39;semibold&#39;</span><span class="p">,</span>
                 <span class="n">color</span><span class="o">=</span><span class="n">seismic</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span>
                 <span class="n">alpha</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
                 <span class="n">ha</span><span class="o">=</span><span class="s1">&#39;center&#39;</span><span class="p">,</span>
-                <span class="n">va</span><span class="o">=</span><span class="s1">&#39;bottom&#39;</span><span class="p">)</span>
+                <span class="n">va</span><span class="o">=</span><span class="s1">&#39;center&#39;</span><span class="p">)</span>
 
 <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;X Coordinates&quot;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Y Coordinates&quot;</span><span class="p">)</span>
@@ -1496,12 +1531,12 @@ Aggregating hot islands composition
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-&lt;matplotlib.image.AxesImage at 0x124d323e0&gt;
+&lt;matplotlib.image.AxesImage at 0x154bdfd50&gt;
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
@@ -1512,7 +1547,7 @@ Aggregating hot islands composition
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">colors</span> <span class="o">=</span> <span class="p">[</span><span class="n">color_dict</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">island_comp</span><span class="o">.</span><span class="n">columns</span><span class="p">]</span>
@@ -1541,7 +1576,7 @@ Aggregating hot islands composition
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">island_comp</span> <span class="o">=</span> <span class="n">island_comp</span><span class="o">.</span><span class="n">div</span><span class="p">(</span><span class="n">island_comp</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
@@ -1588,7 +1623,7 @@ Aggregating hot islands composition
 <section id="Perform-Ecospatial-Analysis-on-all-samples">
 <h2>Perform Ecospatial Analysis on all samples<a class="headerlink" href="#Perform-Ecospatial-Analysis-on-all-samples" title="Link to this heading"></a></h2>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">library_ids</span> <span class="o">=</span> <span class="n">adata</span><span class="o">.</span><span class="n">obs</span><span class="p">[</span><span class="s1">&#39;sample&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">()</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
@@ -2386,7 +2421,7 @@ Region MRL-9 contains 348 diversity hotspots
 <section id="Calculate-Global-Cell-Frequency-&amp;-Cell-Co-Occurrence">
 <h3>Calculate Global Cell Frequency &amp; Cell Co-Occurrence<a class="headerlink" href="#Calculate-Global-Cell-Frequency-&-Cell-Co-Occurrence" title="Link to this heading"></a></h3>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">global_cellfreq_df</span><span class="p">,</span> <span class="n">global_co_occurrence_df</span> <span class="o">=</span> <span class="n">eco</span><span class="o">.</span><span class="n">spot_cellfreq</span><span class="p">(</span><span class="n">spatial_data</span><span class="o">=</span><span class="n">adata</span><span class="p">,</span>
@@ -2406,6 +2441,14 @@ Region MRL-9 contains 348 diversity hotspots
 <div class="nboutput docutils container">
 <div class="prompt empty docutils container">
 </div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Processing region: BALBc-1 at scale 64.0
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
 /Users/Emrys/MESA/docs/notebooks/tutorials/../../../mesa/ecospatial/_ecospatial.py:1281: FutureWarning: The default of observed=False is deprecated and will be changed to True in a future version of pandas. Pass observed=False to retain current behavior or observed=True to adopt the future default and silence this warning.
@@ -2417,7 +2460,6 @@ Region MRL-9 contains 348 diversity hotspots
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Processing region: BALBc-1 at scale 64.0
 2.222 per cent patches are empty
 Using MoranI
 Considering whole tissue
@@ -2456,7 +2498,7 @@ Considering whole tissue
 </pre></div></div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">global_cellfreq_df</span><span class="p">[</span><span class="s1">&#39;Condition&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39; &#39;</span>
@@ -2473,7 +2515,7 @@ Considering whole tissue
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Melt the dataframe for easier plotting and statistical analysis</span>
@@ -2485,7 +2527,7 @@ Considering whole tissue
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
 </pre></div>
 </div>
 <div class="output_area rendered_html docutils container">
@@ -2597,7 +2639,7 @@ Considering whole tissue
 </div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Perform t-tests</span>
@@ -2712,7 +2754,7 @@ plasma cells has p value = 0.299
 <section id="Calculate-Cell-Frequency-and-Cell-Co-Occurrence-in-hot/coldspots">
 <h3>Calculate Cell Frequency and Cell Co-Occurrence in hot/coldspots<a class="headerlink" href="#Calculate-Cell-Frequency-and-Cell-Co-Occurrence-in-hot/coldspots" title="Link to this heading"></a></h3>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">spot_cellfreq_df</span><span class="p">,</span> <span class="n">spot_co_occurrence_df</span> <span class="o">=</span> <span class="n">eco</span><span class="o">.</span><span class="n">spot_cellfreq</span><span class="p">(</span><span class="n">spatial_data</span><span class="o">=</span><span class="n">adata</span><span class="p">,</span>
@@ -2721,7 +2763,7 @@ plasma cells has p value = 0.299
                                                             <span class="n">library_id</span><span class="o">=</span><span class="n">library_ids</span><span class="p">,</span>
                                                             <span class="n">spatial_key</span><span class="o">=</span><span class="s1">&#39;spatial&#39;</span><span class="p">,</span>
                                                             <span class="n">cluster_key</span><span class="o">=</span><span class="s1">&#39;cell_type&#39;</span><span class="p">,</span>
-                                                            <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;hot&#39;</span><span class="p">,</span>
+                                                            <span class="n">spots</span><span class="o">=</span><span class="s1">&#39;hot&#39;</span><span class="p">,</span>
                                                             <span class="n">top</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                                                             <span class="n">selected_comb</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                                                             <span class="n">restricted</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
@@ -2736,35 +2778,44 @@ plasma cells has p value = 0.299
 <div class="highlight"><pre>
 Processing region: BALBc-1 at scale 64.0
 2.222 per cent patches are empty
+Using MoranI
 Region BALBc-1 contains 687 diversity hotspots
 Processing region: BALBc-2 at scale 64.0
 5.542 per cent patches are empty
+Using MoranI
 Region BALBc-2 contains 851 diversity hotspots
 Processing region: BALBc-3 at scale 64.0
 7.812 per cent patches are empty
+Using MoranI
 Region BALBc-3 contains 712 diversity hotspots
 Processing region: MRL-4 at scale 64.0
 0.708 per cent patches are empty
+Using MoranI
 Region MRL-4 contains 480 diversity hotspots
 Processing region: MRL-5 at scale 64.0
 0.708 per cent patches are empty
+Using MoranI
 Region MRL-5 contains 443 diversity hotspots
 Processing region: MRL-6 at scale 64.0
 0.220 per cent patches are empty
+Using MoranI
 Region MRL-6 contains 326 diversity hotspots
 Processing region: MRL-7 at scale 64.0
 0.220 per cent patches are empty
+Using MoranI
 Region MRL-7 contains 499 diversity hotspots
 Processing region: MRL-8 at scale 64.0
 0.098 per cent patches are empty
+Using MoranI
 Region MRL-8 contains 331 diversity hotspots
 Processing region: MRL-9 at scale 64.0
 0.000 per cent patches are empty
+Using MoranI
 Region MRL-9 contains 348 diversity hotspots
 </pre></div></div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">spot_cellfreq_df</span><span class="p">[</span><span class="s1">&#39;Condition&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39; &#39;</span>
@@ -2781,7 +2832,7 @@ Region MRL-9 contains 348 diversity hotspots
 </div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">spot_cellfreq_df</span><span class="p">[</span><span class="s1">&#39;Mouse&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">spot_cellfreq_df</span><span class="o">.</span><span class="n">index</span>
@@ -2792,7 +2843,7 @@ Region MRL-9 contains 348 diversity hotspots
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">selected_cell_types</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">spot_cellfreq_df_melt</span><span class="p">[</span><span class="s1">&#39;CellType&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">())</span>
@@ -2927,7 +2978,7 @@ plasma cells in hot spots has p value = 0.484
 <section id="Process-Cell-Co-Occurrence-Dataframe">
 <h3>Process Cell Co-Occurrence Dataframe<a class="headerlink" href="#Process-Cell-Co-Occurrence-Dataframe" title="Link to this heading"></a></h3>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">union_cols</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">global_co_occurrence_subcols</span><span class="p">)</span><span class="o">.</span><span class="n">union</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">spot_co_occurrence_subcols</span><span class="p">))</span>
@@ -2935,7 +2986,7 @@ plasma cells in hot spots has p value = 0.484
 </div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Make them have the same set of columns</span>
@@ -2945,7 +2996,7 @@ plasma cells in hot spots has p value = 0.484
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Global Cell Co-Occurrence</span>
@@ -2973,7 +3024,7 @@ plasma cells in hot spots has p value = 0.484
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
 </pre></div>
 </div>
 <div class="output_area rendered_html docutils container">
@@ -3006,36 +3057,36 @@ plasma cells in hot spots has p value = 0.484
       <th>0</th>
       <td>BALBc-1</td>
       <td>BALBc</td>
-      <td>CD106(-)CD16/32(+)Ly6C(+)CD31(-)&amp;CD4(+) T cells</td>
-      <td>0.016479</td>
+      <td>CD106(+)CD16/32(+)CD31(-)Ly6C(-) stroma&amp;CD4(+)...</td>
+      <td>0.068664</td>
     </tr>
     <tr>
       <th>1</th>
       <td>BALBc-2</td>
       <td>BALBc</td>
-      <td>CD106(-)CD16/32(+)Ly6C(+)CD31(-)&amp;CD4(+) T cells</td>
-      <td>0.025588</td>
+      <td>CD106(+)CD16/32(+)CD31(-)Ly6C(-) stroma&amp;CD4(+)...</td>
+      <td>0.058930</td>
     </tr>
     <tr>
       <th>2</th>
       <td>BALBc-3</td>
       <td>BALBc</td>
-      <td>CD106(-)CD16/32(+)Ly6C(+)CD31(-)&amp;CD4(+) T cells</td>
-      <td>0.015360</td>
+      <td>CD106(+)CD16/32(+)CD31(-)Ly6C(-) stroma&amp;CD4(+)...</td>
+      <td>0.052436</td>
     </tr>
     <tr>
       <th>3</th>
       <td>MRL-4</td>
       <td>MRL</td>
-      <td>CD106(-)CD16/32(+)Ly6C(+)CD31(-)&amp;CD4(+) T cells</td>
-      <td>0.059257</td>
+      <td>CD106(+)CD16/32(+)CD31(-)Ly6C(-) stroma&amp;CD4(+)...</td>
+      <td>0.117777</td>
     </tr>
     <tr>
       <th>4</th>
       <td>MRL-5</td>
       <td>MRL</td>
-      <td>CD106(-)CD16/32(+)Ly6C(+)CD31(-)&amp;CD4(+) T cells</td>
-      <td>0.054832</td>
+      <td>CD106(+)CD16/32(+)CD31(-)Ly6C(-) stroma&amp;CD4(+)...</td>
+      <td>0.146791</td>
     </tr>
     <tr>
       <th>...</th>
@@ -3048,36 +3099,36 @@ plasma cells in hot spots has p value = 0.484
       <th>976</th>
       <td>MRL-5</td>
       <td>MRL</td>
-      <td>ERTR7(+) stroma&amp;NK cells</td>
-      <td>0.021638</td>
+      <td>CD8(+) T cells&amp;F4/80(+) mphs</td>
+      <td>0.122449</td>
     </tr>
     <tr>
       <th>977</th>
       <td>MRL-6</td>
       <td>MRL</td>
-      <td>ERTR7(+) stroma&amp;NK cells</td>
-      <td>0.019085</td>
+      <td>CD8(+) T cells&amp;F4/80(+) mphs</td>
+      <td>0.164424</td>
     </tr>
     <tr>
       <th>978</th>
       <td>MRL-7</td>
       <td>MRL</td>
-      <td>ERTR7(+) stroma&amp;NK cells</td>
-      <td>0.021287</td>
+      <td>CD8(+) T cells&amp;F4/80(+) mphs</td>
+      <td>0.142403</td>
     </tr>
     <tr>
       <th>979</th>
       <td>MRL-8</td>
       <td>MRL</td>
-      <td>ERTR7(+) stroma&amp;NK cells</td>
-      <td>0.027615</td>
+      <td>CD8(+) T cells&amp;F4/80(+) mphs</td>
+      <td>0.108749</td>
     </tr>
     <tr>
       <th>980</th>
       <td>MRL-9</td>
       <td>MRL</td>
-      <td>ERTR7(+) stroma&amp;NK cells</td>
-      <td>0.045166</td>
+      <td>CD8(+) T cells&amp;F4/80(+) mphs</td>
+      <td>0.098389</td>
     </tr>
   </tbody>
 </table>
@@ -3085,7 +3136,7 @@ plasma cells in hot spots has p value = 0.484
 </div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Global Cell Co-Occurrence</span>
@@ -3258,7 +3309,7 @@ erythroblasts&amp;plasma cells has p value = 0.581
 </div>
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
-/var/folders/7g/phdhh_ld3dlbnrst0t60bwzr0000gn/T/ipykernel_23301/3825649457.py:22: FutureWarning: Use &#34;auto&#34; to set automatic grayscale colors. From v0.14.0, &#34;gray&#34; will default to matplotlib&#39;s definition.
+/var/folders/7g/phdhh_ld3dlbnrst0t60bwzr0000gn/T/ipykernel_61050/3825649457.py:22: FutureWarning: Use &#34;auto&#34; to set automatic grayscale colors. From v0.14.0, &#34;gray&#34; will default to matplotlib&#39;s definition.
   sns.swarmplot(data=df_filtered, x=&#39;Cell Combination&#39;, y=&#39;Frequency&#39;, hue=&#39;Condition&#39;, palette=&#39;dark:black&#39;, size=1.0, dodge=True,order=selected_cell_types, ax=ax, edgecolor=&#39;gray&#39;, linewidth=0.5)
 </pre></div></div>
 </div>
@@ -3388,7 +3439,7 @@ erythroblasts&amp;plasma cells has p value = 0.610
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Spot Cell Co-Occurrence</span>
@@ -3416,7 +3467,7 @@ erythroblasts&amp;plasma cells has p value = 0.610
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
 </pre></div>
 </div>
 <div class="output_area rendered_html docutils container">
@@ -3449,36 +3500,36 @@ erythroblasts&amp;plasma cells has p value = 0.610
       <th>0</th>
       <td>BALBc-1</td>
       <td>BALBc</td>
-      <td>CD106(-)CD16/32(+)Ly6C(+)CD31(-)&amp;CD4(+) T cells</td>
-      <td>0.040757</td>
+      <td>CD106(+)CD16/32(+)CD31(-)Ly6C(-) stroma&amp;CD4(+)...</td>
+      <td>0.136827</td>
     </tr>
     <tr>
       <th>1</th>
       <td>BALBc-2</td>
       <td>BALBc</td>
-      <td>CD106(-)CD16/32(+)Ly6C(+)CD31(-)&amp;CD4(+) T cells</td>
-      <td>0.058754</td>
+      <td>CD106(+)CD16/32(+)CD31(-)Ly6C(-) stroma&amp;CD4(+)...</td>
+      <td>0.106933</td>
     </tr>
     <tr>
       <th>2</th>
       <td>BALBc-3</td>
       <td>BALBc</td>
-      <td>CD106(-)CD16/32(+)Ly6C(+)CD31(-)&amp;CD4(+) T cells</td>
-      <td>0.042135</td>
+      <td>CD106(+)CD16/32(+)CD31(-)Ly6C(-) stroma&amp;CD4(+)...</td>
+      <td>0.120787</td>
     </tr>
     <tr>
       <th>3</th>
       <td>MRL-4</td>
       <td>MRL</td>
-      <td>CD106(-)CD16/32(+)Ly6C(+)CD31(-)&amp;CD4(+) T cells</td>
-      <td>0.162500</td>
+      <td>CD106(+)CD16/32(+)CD31(-)Ly6C(-) stroma&amp;CD4(+)...</td>
+      <td>0.306250</td>
     </tr>
     <tr>
       <th>4</th>
       <td>MRL-5</td>
       <td>MRL</td>
-      <td>CD106(-)CD16/32(+)Ly6C(+)CD31(-)&amp;CD4(+) T cells</td>
-      <td>0.128668</td>
+      <td>CD106(+)CD16/32(+)CD31(-)Ly6C(-) stroma&amp;CD4(+)...</td>
+      <td>0.444695</td>
     </tr>
     <tr>
       <th>...</th>
@@ -3491,36 +3542,36 @@ erythroblasts&amp;plasma cells has p value = 0.610
       <th>976</th>
       <td>MRL-5</td>
       <td>MRL</td>
-      <td>ERTR7(+) stroma&amp;NK cells</td>
-      <td>0.056433</td>
+      <td>CD8(+) T cells&amp;F4/80(+) mphs</td>
+      <td>0.232506</td>
     </tr>
     <tr>
       <th>977</th>
       <td>MRL-6</td>
       <td>MRL</td>
-      <td>ERTR7(+) stroma&amp;NK cells</td>
-      <td>0.052147</td>
+      <td>CD8(+) T cells&amp;F4/80(+) mphs</td>
+      <td>0.371166</td>
     </tr>
     <tr>
       <th>978</th>
       <td>MRL-7</td>
       <td>MRL</td>
-      <td>ERTR7(+) stroma&amp;NK cells</td>
-      <td>0.052104</td>
+      <td>CD8(+) T cells&amp;F4/80(+) mphs</td>
+      <td>0.354709</td>
     </tr>
     <tr>
       <th>979</th>
       <td>MRL-8</td>
       <td>MRL</td>
-      <td>ERTR7(+) stroma&amp;NK cells</td>
-      <td>0.057402</td>
+      <td>CD8(+) T cells&amp;F4/80(+) mphs</td>
+      <td>0.205438</td>
     </tr>
     <tr>
       <th>980</th>
       <td>MRL-9</td>
       <td>MRL</td>
-      <td>ERTR7(+) stroma&amp;NK cells</td>
-      <td>0.103448</td>
+      <td>CD8(+) T cells&amp;F4/80(+) mphs</td>
+      <td>0.201149</td>
     </tr>
   </tbody>
 </table>
@@ -3528,7 +3579,7 @@ erythroblasts&amp;plasma cells has p value = 0.610
 </div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Spot Cell Co-Occurrence</span>
@@ -3705,7 +3756,7 @@ erythroblasts&amp;plasma cells has p value = 0.686
 </div>
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
-/var/folders/7g/phdhh_ld3dlbnrst0t60bwzr0000gn/T/ipykernel_23301/1275659436.py:22: FutureWarning: Use &#34;auto&#34; to set automatic grayscale colors. From v0.14.0, &#34;gray&#34; will default to matplotlib&#39;s definition.
+/var/folders/7g/phdhh_ld3dlbnrst0t60bwzr0000gn/T/ipykernel_61050/1275659436.py:22: FutureWarning: Use &#34;auto&#34; to set automatic grayscale colors. From v0.14.0, &#34;gray&#34; will default to matplotlib&#39;s definition.
   sns.swarmplot(data=df_filtered, x=&#39;Cell Combination&#39;, y=&#39;Frequency&#39;, hue=&#39;Condition&#39;, palette=&#39;dark:black&#39;, size=2.0, dodge=True,order=selected_cell_types, ax=ax, edgecolor=&#39;gray&#39;, linewidth=0.5)
 </pre></div></div>
 </div>
@@ -3868,7 +3919,7 @@ erythroblasts&amp;plasma cells in hot spots has p value = 0.719
 <section id="Cell-Co-Occurrence-Circle-Plot">
 <h3>Cell Co-Occurrence Circle Plot<a class="headerlink" href="#Cell-Co-Occurrence-Circle-Plot" title="Link to this heading"></a></h3>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[40]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">circoplot_df1</span> <span class="o">=</span> <span class="n">global_co_occurrence_df</span><span class="o">.</span><span class="n">sort_index</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">level</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Mouse&#39;</span><span class="p">])</span>
@@ -3881,7 +3932,7 @@ erythroblasts&amp;plasma cells in hot spots has p value = 0.719
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[40]:
 </pre></div>
 </div>
 <div class="output_area rendered_html docutils container">
@@ -4018,7 +4069,7 @@ erythroblasts&amp;plasma cells in hot spots has p value = 0.719
 </div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[41]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">circoplot_df2</span> <span class="o">=</span> <span class="n">global_cellfreq_df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;noid&#39;</span><span class="p">])</span>
@@ -4030,7 +4081,7 @@ erythroblasts&amp;plasma cells in hot spots has p value = 0.719
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[41]:
 </pre></div>
 </div>
 <div class="output_area rendered_html docutils container">
@@ -4154,7 +4205,317 @@ erythroblasts&amp;plasma cells in hot spots has p value = 0.719
 </div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[46]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">patient_group</span> <span class="o">=</span> <span class="s1">&#39;BALBc&#39;</span>
+<span class="n">eco</span><span class="o">.</span><span class="n">create_circos_plot</span><span class="p">(</span><span class="n">circoplot_df1</span><span class="o">.</span><span class="n">loc</span><span class="p">[[</span><span class="n">patient_group</span><span class="p">]],</span>
+                       <span class="n">cell_type_colors_hex</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                       <span class="n">cell_abundance</span><span class="o">=</span><span class="n">circoplot_df2</span><span class="o">.</span><span class="n">loc</span><span class="p">[[</span><span class="n">patient_group</span><span class="p">]],</span>
+                       <span class="n">threshold</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span>
+                       <span class="n">edge_weights_scaler</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+                       <span class="n">highlighted_edges</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                       <span class="n">node_weights_scaler</span><span class="o">=</span><span class="mi">5000</span><span class="p">,</span>
+                       <span class="n">figure_size</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span><span class="mi">8</span><span class="p">),</span>
+                       <span class="n">save_path</span><span class="o">=</span><span class="s1">&#39;/Users/Emrys/Downloads/&#39;</span><span class="o">+</span><span class="n">patient_group</span><span class="o">+</span><span class="s1">&#39;_wholetissue_circoplot.svg&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/notebooks_tutorials_MESA_tutorial_ecospatial_murine_62_0.png" src="../../_images/notebooks_tutorials_MESA_tutorial_ecospatial_murine_62_0.png" />
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[28]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">circoplot_df1</span> <span class="o">=</span> <span class="n">spot_co_occurrence_df</span><span class="o">.</span><span class="n">sort_index</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">level</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Mouse&#39;</span><span class="p">])</span>
+<span class="n">circoplot_df1</span> <span class="o">=</span> <span class="n">circoplot_df1</span><span class="p">[[</span><span class="n">col</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">circoplot_df1</span><span class="o">.</span><span class="n">columns</span> <span class="k">if</span> <span class="s1">&#39;noid&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">col</span><span class="p">]]</span>
+<span class="c1"># Group by &#39;Condition&#39; and calculate the mean of the other columns</span>
+<span class="n">circoplot_df1</span> <span class="o">=</span> <span class="n">circoplot_df1</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;Condition&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+<span class="n">circoplot_df1</span> <span class="o">=</span> <span class="n">circoplot_df1</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">&#39;Condition&#39;</span><span class="p">)</span>
+<span class="n">circoplot_df1</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[28]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead tr th {
+        text-align: left;
+    }
+
+    .dataframe thead tr:last-of-type th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr>
+      <th></th>
+      <th colspan="10" halign="left">B cells</th>
+      <th>...</th>
+      <th colspan="2" halign="left">ERTR7(+) stroma</th>
+      <th colspan="4" halign="left">F4/80(+) mphs</th>
+      <th colspan="2" halign="left">NK cells</th>
+      <th colspan="2" halign="left">erythroblasts</th>
+    </tr>
+    <tr>
+      <th></th>
+      <th>B220(+) DN T cells</th>
+      <th>CD106(+)CD16/32(+)CD31(+) stroma</th>
+      <th>CD106(+)CD16/32(+)CD31(-)Ly6C(-) stroma</th>
+      <th>CD106(+)CD16/32(-)Ly6C(+)CD31(+)</th>
+      <th>CD106(-)CD16/32(+)Ly6C(+)CD31(-)</th>
+      <th>CD3(+) other markers (-)</th>
+      <th>CD4(+) T cells</th>
+      <th>CD4(+)CD8(-)cDC</th>
+      <th>CD4(-)CD8(+)cDC</th>
+      <th>CD8(+) T cells</th>
+      <th>...</th>
+      <th>granulocytes</th>
+      <th>plasma cells</th>
+      <th>NK cells</th>
+      <th>erythroblasts</th>
+      <th>granulocytes</th>
+      <th>plasma cells</th>
+      <th>erythroblasts</th>
+      <th>granulocytes</th>
+      <th>granulocytes</th>
+      <th>plasma cells</th>
+    </tr>
+    <tr>
+      <th>Condition</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>BALBc</th>
+      <td>0.057617</td>
+      <td>0.267754</td>
+      <td>0.416566</td>
+      <td>0.190961</td>
+      <td>0.060190</td>
+      <td>0.061251</td>
+      <td>0.734347</td>
+      <td>0.224730</td>
+      <td>0.043511</td>
+      <td>0.565753</td>
+      <td>...</td>
+      <td>0.079555</td>
+      <td>0.043365</td>
+      <td>0.244668</td>
+      <td>0.770760</td>
+      <td>0.266262</td>
+      <td>0.113863</td>
+      <td>0.208335</td>
+      <td>0.087958</td>
+      <td>0.226096</td>
+      <td>0.099391</td>
+    </tr>
+    <tr>
+      <th>MRL</th>
+      <td>0.138697</td>
+      <td>0.076683</td>
+      <td>0.332347</td>
+      <td>0.103709</td>
+      <td>0.120283</td>
+      <td>0.084381</td>
+      <td>0.430770</td>
+      <td>0.261946</td>
+      <td>0.143579</td>
+      <td>0.348793</td>
+      <td>...</td>
+      <td>0.264536</td>
+      <td>0.067245</td>
+      <td>0.106753</td>
+      <td>0.438014</td>
+      <td>0.298846</td>
+      <td>0.057091</td>
+      <td>0.162662</td>
+      <td>0.123358</td>
+      <td>0.465931</td>
+      <td>0.111451</td>
+    </tr>
+  </tbody>
+</table>
+<p>2 rows × 109 columns</p>
+</div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[37]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">circoplot_df2</span> <span class="o">=</span> <span class="n">spot_cellfreq_df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;noid&#39;</span><span class="p">,</span> <span class="s1">&#39;Mouse&#39;</span><span class="p">])</span>
+<span class="c1"># Group by &#39;Condition&#39; and calculate the mean of the other columns</span>
+<span class="n">circoplot_df2</span> <span class="o">=</span> <span class="n">circoplot_df2</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;Condition&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+<span class="n">circoplot_df2</span> <span class="o">=</span> <span class="n">circoplot_df2</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">&#39;Condition&#39;</span><span class="p">)</span>
+<span class="n">circoplot_df2</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[37]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>B cells</th>
+      <th>B220(+) DN T cells</th>
+      <th>CD106(+)CD16/32(+)CD31(+) stroma</th>
+      <th>CD106(+)CD16/32(+)CD31(-)Ly6C(-) stroma</th>
+      <th>CD106(+)CD16/32(-)Ly6C(+)CD31(+)</th>
+      <th>CD106(-)CD16/32(+)Ly6C(+)CD31(-)</th>
+      <th>CD106(-)CD16/32(-)Ly6C(+)CD31(+) stroma</th>
+      <th>CD11c(+) B cells</th>
+      <th>CD3(+) other markers (-)</th>
+      <th>CD31(hi) vascular</th>
+      <th>...</th>
+      <th>ERTR7(+) stroma</th>
+      <th>F4/80(+) mphs</th>
+      <th>FDCs</th>
+      <th>NK cells</th>
+      <th>capsule</th>
+      <th>erythroblasts</th>
+      <th>granulocytes</th>
+      <th>marginal zone mphs</th>
+      <th>megakaryocytes</th>
+      <th>plasma cells</th>
+    </tr>
+    <tr>
+      <th>Condition</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>BALBc</th>
+      <td>0.286122</td>
+      <td>0.003563</td>
+      <td>0.024994</td>
+      <td>0.035697</td>
+      <td>0.015001</td>
+      <td>0.003794</td>
+      <td>0.000047</td>
+      <td>0.003634</td>
+      <td>0.003974</td>
+      <td>0.002357</td>
+      <td>...</td>
+      <td>0.046011</td>
+      <td>0.19085</td>
+      <td>0.000028</td>
+      <td>0.017559</td>
+      <td>0.001526</td>
+      <td>0.108952</td>
+      <td>0.026025</td>
+      <td>0.004240</td>
+      <td>0.001321</td>
+      <td>0.011325</td>
+    </tr>
+    <tr>
+      <th>MRL</th>
+      <td>0.090528</td>
+      <td>0.026797</td>
+      <td>0.012673</td>
+      <td>0.102604</td>
+      <td>0.014580</td>
+      <td>0.026811</td>
+      <td>0.003775</td>
+      <td>0.001113</td>
+      <td>0.009032</td>
+      <td>0.004166</td>
+      <td>...</td>
+      <td>0.063478</td>
+      <td>0.04965</td>
+      <td>0.000058</td>
+      <td>0.013987</td>
+      <td>0.000819</td>
+      <td>0.150498</td>
+      <td>0.074897</td>
+      <td>0.001001</td>
+      <td>0.005919</td>
+      <td>0.017193</td>
+    </tr>
+  </tbody>
+</table>
+<p>2 rows × 26 columns</p>
+</div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[39]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">patient_group</span> <span class="o">=</span> <span class="s1">&#39;MRL&#39;</span>
@@ -4174,7 +4535,7 @@ erythroblasts&amp;plasma cells in hot spots has p value = 0.719
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../../_images/notebooks_tutorials_MESA_tutorial_ecospatial_murine_62_0.png" src="../../_images/notebooks_tutorials_MESA_tutorial_ecospatial_murine_62_0.png" />
+<img alt="../../_images/notebooks_tutorials_MESA_tutorial_ecospatial_murine_65_0.png" src="../../_images/notebooks_tutorials_MESA_tutorial_ecospatial_murine_65_0.png" />
 </div>
 </div>
 <div class="nbinput nblast docutils container">

@@ -28,7 +28,7 @@
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="MESA Multiomics Tutorials" href="MESA_tutorial_multiomics.html" />
+    <link rel="next" title="Helper functions" href="MESA_tutorial_ecospatial_liver.html" />
     <link rel="prev" title="MESA Ecospatial Tutorials (Murine Spleen, CODEX)" href="MESA_tutorial_ecospatial_murine.html" /> 
 </head>
 
@@ -80,6 +80,10 @@
 </li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="MESA_tutorial_ecospatial_liver.html">Helper functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="MESA_tutorial_ecospatial_liver.html#Read-Data">Read Data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="MESA_tutorial_ecospatial_liver.html#Perform-Ecospatial-Analysis-on-one-sample">Perform Ecospatial Analysis on one sample</a></li>
+<li class="toctree-l2"><a class="reference internal" href="MESA_tutorial_ecospatial_liver.html#Perform-Ecospatial-Analysis-on-all-samples">Perform Ecospatial Analysis on all samples</a></li>
 <li class="toctree-l2"><a class="reference internal" href="MESA_tutorial_multiomics.html">MESA Multiomics Tutorials</a></li>
 <li class="toctree-l2"><a class="reference internal" href="MESA_in_R.html">Using MESA in R</a></li>
 </ul>
@@ -6329,7 +6333,7 @@ reg070_B at scale 72.0 diversity is 0.04824736394635284
 <section id="Perform-Ecospatial-Analysis-on-one-sample">
 <h2>Perform Ecospatial Analysis on one sample<a class="headerlink" href="#Perform-Ecospatial-Analysis-on-one-sample" title="Link to this heading"></a></h2>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Define sample</span>
@@ -6346,7 +6350,7 @@ reg070_B at scale 72.0 diversity is 0.04824736394635284
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Define the sequence of scales</span>
@@ -6399,7 +6403,7 @@ reg021_A at scale 32.0 diversity is 0.956050983418754
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;MDI: </span><span class="si">{</span><span class="n">df_results</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">sample_id</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
@@ -6417,7 +6421,7 @@ MDI: 2.789
 <section id="Diversity-Heatmap-Related-Analysis">
 <h3>Diversity Heatmap Related Analysis<a class="headerlink" href="#Diversity-Heatmap-Related-Analysis" title="Link to this heading"></a></h3>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[24]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Caculate Shannon Diversity Index for each quadrat</span>
@@ -6459,7 +6463,7 @@ MDI: 2.789
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[25]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Calculate GDI</span>
@@ -6477,7 +6481,7 @@ GDI: 0.512, p-value: 0.001
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[26]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">lisa</span> <span class="o">=</span> <span class="n">eco</span><span class="o">.</span><span class="n">local_spatial_stats</span><span class="p">(</span><span class="n">grid</span><span class="o">=</span><span class="n">grid</span><span class="p">,</span>
@@ -6517,7 +6521,7 @@ Using MoranI
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[27]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Calculate LDI and find hot/coldspots</span>
@@ -6534,7 +6538,7 @@ Using MoranI
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[29]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Visualise hot/coldspots</span>
@@ -6576,12 +6580,12 @@ width: 1677.000, height: 1434.000
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[29]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-&lt;matplotlib.image.AxesImage at 0x154edbd50&gt;
+&lt;matplotlib.image.AxesImage at 0x15f2b8b90&gt;
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
@@ -6592,7 +6596,7 @@ width: 1677.000, height: 1434.000
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[30]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Calculate DPI for hotspots</span>
@@ -6625,7 +6629,7 @@ DPI: 80.591
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[31]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Visualise Islands composition and similarity</span>
@@ -6655,7 +6659,7 @@ Aggregating hot islands composition
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[31]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
 </pre></div>
 </div>
 <div class="output_area rendered_html docutils container">
@@ -6676,43 +6680,158 @@ Aggregating hot islands composition
 <table border="1" class="dataframe">
   <thead>
     <tr style="text-align: right;">
-      <th>ClusterName</th>
-      <th>CD4+ T cells CD45RO+</th>
+      <th></th>
+      <th>B cells</th>
+      <th>CD11b+ monocytes</th>
+      <th>CD11c+ DCs</th>
+      <th>CD3+ T cells</th>
       <th>CD4+ T cells</th>
+      <th>CD4+ T cells CD45RO+</th>
+      <th>CD68+ macrophages</th>
+      <th>CD68+CD163+ macrophages</th>
+      <th>CD8+ T cells</th>
+      <th>Tregs</th>
+      <th>...</th>
+      <th>granulocytes</th>
+      <th>immune cells</th>
+      <th>immune cells / vasculature</th>
+      <th>plasma cells</th>
+      <th>smooth muscle</th>
+      <th>stroma</th>
+      <th>tumor cells</th>
+      <th>tumor cells / immune cells</th>
+      <th>undefined</th>
+      <th>vasculature</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <th>Island_1</th>
-      <td>5.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
       <td>2.0</td>
+      <td>5.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>...</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
     </tr>
     <tr>
       <th>Island_2</th>
-      <td>104.0</td>
+      <td>189.0</td>
+      <td>0.0</td>
+      <td>3.0</td>
+      <td>5.0</td>
       <td>173.0</td>
+      <td>104.0</td>
+      <td>1.0</td>
+      <td>51.0</td>
+      <td>80.0</td>
+      <td>2.0</td>
+      <td>...</td>
+      <td>5.0</td>
+      <td>19.0</td>
+      <td>1.0</td>
+      <td>19.0</td>
+      <td>2.0</td>
+      <td>11.0</td>
+      <td>42.0</td>
+      <td>0.0</td>
+      <td>11.0</td>
+      <td>14.0</td>
     </tr>
     <tr>
       <th>Island_3</th>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
       <td>6.0</td>
       <td>6.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>...</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
     </tr>
     <tr>
       <th>Island_4</th>
       <td>1.0</td>
-      <td>NaN</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>...</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
     </tr>
     <tr>
       <th>Island_5</th>
-      <td>2.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
       <td>3.0</td>
+      <td>2.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>...</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
     </tr>
   </tbody>
 </table>
+<p>5 rows × 21 columns</p>
 </div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[33]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[44]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Visualise labelled islands (hot islands in red; cold islands in blue)</span>
@@ -6749,28 +6868,28 @@ Aggregating hot islands composition
     <span class="k">if</span> <span class="n">positions</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">size</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
         <span class="n">centroid</span> <span class="o">=</span> <span class="n">center_of_mass</span><span class="p">(</span><span class="n">labelled_hot</span> <span class="o">==</span> <span class="n">label</span><span class="p">)</span>
         <span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">centroid</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="n">width</span><span class="o">/</span><span class="n">scale</span><span class="p">,</span>
-                <span class="n">centroid</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="n">width</span><span class="o">/</span><span class="n">scale</span><span class="p">,</span>
+                <span class="n">centroid</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="n">height</span><span class="o">/</span><span class="n">scale</span><span class="p">,</span>
                 <span class="nb">str</span><span class="p">(</span><span class="n">label</span><span class="p">),</span>
                 <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span>
                 <span class="n">fontweight</span><span class="o">=</span><span class="s1">&#39;semibold&#39;</span><span class="p">,</span>
                 <span class="n">color</span><span class="o">=</span><span class="n">seismic</span><span class="p">(</span><span class="mf">0.999</span><span class="p">),</span>
                 <span class="n">alpha</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
                 <span class="n">ha</span><span class="o">=</span><span class="s1">&#39;center&#39;</span><span class="p">,</span>
-                <span class="n">va</span><span class="o">=</span><span class="s1">&#39;bottom&#39;</span><span class="p">)</span>
+                <span class="n">va</span><span class="o">=</span><span class="s1">&#39;center&#39;</span><span class="p">)</span>
 
 <span class="k">for</span> <span class="n">label</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">num_cold_islands</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
     <span class="n">positions</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">labelled_cold</span> <span class="o">==</span> <span class="n">label</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">positions</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">size</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
         <span class="n">centroid</span> <span class="o">=</span> <span class="n">center_of_mass</span><span class="p">(</span><span class="n">labelled_cold</span> <span class="o">==</span> <span class="n">label</span><span class="p">)</span>
         <span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">centroid</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="n">width</span><span class="o">/</span><span class="n">scale</span><span class="p">,</span>
-                <span class="n">centroid</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="n">width</span><span class="o">/</span><span class="n">scale</span><span class="p">,</span>
+                <span class="n">centroid</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="n">height</span><span class="o">/</span><span class="n">scale</span><span class="p">,</span>
                 <span class="nb">str</span><span class="p">(</span><span class="n">label</span><span class="p">),</span>
                 <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span>
                 <span class="n">fontweight</span><span class="o">=</span><span class="s1">&#39;semibold&#39;</span><span class="p">,</span>
                 <span class="n">color</span><span class="o">=</span><span class="n">seismic</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span>
                 <span class="n">alpha</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
                 <span class="n">ha</span><span class="o">=</span><span class="s1">&#39;center&#39;</span><span class="p">,</span>
-                <span class="n">va</span><span class="o">=</span><span class="s1">&#39;bottom&#39;</span><span class="p">)</span>
+                <span class="n">va</span><span class="o">=</span><span class="s1">&#39;center&#39;</span><span class="p">)</span>
 
 <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;X Coordinates&quot;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Y Coordinates&quot;</span><span class="p">)</span>
@@ -6787,12 +6906,12 @@ Aggregating hot islands composition
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[33]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[44]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-&lt;matplotlib.image.AxesImage at 0x1551a14d0&gt;
+&lt;matplotlib.image.AxesImage at 0x15e729310&gt;
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
@@ -6803,7 +6922,58 @@ Aggregating hot islands composition
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[34]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[41]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="mf">9.0</span><span class="o">*</span><span class="n">width</span><span class="o">/</span><span class="n">scale</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[41]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+471.65625
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[27]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">label</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[27]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+4
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[38]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">center_of_mass</span><span class="p">(</span><span class="n">labelled_hot</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[38]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+(0.0, 9.0)
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">colors</span> <span class="o">=</span> <span class="p">[</span><span class="n">color_dict</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">island_comp</span><span class="o">.</span><span class="n">columns</span><span class="p">]</span>
@@ -6828,11 +6998,11 @@ Aggregating hot islands composition
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../../_images/notebooks_tutorials_MESA_tutorial_ecospatial_crc_30_0.png" src="../../_images/notebooks_tutorials_MESA_tutorial_ecospatial_crc_30_0.png" />
+<img alt="../../_images/notebooks_tutorials_MESA_tutorial_ecospatial_crc_33_0.png" src="../../_images/notebooks_tutorials_MESA_tutorial_ecospatial_crc_33_0.png" />
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[35]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">island_comp</span> <span class="o">=</span> <span class="n">island_comp</span><span class="o">.</span><span class="n">div</span><span class="p">(</span><span class="n">island_comp</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
@@ -6871,7 +7041,7 @@ Aggregating hot islands composition
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../../_images/notebooks_tutorials_MESA_tutorial_ecospatial_crc_31_0.png" src="../../_images/notebooks_tutorials_MESA_tutorial_ecospatial_crc_31_0.png" />
+<img alt="../../_images/notebooks_tutorials_MESA_tutorial_ecospatial_crc_34_0.png" src="../../_images/notebooks_tutorials_MESA_tutorial_ecospatial_crc_34_0.png" />
 </div>
 </div>
 </section>
@@ -12508,7 +12678,7 @@ vasculature has p value = 0.446
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../../_images/notebooks_tutorials_MESA_tutorial_ecospatial_crc_46_3.png" src="../../_images/notebooks_tutorials_MESA_tutorial_ecospatial_crc_46_3.png" />
+<img alt="../../_images/notebooks_tutorials_MESA_tutorial_ecospatial_crc_49_3.png" src="../../_images/notebooks_tutorials_MESA_tutorial_ecospatial_crc_49_3.png" />
 </div>
 </div>
 </section>
@@ -13425,7 +13595,7 @@ vasculature has p value = 0.063
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../../_images/notebooks_tutorials_MESA_tutorial_ecospatial_crc_55_3.png" src="../../_images/notebooks_tutorials_MESA_tutorial_ecospatial_crc_55_3.png" />
+<img alt="../../_images/notebooks_tutorials_MESA_tutorial_ecospatial_crc_58_3.png" src="../../_images/notebooks_tutorials_MESA_tutorial_ecospatial_crc_58_3.png" />
 </div>
 </div>
 </section>
@@ -13926,7 +14096,7 @@ tumor cells&amp;vasculature has p value = 0.615
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../../_images/notebooks_tutorials_MESA_tutorial_ecospatial_crc_61_3.png" src="../../_images/notebooks_tutorials_MESA_tutorial_ecospatial_crc_61_3.png" />
+<img alt="../../_images/notebooks_tutorials_MESA_tutorial_ecospatial_crc_64_3.png" src="../../_images/notebooks_tutorials_MESA_tutorial_ecospatial_crc_64_3.png" />
 </div>
 </div>
 <div class="nbinput nblast docutils container">
@@ -14298,7 +14468,7 @@ tumor cells&amp;vasculature in hot spots has p value = 0.242
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../../_images/notebooks_tutorials_MESA_tutorial_ecospatial_crc_64_3.png" src="../../_images/notebooks_tutorials_MESA_tutorial_ecospatial_crc_64_3.png" />
+<img alt="../../_images/notebooks_tutorials_MESA_tutorial_ecospatial_crc_67_3.png" src="../../_images/notebooks_tutorials_MESA_tutorial_ecospatial_crc_67_3.png" />
 </div>
 </div>
 </section>
@@ -14613,7 +14783,7 @@ tumor cells&amp;vasculature in hot spots has p value = 0.242
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../../_images/notebooks_tutorials_MESA_tutorial_ecospatial_crc_68_0.png" src="../../_images/notebooks_tutorials_MESA_tutorial_ecospatial_crc_68_0.png" />
+<img alt="../../_images/notebooks_tutorials_MESA_tutorial_ecospatial_crc_71_0.png" src="../../_images/notebooks_tutorials_MESA_tutorial_ecospatial_crc_71_0.png" />
 </div>
 </div>
 <div class="nbinput nblast docutils container">
@@ -14633,7 +14803,7 @@ tumor cells&amp;vasculature in hot spots has p value = 0.242
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="MESA_tutorial_ecospatial_murine.html" class="btn btn-neutral float-left" title="MESA Ecospatial Tutorials (Murine Spleen, CODEX)" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="MESA_tutorial_multiomics.html" class="btn btn-neutral float-right" title="MESA Multiomics Tutorials" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="MESA_tutorial_ecospatial_liver.html" class="btn btn-neutral float-right" title="Helper functions" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

@@ -243,7 +243,7 @@ def create_circos_plot(df,
     if not cell_type_colors_hex:
         sm = plt.cm.ScalarMappable(cmap=cmap, norm=norm)
         sm.set_array([])
-        plt.colorbar(sm, ax=ax, orientation='vertical', fraction=0.046, pad=0.04, label='Node Color Key')
+        plt.colorbar(sm, ax=ax, orientation='vertical', fraction=0.046, pad=0.04, label='Number of Edges of each Node')
     
     if save_path:
         plt.savefig(save_path, bbox_inches='tight', dpi=300)

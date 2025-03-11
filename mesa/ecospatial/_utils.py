@@ -32,33 +32,44 @@ def aggregate_spot_compositions(labelled, compositions):
     Aggregate compositions of spots that belong to the same island.
 
     Parameters:
-    - spots: Boolean array indicating whether each patch is a spot.
-    - labelled: Array of the same shape as 'spots', where each component (island) has a unique label.
+    - labelled: 2D NumPy array where each component (island) has a unique label.
     - compositions: List of pd.Series, each representing the composition of a spot, or None for spots without compositions.
 
     Returns:
     - pd.DataFrame: DataFrame where each row corresponds to an island's aggregated composition.
     """
-    # Initialize a DataFrame to store the aggregated data
-    aggregated_df = pd.DataFrame()
+    # Collect all unique indices (columns) from all compositions
+    all_indices = set()
+    for comp in compositions:
+        if comp is not None:
+            all_indices.update(comp.index)
 
-    # Iterate over each unique label (island)
-    for label in range(1, np.max(labelled) + 1):
+    aggregated_dict = {}
+
+    # Iterate over each unique label (excluding background label 0)
+    for label in np.unique(labelled):
+        if label == 0:
+            continue  # 0 represents the background
+
         # Find indices where the current label is present
-        indices = (labelled == label) # & spots
-        
-        # Sum compositions for the current island
-        island_composition = pd.Series(dtype='float')
-        for index in np.nonzero(indices.flatten())[0]:
-            current_composition = compositions[index]
-            if current_composition is None:
-                current_composition = pd.Series(0, index=island_composition.index)
-            island_composition = island_composition.add(current_composition, fill_value=0)
-        
-        # Append the summed Series to the DataFrame
-        aggregated_df[f'Island_{label}'] = island_composition
+        indices = np.where(labelled == label)
+        spot_indices = np.ravel_multi_index(indices, labelled.shape)
 
-    return aggregated_df.T
+        # Initialize island_composition with all possible indices
+        island_composition = pd.Series(0, index=sorted(all_indices))
+
+        # Aggregate compositions
+        for index in spot_indices:
+            current_composition = compositions[index]
+            if current_composition is not None:
+                island_composition = island_composition.add(current_composition, fill_value=0)
+
+        # Store result
+        aggregated_dict[f'Island_{label}'] = island_composition
+
+    # Convert dictionary to DataFrame
+    return pd.DataFrame.from_dict(aggregated_dict, orient='index')
+
 
 def _overlap_check(new_patch, existing_patches, max_overlap_ratio):
     """
