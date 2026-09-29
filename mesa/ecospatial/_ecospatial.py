@@ -880,7 +880,6 @@ def calculate_GDI(spatial_data: Union[ad.AnnData, pd.DataFrame],
                   spatial_key: Union[str, List[str]],
                   cluster_key: str,
                   hotspot: bool = True,
-                  whole_tissue: bool = False,
                   p_value: float = 0.01,
                   restricted: bool = False,
                   mode: str = 'MoranI',
@@ -904,8 +903,6 @@ def calculate_GDI(spatial_data: Union[ad.AnnData, pd.DataFrame],
         Key used to access cluster information within `spatial_data`.
     hotspot : bool, optional
         Determines whether to analyze spatial hotspots or coldspots. Default is True.
-    whole_tissue : bool, optional
-        Specifies whether to analyze the entire tissue or specific regions. Default is False.
     p_value : float, optional
         The p-value threshold for determining statistical significance in spatial analysis. Default is 0.01.
     restricted : bool, optional
