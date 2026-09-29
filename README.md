@@ -17,5 +17,33 @@ pip install mesa-py
 ```
 Visit our [documentation](https://mesa-py.readthedocs.io/en/latest/) to see examples and tutorials!
 
+## Citation
+
+If you use MESA in your research, please cite:
+
+> Ding, D.Y.\*, Tang, Z.\*, Zhu, B.\*, Ren, H., Shalek, A.K., Tibshirani, R., and Nolan, G.P. (2025).
+> Quantitative characterization of tissue states using multiomics and ecological spatial analysis.
+> *Nature Genetics* **57**, 910–921. https://doi.org/10.1038/s41588-025-02119-z
+>
+> \*These authors contributed equally.
+
+<details>
+<summary>BibTeX</summary>
+
+```bibtex
+@article{ding2025mesa,
+  title   = {Quantitative characterization of tissue states using multiomics and ecological spatial analysis},
+  author  = {Ding, Daisy Yi and Tang, Zeyu and Zhu, Bokai and Ren, Hongyu and
+             Shalek, Alex K. and Tibshirani, Robert and Nolan, Garry P.},
+  journal = {Nature Genetics},
+  volume  = {57},
+  number  = {4},
+  pages   = {910--921},
+  year    = {2025},
+  doi     = {10.1038/s41588-025-02119-z}
+}
+```
+</details>
+
 ## License
 ```MESA``` is under the [Academic Software License Agreement](https://github.com/Feanor007/MESA/blob/main/LICENSE), please use accordingly.
