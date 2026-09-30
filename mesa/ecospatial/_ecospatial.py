@@ -1199,7 +1199,7 @@ def diversity_heatmap(spatial_data: Union[ad.AnnData, pd.DataFrame],
         
     s = int(math.sqrt(len(patches)))
     if tissue_only:
-        grid = np.full((s,s), -1)
+        grid = np.full((s,s), -1.0)
     else:
         grid = np.zeros((s,s))
         
